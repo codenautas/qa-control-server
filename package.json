@@ -11,13 +11,17 @@
   "dependencies": {
   },
   "devDependencies": {
+    "body-parser": "1.14.1",
     "colors": "1.1.2",
+    "cookie-parser": "1.4.0",
     "expect.js": "^0.3.1",
     "express": "4.13.3",
     "fs-promise": "^0.3.1",
     "istanbul": "~0.4.0",
     "jade": "~1.11.0",
+    "lodash": "3.10.1",
     "mocha": "^2.3.3",
+    "read-yaml-promise": "1.0.2",
     "sinon": "^1.17.1",
     "stylus": "^0.52.4",
     "supertest": "1.1.0",
@@ -32,7 +36,7 @@
     "test": "mocha --reporter spec --bail --check-leaks test/",
     "test-ci": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
-    "start": "node example/server.js"
+    "start": "node app/qa-control-server.js"
   },
   "jshintConfig": {
     "asi": false,
