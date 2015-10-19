@@ -59,7 +59,7 @@ Promises.start(function(){
         console.log('Listening on port %d', server.address().port);
     });
     
-    app.post('/push/:project',pushReceiver.serve());
+    app.use(pushReceiver.serve());
 }).catch(function(err){
     console.log('ERROR',err);
     console.log('STACK',err.stack);
