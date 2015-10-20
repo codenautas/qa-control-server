@@ -219,16 +219,10 @@ describe("qa-control",function(){
 var express = require('express');
 
 function createServer(opts, fn) {
-    
     qacServices.config(opts);
-    
-    var _serve = qacServices.recivePush();
-    
+    var _serve = qacServices.receivePush();
     var app = express();
-    
     app.listen();
-    
     app.use(_serve);
-    
     return app;
 }

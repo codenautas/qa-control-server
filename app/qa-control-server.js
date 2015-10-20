@@ -59,7 +59,7 @@ Promises.start(function(){
         console.log('Listening on port %d', server.address().port);
     });
     qacServices.config(actualConfig.services);
-    app.use(qacServices.recivePush());
+    app.use(qacServices.receivePush());
 }).catch(function(err){
     console.log('ERROR',err);
     console.log('STACK',err.stack);
