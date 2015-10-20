@@ -8,7 +8,7 @@
 var expect = require('expect.js');
 var sinon = require('sinon');
 var Promises = require('best-promise');
-var qaControlServerPushReceiver = require('../lib/push-receiver.js');
+var qacServices = require('../lib/qac-services.js');
 
 var request = require('supertest');
 
@@ -182,10 +182,6 @@ var json_data={
   }
 };
 
-qaControlServerPushReceiver.repositoryOfProjects={
-    "mini-tools": {}
-}
-
 describe("qa-control",function(){
     var server;
     before(function(){
@@ -194,7 +190,7 @@ describe("qa-control",function(){
     it("reject receive without X-GitHub-Event",function(done){
         var agent=request(server);
         agent
-            .post('/push/mini-tools')
+            .post('/push/codenautas/mini-tools')
             .type('json')
             .send(json_data)
             .expect(400)
@@ -204,7 +200,7 @@ describe("qa-control",function(){
     it("receive one push",function(done){
         var agent=request(server);
         agent
-            .post('/push/mini-tools')
+            .post('/push/codenautas/mini-tools')
             .set('X-GitHub-Event','push')
             .set('content-type','application/json')
             .type('json')
@@ -214,7 +210,7 @@ describe("qa-control",function(){
                 if(err){
                     return done(err);
                 }
-                expect(qaControlServerPushReceiver.repositoryOfProjects['mini-tools'].timestamp).to.eql("2015-10-19T16:32:13-03:00");
+                expect(qacServices.getGroup('codenautas').getProject('mini-tools').info.timestamp).to.eql("2015-10-19T16:32:13-03:00");
                 // expect(qaControl.projectControl.toBeCalledOnceUponATime).to.ok();
             });
     });
@@ -222,9 +218,11 @@ describe("qa-control",function(){
 
 var express = require('express');
 
-function createServer(dir, opts, fn) {
+function createServer(opts, fn) {
     
-    var _serve = qaControlServerPushReceiver.serve(dir, opts);
+    qacServices.config(opts);
+    
+    var _serve = qacServices.recivePush();
     
     var app = express();
     

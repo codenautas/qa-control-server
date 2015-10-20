@@ -13,7 +13,7 @@ var readYaml = require('read-yaml-promise');
 // var jade = require('jade');
 var crypto = require('crypto');
 
-var pushReceiver = require('../lib/push-receiver.js');
+var qacServices = require('../lib/qac-services.js');
 
 function md5(text){
     return crypto.createHash('md5').update(text).digest('hex');
@@ -58,8 +58,8 @@ Promises.start(function(){
     var server=app.listen(actualConfig.server.port, function(event) {
         console.log('Listening on port %d', server.address().port);
     });
-    
-    app.use(pushReceiver.serve());
+    qacServices.config(actualConfig.services);
+    app.use(qacServices.recivePush());
 }).catch(function(err){
     console.log('ERROR',err);
     console.log('STACK',err.stack);
