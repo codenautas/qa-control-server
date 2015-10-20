@@ -197,7 +197,7 @@ describe("qa-control",function(){
             .expect('bad request. Missing X-GitHub-Event header')
             .end(done);
     });
-    it("receive one push",function(done){
+    it.skip("receive one push",function(done){
         var agent=request(server);
         agent
             .post('/push/codenautas/mini-tools')
