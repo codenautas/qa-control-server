@@ -35,7 +35,7 @@ describe("qa-control",function(){
     var json; // payload pasado a json
     var headers;
     before(function(){
-        server = createServer();
+        server = createServer(helper.testConfig);
         return readSampleWebHook('push01').then(function(wh) {
             headers = wh.headers;
             json = JSON.parse(wh.payload);

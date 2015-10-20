@@ -10,12 +10,10 @@ var sinon = require('sinon');
 var Promises = require('best-promise');
 var qacServices = require('../lib/qac-services.js');
 var fs = require('fs-promise');
-
 var request = require('supertest');
+var helper=require('../test/test.helper.js');
 
-qacServices.config({
-    repository:'test/fixtures/repo4display'
-});
+qacServices.config(helper.testConfig);
 
 describe("qac-services overview",function(){
     it.skip("make the overview",function(done){
@@ -26,7 +24,7 @@ describe("qac-services overview",function(){
             });
         }).then(done,done);
     });
-    it.skip("receive one push",function(done){
+    it.skip("obtain html",function(done){
         var htmlContent = "random 123123123123 html content";
         var mock = sinon.stub(qacServices, 'makeOverviewHtml');
         mock.withArgs('sourcetravelers').returns(Promises.resolve(htmlContent));

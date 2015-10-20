@@ -17,4 +17,8 @@ testHelper.headersFromFile = function headersFromFile(content) {
     return headers;
 };
 
+testHelper.testConfig = {
+    repository:'./test/fixtures/repo4display'
+};
+
 module.exports = testHelper;
