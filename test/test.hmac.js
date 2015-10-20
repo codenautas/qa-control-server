@@ -6,7 +6,7 @@ var fs = require('fs-promise');
 var qacServices = require('../lib/qac-services.js');
 var Path = require('path');
 
-describe('Content validation', function(){
+describe('content validation', function(){
     var secretKey = 'elsecreto';
     it('payload should validate with secret key', function(done){
         fs.readFile('./test/hmac.payload', {encoding: 'utf8'}).then(function(payload) {
@@ -17,7 +17,7 @@ describe('Content validation', function(){
             done(err);
         });
     });
-    it('All sample WebHooks should have valid hashes', function(done){
+    it('all sample WebHooks should have valid hashes', function(done){
         var basePath='./test/webhooks';
         var samples={};
         return fs.readdir(basePath).then(function(files) {
