@@ -28,12 +28,12 @@ describe('content validation', function(){
                     return fs.readFile(iFile, 'utf8');
                 }).then(function(content) {
                     var kFile = file.substr(0, file.length-Path.extname(file).length);
-                    if(!( kFile in samples)) { samples[kFile] = {}; }
-                    if(iFile.match(/(.headers)$/)) {
-                        samples[kFile]['headers'] = helper.headersFromFile(content);;
-                    } else {
-                        samples[kFile]['payload'] = content;
-                    }
+                    if(!( kFile in samples)) {
+                        samples[kFile] = {};
+                        return helper.readSampleWebHook(kFile).then(function(wh) {
+                           samples[kFile] = wh;
+                        });
+                     }
                 });                    
             })).then(function() {
                 done();

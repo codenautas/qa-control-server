@@ -9,7 +9,7 @@ var Promises = require('best-promise');
 var fs = require('fs-promise');
 var testHelper = {};
 
-testHelper.headersFromFile = function headersFromFile(content) {
+function headersFromFile(content) {
     var hdrs = content.split('\n');
     var headers = {};
     for(var h in hdrs) {
@@ -26,7 +26,7 @@ testHelper.readSampleWebHook = function readSampleWebHook(hookName) {
     return Promises.start(function() {
         return fs.readFile(baseDir+hookName+'.headers', 'utf8');
     }).then(function(content) {
-        wh['headers'] = testHelper.headersFromFile(content);
+        wh['headers'] = headersFromFile(content);
         return fs.readFile(baseDir+hookName+'.raw', 'utf8');
     }).then(function(content) {
        wh['payload'] = content;
