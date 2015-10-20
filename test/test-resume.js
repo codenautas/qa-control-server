@@ -18,7 +18,7 @@ qacServices.config({
 });
 
 describe("qac-services overview",function(){
-    it("make the overview",function(done){
+    it.skip("make the overview",function(done){
         qacServices.makeOverviewMd('sourcetravelers').then(function(contentMd){
             return fs.readFile('test/fixtures/repo4display/expected/resume-sourcetravelers.md', {encoding:'utf8'})
             .then(function(expectedContent){
@@ -26,7 +26,7 @@ describe("qac-services overview",function(){
             });
         }).then(done,done);
     });
-    it("receive one push",function(done){
+    it.skip("receive one push",function(done){
         var htmlContent = "random 123123123123 html content";
         var mock = sinon.stub(qacServices, 'makeOverviewHtml');
         mock.withArgs('sourcetravelers').returns(Promises.resolve(htmlContent));
