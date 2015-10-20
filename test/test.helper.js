@@ -5,6 +5,8 @@
 /* global describe */
 /* global it */
 
+var Promises = require('best-promise');
+var fs = require('fs-promise');
 var testHelper = {};
 
 testHelper.headersFromFile = function headersFromFile(content) {
@@ -15,6 +17,21 @@ testHelper.headersFromFile = function headersFromFile(content) {
         headers[hh[0]] = hh[1];
     }
     return headers;
+};
+
+// lee un hook para testear
+testHelper.readSampleWebHook = function readSampleWebHook(hookName) {
+    var wh={};
+    var baseDir='./test/webhooks/';
+    return Promises.start(function() {
+        return fs.readFile(baseDir+hookName+'.headers', 'utf8');
+    }).then(function(content) {
+        wh['headers'] = testHelper.headersFromFile(content);
+        return fs.readFile(baseDir+hookName+'.raw', 'utf8');
+    }).then(function(content) {
+       wh['payload'] = content;
+       return wh;
+    });
 };
 
 testHelper.testConfig = {

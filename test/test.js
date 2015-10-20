@@ -14,28 +14,13 @@ var qacServices = require('../lib/qac-services.js');
 var request = require('supertest');
 var helper=require('../test/test.helper.js');
 
-// lee un hook para testear
-function readSampleWebHook(hookName) {
-    var wh={};
-    var baseDir='./test/webhooks/';
-    return Promises.start(function() {
-        return fs.readFile(baseDir+hookName+'.headers', 'utf8');
-    }).then(function(content) {
-        wh['headers'] = helper.headersFromFile(content);
-        return fs.readFile(baseDir+hookName+'.raw', 'utf8');
-    }).then(function(content) {
-       wh['payload'] = content;
-       return wh;
-    });
-};
-
 describe("qa-control",function(){
     var server;
     var json; // payload pasado a json
     var headers;
     before(function(){
         server = createServer(helper.testConfig);
-        return readSampleWebHook('push01').then(function(wh) {
+        return helper.readSampleWebHook('push01').then(function(wh) {
             headers = wh.headers;
             json = JSON.parse(wh.payload);
         })
