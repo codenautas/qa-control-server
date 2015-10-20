@@ -5,6 +5,7 @@ var Promises = require('best-promise');
 var fs = require('fs-promise');
 var qacServices = require('../lib/qac-services.js');
 var Path = require('path');
+var helper=require('../test/test.helper.js');
 
 describe('content validation', function(){
     var secretKey = 'elsecreto';
@@ -29,13 +30,7 @@ describe('content validation', function(){
                     var kFile = file.substr(0, file.length-Path.extname(file).length);
                     if(!( kFile in samples)) { samples[kFile] = {}; }
                     if(iFile.match(/(.headers)$/)) {
-                        var hdrs = content.split('\n');
-                        var headers = {};
-                        for(var h in hdrs) {
-                            var hh = hdrs[h].split('|');
-                            headers[hh[0]] = hh[1];
-                        }
-                        samples[kFile]['headers'] = headers;
+                        samples[kFile]['headers'] = helper.headersFromFile(content);;
                     } else {
                         samples[kFile]['payload'] = content;
                     }

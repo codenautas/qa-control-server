@@ -12,6 +12,7 @@ var fs = require('fs-promise');
 var qacServices = require('../lib/qac-services.js');
 
 var request = require('supertest');
+var helper=require('../test/test.helper.js');
 
 // lee un hook para testear
 function readSampleWebHook(hookName) {
@@ -20,13 +21,7 @@ function readSampleWebHook(hookName) {
     return Promises.start(function() {
         return fs.readFile(baseDir+hookName+'.headers', 'utf8');
     }).then(function(content) {
-        var hdrs = content.split('\n');
-        var headers = {};
-        for(var h in hdrs) {
-            var hh = hdrs[h].split('|');
-            headers[hh[0]] = hh[1];
-        }
-        wh['headers'] = headers;
+        wh['headers'] = helper.headersFromFile(content);
         return fs.readFile(baseDir+hookName+'.raw', 'utf8');
     }).then(function(content) {
        wh['payload'] = content;
