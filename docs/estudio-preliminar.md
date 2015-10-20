@@ -14,7 +14,7 @@ el servicio genera un SVG que se ve así: ![cucarda ejemplo](https://travis-ci.o
 El texto de la cucarda será `qa-control:ok` o `qa-control:1 err` (donde el 1 es la cantidad de errores o warnings). 
 El color será verde con `ok` y distintos tonos de amarillo, naranja y rojo cuando haya errores o warnings
 
-### Página de detalles
+### Página de detalles (overview)
 
 Entrando a una url similar a `https://codenautas.com/qa-control/organizacion/proyecto` 
 se ven la lista de todos los warnings generados por qa-control (y algunos detalles más)
