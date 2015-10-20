@@ -37,9 +37,6 @@ app.use(function(req,res,next){
     next();
 });
 
-
-console.log("PAP 1");
-
 var actualConfig;
 
 Promises.start(function(){

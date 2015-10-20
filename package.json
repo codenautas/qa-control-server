@@ -9,6 +9,7 @@
     "name": "Emilio Platzer", "email": "emilioplatzer@gmail.com"
   }],
   "dependencies": {
+      "create-hmac": "1.1.4"
   },
   "devDependencies": {
     "body-parser": "1.14.1",
