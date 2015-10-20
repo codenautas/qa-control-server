@@ -29,8 +29,17 @@ al lado de cada nombre de proyecto se ven todas las cucardas que tiene su archiv
 
  * cuando **github.com** recibe un push avisa de algún modo al servidor qa-control.
  * el servidor de qa-control hace:
-   * git clone
-   * npm install
+   * git clone (si es la primera vez, si no git pull)
    * qa-control . (con la opción que necesitemos) y registra los resultados en algún lugar
  * cuando recibe una petición (de cucarda, de detalles de un proyecto o de resumen de varios) utiliza la información guardada (no vuelve a ejecutar qa-control)
 
+## Almacenamiento
+
+  * habrá una carpeta `/groups` dentro de esa una carpeta para cada grupo, usuario u organización (ej: codenautas)
+  * dentro de la carpeta de una organización habrá una carpeta `/projects` que tendrá una carpeta para cada proyecto o paquete o repositorio github (ej: qa-control)
+  * dentro de la carpeta de un proyecto habrá
+    * una carpeta `/source` que tendrá el clon del github
+    * una carpeta `/result` con los resultados de qa-control
+    * una carpeta `/info` con la información obtenida de otras fuentes (ej: el post con el push del github, el histórico de corridas, etc)
+    * una carpeta `/params` con los parámetros definidos por el usuario (si los hubiera) respecto del proyecto en particular
+ 
