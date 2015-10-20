@@ -27,8 +27,7 @@ function readSampleWebHook(hookName) {
        wh['payload'] = content;
        return wh;
     });
-}
-
+};
 
 describe("qa-control",function(){
     var server;
