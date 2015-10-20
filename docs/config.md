@@ -1,10 +1,10 @@
 # configuración
 
 ```js
-qacService.init(config);
+qacService.config(opts);
 ```
 
-## campos de config:
+## campos de `opts`:
 
 parametro  | uso
 -----------|--------------------
