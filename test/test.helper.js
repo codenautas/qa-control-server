@@ -13,7 +13,7 @@ function headersFromFile(content) {
     var hdrs = content.split('\n');
     var headers = {};
     for(var h in hdrs) {
-        var hh = hdrs[h].split('|');
+        var hh = hdrs[h].trim().split('|');
         headers[hh[0]] = hh[1];
     }
     return headers;
