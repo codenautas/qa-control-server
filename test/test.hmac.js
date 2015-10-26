@@ -41,7 +41,7 @@ describe('content validation', function(){
         }).then(function() {
             for(var h in samples) {
                 var wh=samples[h];
-                //console.log("wh", wh);
+                //console.log('signature', wh.headers['X-Hub-Signature']);
                 expect(qacServices.isValidRequest(wh.payload, wh.headers['X-Hub-Signature'], secretKey)).to.be.ok();
             }
         }).catch(function(err) {
