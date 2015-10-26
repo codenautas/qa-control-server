@@ -28,9 +28,9 @@ al lado de cada nombre de proyecto se ven todas las cucardas que tiene su archiv
 ## Funcionamiento
 
  * cuando **github.com** recibe un push avisa de algún modo al servidor qa-control.
- * el servidor de qa-control-server hace:
+ * el servidor de qa-control-server hace en la carpeta correspondiente al proyecto:
    * git clone (si es la primera vez, si no git pull)
-   * qa-control . (con la opción que necesitemos) y registra los resultados en algún lugar
+   * `qa-control . > ../result/warnings.json` (con la opción que necesitemos) y registra los resultados en algún lugar
    * genera el archivos cucardas.md
  * cuando recibe una petición (de cucarda, de detalles de un proyecto o de resumen de varios) utiliza la información guardada (no vuelve a ejecutar qa-control)
 
