@@ -26,7 +26,6 @@ describe("qa-control",function(){
         })
     });
     it("reject receive without X-GitHub-Event",function(done){
-        //console.log("JSON", json.repository.full_name)
         var agent=request(server);
         agent
             .post('/push/'+json.repository.name+'/'+json.repository.organization)
@@ -36,7 +35,7 @@ describe("qa-control",function(){
             .expect('bad request. Missing X-GitHub-Event header')
             .end(done);
     });
-    it/*.skip*/("receive one push",function(done){
+    it("receive one push",function(done){
         var agent=request(server);
         agent
             .post('/push/codenautas/'+json.repository.name)
