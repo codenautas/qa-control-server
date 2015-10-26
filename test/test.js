@@ -34,23 +34,26 @@ describe("qa-control",function(){
     it("reject requests without X-GitHub-Event",function(done){
         var agent=request(server);
         agent
-            .post('/push/'+json.repository.name+'/'+json.repository.organization)
+            .post('/push/'+json.repository.organization+'/'+json.repository.name)
             .type('json')
             .send(json)
             .expect(400)
             .expect('bad request. Missing X-GitHub-Event header')
             .end(done);
     });
-    it.skip("reject requests with x-hub-signature that don't validate",function(done){
-        //console.log("json2", json2);
+    it("reject requests with x-hub-signature that doesn't validates",function(done){
+        var modHeaders = _.clone(headers);
+        modHeaders['Content-Length'] = headers2['Content-Length'];
+        //console.log("modHeaders", modHeaders);
         var agent=request(server);
         agent
             .post('/push/'+json.repository.organization+'/'+json.repository.name)
-            .set(headers) // esto setea todo!!
             .type('json')
+            .set(modHeaders)
             .send(json2)
             .expect(500)
-            .expect('bad request. Invalid x-hub-signature', done);
+            .expect('bad request. Invalid x-hub-signature')
+            .end(done);
     });
     it("receive one push",function(done){
         var agent=request(server);
