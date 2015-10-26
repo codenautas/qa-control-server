@@ -35,7 +35,8 @@ testHelper.readSampleWebHook = function readSampleWebHook(hookName) {
 };
 
 testHelper.testConfig = {
-    repository:'./test/fixtures/repo4display'
+    repository:'./test/fixtures/repo4display',
+    request_secret:'elsecreto'
 };
 
 module.exports = testHelper;
