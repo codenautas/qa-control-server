@@ -26,9 +26,10 @@ describe("qa-control",function(){
         })
     });
     it("reject receive without X-GitHub-Event",function(done){
+        //console.log("JSON", json.repository.full_name)
         var agent=request(server);
         agent
-            .post('/push/codenautas/'+json.repository.name)
+            .post('/push/'+json.repository.name+'/'+json.repository.organization)
             .type('json')
             .send(json)
             .expect(400)
@@ -44,10 +45,9 @@ describe("qa-control",function(){
             .send(json)
             .expect('ok: 2015-10-19T16:32:13-03:00')
             .end(function(err){
-                if(err){
-                    return done(err);
-                }
-                expect(qacServices.getGroup('codenautas').getProject('mini-tools').info.timestamp).to.eql("2015-10-19T16:32:13-03:00");
+                if(err){ return done(err); }
+                expect(qacServices.getGroup(json.repository.organization).getProject(json.repository.name).info.timestamp)
+                      .to.eql(json.commits.head_commit.timestamp);
                 // expect(qaControl.projectControl.toBeCalledOnceUponATime).to.ok();
             });
     });

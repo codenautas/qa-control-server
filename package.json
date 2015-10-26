@@ -10,9 +10,9 @@
     "name": "Diego Florio", "email": "diegoefe@gmail.com"
   }],
   "dependencies": {
+      "body-parser": "1.14.1"
   },
   "devDependencies": {
-    "body-parser": "1.14.1",
     "colors": "1.1.2",
     "cookie-parser": "1.4.0",
     "expect.js": "^0.3.1",
