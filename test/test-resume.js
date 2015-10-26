@@ -24,7 +24,7 @@ describe("qac-services overview",function(){
             });
         }).then(done,done);
     });
-    it.skip("obtain html",function(done){
+    it("obtain html",function(done){
         var htmlContent = "random 123123123123 html content";
         var mock = sinon.stub(qacServices, 'makeOverviewHtml');
         mock.withArgs('sourcetravelers').returns(Promises.resolve(htmlContent));
