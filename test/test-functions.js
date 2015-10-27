@@ -18,7 +18,7 @@ describe('qac-services functions', function(){
             });
         });
         it('should fail with missing group', function(done) {
-            return qacServices.getInfo('non-existent-group', 'the-app').then(function(info) {
+            return qacServices.getInfo('non-existent-group').then(function(info) {
                 done('should fail');
             }).catch(function(err) {
                 //console.log("err", err);
@@ -27,7 +27,7 @@ describe('qac-services functions', function(){
             });
         });
         it('should fail with missing project', function(done) {
-           return qacServices.getInfo('sourcetravelers', 'not-an-app').then(function(info) {
+           return qacServices.getInfo('sourcetravelers', {project:'not-an-app'}).then(function(info) {
                done('should fail');
            }).catch(function(err) {
                expect(err.message).to.match(/inexistent project/);
@@ -48,7 +48,7 @@ describe('qac-services functions', function(){
            });
         });
         it('should return project info', function(done) {
-           return qacServices.getInfo(group, project).then(function(info) {
+           return qacServices.getInfo(group, {project:project}).then(function(info) {
                expect(info.group.name).to.be(group);
                expect(info.group.path).to.match(new RegExp(group));
                expect(info.project.name).to.be(project);
