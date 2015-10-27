@@ -59,5 +59,19 @@ describe('qac-services functions', function(){
                done(err);
            });
         });
+        it('should create project folder if requested', function(done) {
+           var nonExistentProject='prueba';
+           var anotherGroup='anothergroup';
+           return qacServices.getInfo(anotherGroup, {project:nonExistentProject, createProject:true}).then(function(info) {
+               expect(info.group.name).to.be(anotherGroup);
+               expect(info.group.path).to.match(new RegExp(anotherGroup));
+               expect(info.project.name).to.be(nonExistentProject);
+               expect(info.project.path).to.match(new RegExp(nonExistentProject));
+               //console.log("info", info);
+               done();
+           }).catch(function(err) {
+               done(err);
+           });
+        });
     });
 });
