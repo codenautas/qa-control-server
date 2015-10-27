@@ -5,15 +5,14 @@
 /* global describe */
 /* global it */
 
+var request = require('supertest');
+var helper=require('../test/test-helper.js');
+var _ = require('lodash');
 var expect = require('expect.js');
 var sinon = require('sinon');
 var Promises = require('best-promise');
 var fs = require('fs-promise');
 var qacServices = require('../lib/qac-services.js');
-
-var request = require('supertest');
-var helper=require('../test/test-helper.js');
-var _ = require('lodash');
 
 describe("qa-control",function(){
     var server;

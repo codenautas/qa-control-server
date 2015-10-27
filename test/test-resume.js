@@ -18,7 +18,7 @@ qacServices.config(helper.testConfig);
 describe("qac-services overview",function(){
     it("make the overview",function(done){
         qacServices.makeOverviewMd('sourcetravelers').then(function(contentMd){
-            return fs.readFile('test/fixtures/repo4display/expected/resume-sourcetravelers.md', {encoding:'utf8'})
+            return fs.readFile(helper.dirTemp+'/repo4display/expected/resume-sourcetravelers.md', {encoding:'utf8'})
             .then(function(expectedContent){
                 expect(contentMd).to.be(expectedContent);
             });

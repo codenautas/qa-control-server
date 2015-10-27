@@ -34,9 +34,33 @@ testHelper.readSampleWebHook = function readSampleWebHook(hookName) {
     });
 };
 
+testHelper.dirTemp;
+
+if(process.env.TRAVIS){
+    testHelper.dirTemp = process.env.HOME;
+}else{
+    testHelper.dirTemp = process.env.TMP || process.env.TEMP || '/tmp';
+}
+testHelper.dirTemp+='/temp-qcs';
+
 testHelper.testConfig = {
-    repository:'./test/fixtures/repo4display',
+    //repository:'./test/fixtures/repo4display',
+    repository:testHelper.dirTemp+'/repo4display',
     request_secret:'elsecreto'
 };
 
+before(function(done){
+        this.timeout(5000);
+        Promises.start(function(){
+            return fs.remove(testHelper.dirTemp);
+        }).then(function(){
+            return fs.copy('./test/fixtures', testHelper.dirTemp, {clobber:true});
+        }).then(function(){
+            done();
+        }).catch(function(err){
+            console.log(err);
+            done(_.isArray(err)?err[0]:err);
+        });
+    });
+    
 module.exports = testHelper;
