@@ -12,7 +12,7 @@ var fs = require('fs-promise');
 var qacServices = require('../lib/qac-services.js');
 
 var request = require('supertest');
-var helper=require('../test/test.helper.js');
+var helper=require('../test/test-helper.js');
 var _ = require('lodash');
 
 describe("qa-control",function(){

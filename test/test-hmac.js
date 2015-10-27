@@ -5,7 +5,7 @@ var Promises = require('best-promise');
 var fs = require('fs-promise');
 var qacServices = require('../lib/qac-services.js');
 var Path = require('path');
-var helper=require('../test/test.helper.js');
+var helper=require('../test/test-helper.js');
 
 describe('content validation', function(){
     var secretKey = 'elsecreto';

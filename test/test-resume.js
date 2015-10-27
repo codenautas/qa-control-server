@@ -11,7 +11,7 @@ var Promises = require('best-promise');
 var qacServices = require('../lib/qac-services.js');
 var fs = require('fs-promise');
 var request = require('supertest');
-var helper=require('../test/test.helper.js');
+var helper=require('../test/test-helper.js');
 
 qacServices.config(helper.testConfig);
 
