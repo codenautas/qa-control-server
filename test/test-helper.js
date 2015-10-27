@@ -49,6 +49,7 @@ testHelper.testConfig = {
     request_secret:'elsecreto'
 };
 
+// hook global
 before(function(done){
         this.timeout(5000);
         Promises.start(function(){

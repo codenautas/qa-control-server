@@ -15,10 +15,10 @@ var helper=require('../test/test-helper.js');
 
 qacServices.config(helper.testConfig);
 
-describe("qac-services overview",function(){
+describe("qcs-services overview",function(){
     it("make the overview",function(done){
         qacServices.makeOverviewMd('sourcetravelers').then(function(contentMd){
-            return fs.readFile(helper.dirTemp+'/repo4display/expected/resume-sourcetravelers.md', {encoding:'utf8'})
+            return fs.readFile(helper.testConfig.repository+'/expected/resume-sourcetravelers.md', {encoding:'utf8'})
             .then(function(expectedContent){
                 expect(contentMd).to.be(expectedContent);
             });

@@ -14,7 +14,7 @@ var Promises = require('best-promise');
 var fs = require('fs-promise');
 var qacServices = require('../lib/qac-services.js');
 
-describe("qa-control",function(){
+describe("qcs-services",function(){
     var server;
     var json; // payload pasado a json
     var headers;
@@ -29,30 +29,6 @@ describe("qa-control",function(){
             headers2 = wh.headers;
             json2 = JSON.parse(wh.payload);
         });
-    });
-    it("reject requests without X-GitHub-Event",function(done){
-        var agent=request(server);
-        agent
-            .post('/push/'+json.repository.organization+'/'+json.repository.name)
-            .type('json')
-            .send(json)
-            .expect(400)
-            .expect('bad request. Missing X-GitHub-Event header')
-            .end(done);
-    });
-    it("reject requests with x-hub-signature that doesn't validates",function(done){
-        var modHeaders = _.clone(headers);
-        modHeaders['Content-Length'] = headers2['Content-Length'];
-        //console.log("modHeaders", modHeaders);
-        var agent=request(server);
-        agent
-            .post('/push/'+json.repository.organization+'/'+json.repository.name)
-            .type('json')
-            .set(modHeaders)
-            .send(json2)
-            .expect(500)
-            .expect('bad request. Invalid x-hub-signature')
-            .end(done);
     });
     it("receive one push",function(done){
         var agent=request(server);
@@ -70,6 +46,32 @@ describe("qa-control",function(){
                 //console.log("res", res);
                 done();
             });
+    });
+    describe('request', function() {
+        it("reject requests without X-GitHub-Event",function(done){
+            var agent=request(server);
+            agent
+                .post('/push/'+json.repository.organization+'/'+json.repository.name)
+                .type('json')
+                .send(json)
+                .expect(400)
+                .expect('bad request. Missing X-GitHub-Event header')
+                .end(done);
+        });
+        it("reject requests with x-hub-signature that doesn't validates",function(done){
+            var modHeaders = _.clone(headers);
+            modHeaders['Content-Length'] = headers2['Content-Length'];
+            //console.log("modHeaders", modHeaders);
+            var agent=request(server);
+            agent
+                .post('/push/'+json.repository.organization+'/'+json.repository.name)
+                .type('json')
+                .set(modHeaders)
+                .send(json2)
+                .expect(500)
+                .expect('bad request. Invalid x-hub-signature')
+                .end(done);
+        });        
     });
 });
 
