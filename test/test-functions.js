@@ -13,7 +13,7 @@ describe('qcs-services functions', function(){
            return qacServices.getInfo(null, null).then(function(info) {
                 done('should fail');
             }).catch(function(err) {
-                expect(err.message).to.match(/missing parameter/);
+                expect(err.message).to.match(/missing group/);
                 done();
             });
         });
@@ -22,7 +22,7 @@ describe('qcs-services functions', function(){
                 done('should fail');
             }).catch(function(err) {
                 //console.log("err", err);
-                expect(err.message).to.match(/missing group/);
+                expect(err.message).to.match(/inexistent group/);
                 done();
             });
         });
@@ -30,8 +30,33 @@ describe('qcs-services functions', function(){
            return qacServices.getInfo('sourcetravelers', 'not-an-app').then(function(info) {
                done('should fail');
            }).catch(function(err) {
-               expect(err.message).to.match(/missing project/);
+               expect(err.message).to.match(/inexistent project/);
                done();
+           });
+        });
+        var group='sourcetravelers';
+        var project='the-app', project2='other-app';
+        it('should return group info', function(done) {
+           return qacServices.getInfo(group).then(function(info) {
+               expect(info.group.name).to.be(group);
+               expect(info.group.path).to.match(new RegExp(group));
+               //console.log("info", info.group.projects);
+               expect(info.group.projects).to.eql([{projectName:project2}, {projectName:project}]);
+               done();
+           }).catch(function(err) {
+               done(err);
+           });
+        });
+        it('should return project info', function(done) {
+           return qacServices.getInfo(group, project).then(function(info) {
+               expect(info.group.name).to.be(group);
+               expect(info.group.path).to.match(new RegExp(group));
+               expect(info.project.name).to.be(project);
+               expect(info.project.path).to.match(new RegExp(project));
+               //console.log("info", info);
+               done();
+           }).catch(function(err) {
+               done(err);
            });
         });
     });
