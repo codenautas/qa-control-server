@@ -2,19 +2,37 @@
 
 var expect = require('expect.js');
 var Promises = require('best-promise');
-var fs = require('fs-promise');
+//var fs = require('fs-promise');
 var qacServices = require('../lib/qac-services.js');
-var Path = require('path');
-var helper=require('../test/test-helper.js');
+//var Path = require('path');
+//var helper=require('../test/test-helper.js');
 
 describe('qcs-services functions', function(){
-    it('payload should validate with secret key', function(done){
-        fs.readFile('./test/hmac.payload', {encoding: 'utf8'}).then(function(payload) {
-            expect(qacServices.isValidRequest(payload, 'sha1=49ee18e35e373f08f6984e5e40f885030e81105b', helper.testConfig.request_secret)).to.be.ok();
-            done();
-        }).catch(function(err) {
-            console.log("mal", err);
-            done(err);
+    describe('getInfo', function() {
+        it('should fail with missing parameters', function(done) {
+           return qacServices.getInfo(null, null).then(function(info) {
+                done('should fail');
+            }).catch(function(err) {
+                expect(err.message).to.match(/missing parameter/);
+                done();
+            });
+        });
+        it('should fail with missing group', function(done) {
+            return qacServices.getInfo('non-existent-group', 'the-app').then(function(info) {
+                done('should fail');
+            }).catch(function(err) {
+                //console.log("err", err);
+                expect(err.message).to.match(/missing group/);
+                done();
+            });
+        });
+        it('should fail with missing project', function(done) {
+           return qacServices.getInfo('sourcetravelers', 'not-an-app').then(function(info) {
+               done('should fail');
+           }).catch(function(err) {
+               expect(err.message).to.match(/missing project/);
+               done();
+           });
         });
     });
 });
