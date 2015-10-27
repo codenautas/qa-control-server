@@ -22,10 +22,10 @@ describe("qa-control",function(){
     var json2, headers2;
     before(function(){
         server = createServer(helper.testConfig);
-        return helper.readSampleWebHook('push01').then(function(wh) {
+        return helper.readSampleWebHook('qcs01').then(function(wh) {
             headers = wh.headers;
             json = JSON.parse(wh.payload);
-            return helper.readSampleWebHook('push02');
+            return helper.readSampleWebHook('qcs02');
         }).then(function(wh) {
             headers2 = wh.headers;
             json2 = JSON.parse(wh.payload);

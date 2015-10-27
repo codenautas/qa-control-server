@@ -1,9 +1,0 @@
-Host|testeador.co.nf
-Accept|*/*
-User-Agent|GitHub-Hookshot/8894fa3
-X-Github-Event|push
-X-Github-Delivery|151ec480-7c1a-11e5-8fea-b1bf75cb490e
-Content-Type|application/json
-X-Hub-Signature|sha1=57392a6a3640617ef21588a06be796f6b9a02b52
-Content-Length|6924
-Accept-Encoding|
