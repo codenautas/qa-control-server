@@ -1,4 +1,9 @@
 "use strict";
+/*jshint eqnull:true */
+/*jshint globalstrict:true */
+/*jshint node:true */
+
+// APP
 
 var _ = require('lodash');
 var express = require('express');

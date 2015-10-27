@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
-  "repository": "codenautas/qa-control",
+  "repository": "codenautas/qa-control-server",
   "contributors": [{
     "name": "Emilio Platzer", "email": "emilioplatzer@gmail.com",
     "name": "Diego Florio", "email": "diegoefe@gmail.com"
@@ -30,7 +30,7 @@
     
     "best-promise": "^0.2.4"
   },
-  "main": "lib/qa-control-server.js",
+  "main": "app/qa-control-server.js",
   "engines": {
     "node": ">= 0.10.0"
   },
