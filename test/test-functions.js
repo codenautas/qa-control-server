@@ -7,7 +7,7 @@ var qacServices = require('../lib/qac-services.js');
 //var Path = require('path');
 //var helper=require('../test/test-helper.js');
 
-describe('qcs-services functions', function(){
+describe('qac-services functions', function(){
     describe('getInfo', function() {
         it('should fail with missing parameters', function(done) {
            return qacServices.getInfo(null, null).then(function(info) {

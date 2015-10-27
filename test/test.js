@@ -14,7 +14,7 @@ var Promises = require('best-promise');
 var fs = require('fs-promise');
 var qacServices = require('../lib/qac-services.js');
 
-describe("qcs-services",function(){
+describe("qac-services",function(){
     var server;
     var json; // payload pasado a json
     var headers;

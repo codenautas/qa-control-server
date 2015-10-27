@@ -15,7 +15,7 @@ var helper=require('../test/test-helper.js');
 
 qacServices.config(helper.testConfig);
 
-describe("qcs-services overview",function(){
+describe("qac-services overview",function(){
     it("make the overview",function(done){
         qacServices.makeOverviewMd('sourcetravelers').then(function(contentMd){
             return fs.readFile(helper.testConfig.repository+'/expected/resume-sourcetravelers.md', {encoding:'utf8'})

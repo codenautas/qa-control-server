@@ -7,7 +7,7 @@ var qacServices = require('../lib/qac-services.js');
 var Path = require('path');
 var helper=require('../test/test-helper.js');
 
-describe('qcs test sample data', function(){
+describe('qac-services test sample data', function(){
     it('all sample WebHooks should have valid hashes', function(done){
         var basePath='./test/webhooks';
         var samples={};
