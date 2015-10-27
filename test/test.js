@@ -68,8 +68,8 @@ describe("qac-services",function(){
                 .type('json')
                 .set(modHeaders)
                 .send(json2)
-                .expect(500)
-                .expect('bad request. Invalid x-hub-signature')
+                .expect(403)
+                .expect('unauthorized request. Invalid x-hub-signature')
                 .end(done);
         });        
     });
