@@ -16,14 +16,19 @@ var helper=require('../test/test-helper.js');
 qacServices.config(helper.testConfig);
 
 describe("qac-services overview",function(){
-    it("make the overview",function(done){
-        qacServices.makeOverviewMd('sourcetravelers').then(function(contentMd){
-            return fs.readFile(helper.testConfig.repository+'/expected/resume-sourcetravelers.md', {encoding:'utf8'})
-            .then(function(expectedContent){
-                expect(contentMd).to.be(expectedContent);
-            });
-        }).then(done,done);
-    });
+    function testOverview(groupName) {
+        it('make the overview: '+groupName, function(done) {
+            var content;
+            qacServices.makeOverviewMd(groupName).then(function(contentMd) {
+                content = contentMd;
+                return fs.readFile(helper.testConfig.repository+'/expected/resume-'+groupName+'.md', {encoding:'utf8'});
+            }).then(function(expectedContent) {
+                expect(content).to.be(expectedContent);
+            }).then(done,done);
+        });
+    };
+    testOverview('sourcetravelers');
+    testOverview('codenautas');
     it("obtain html",function(done){
         var htmlContent = "random 123123123123 html content";
         var mock = sinon.stub(qacServices, 'makeOverviewHtml');
