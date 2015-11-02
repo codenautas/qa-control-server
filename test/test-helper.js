@@ -51,17 +51,17 @@ testHelper.testConfig = {
 
 // hook global
 before(function(done){
-        this.timeout(5000);
-        Promises.start(function(){
-            return fs.remove(testHelper.dirTemp);
-        }).then(function(){
-            return fs.copy('./test/fixtures', testHelper.dirTemp, {clobber:true});
-        }).then(function(){
-            done();
-        }).catch(function(err){
-            console.log(err);
-            done(_.isArray(err)?err[0]:err);
-        });
+    this.timeout(5000);
+    Promises.start(function(){
+        return fs.remove(testHelper.dirTemp);
+    }).then(function(){
+        return fs.copy('./test/fixtures', testHelper.dirTemp, {clobber:true});
+    }).then(function(){
+        done();
+    }).catch(function(err){
+        console.log(err);
+        done(_.isArray(err)?err[0]:err);
     });
+});
     
 module.exports = testHelper;
