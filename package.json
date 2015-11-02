@@ -11,7 +11,11 @@
   }],
   "dependencies": {
       "body-parser": "1.14.1",
-      "fs-extra": "0.26.0"
+      "fs-extra": "0.26.0",
+      
+      "exec-to-html": "0.0.7",
+      "extension-serve": "^0.0.4",
+      "mini-tools": "0.1.4"
   },
   "devDependencies": {
     "colors": "1.1.2",
