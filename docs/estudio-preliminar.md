@@ -31,7 +31,8 @@ al lado de cada nombre de proyecto se ven todas las cucardas que tiene su archiv
  * el servidor de qa-control-server hace en la carpeta correspondiente al proyecto:
    * git clone (si es la primera vez, si no git pull)
    * `qa-control . > ../result/warnings.json` (con la opción que necesitemos) y registra los resultados
-   * genera el archivos cucardas.md
+   * generar el archivos cucardas.md
+   * generar cucardas.svg (con resultado de la evaluación del scoring de qa-control) 
  * cuando recibe una petición (de cucarda, de detalles de un proyecto o de resumen de varios) utiliza la información guardada (no vuelve a ejecutar qa-control)
 
 ## Almacenamiento
