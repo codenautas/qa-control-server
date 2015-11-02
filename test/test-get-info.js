@@ -9,30 +9,26 @@ var qacServices = require('../lib/qac-services.js');
 
 describe('qac-services functions', function(){
     describe('getInfo', function() {
-        it('should fail with missing parameters', function(done) {
-           return qacServices.getInfo(null, null).then(function(info) {
-                done('should fail');
-            }).catch(function(err) {
+		it('should fail with missing parameters', function(done) {
+            return qacServices.getInfo(null, null).then(function(info) {
+                throw new Error('should fail');
+            },function(err){
                 expect(err.message).to.match(/missing group/);
-                done();
-            });
+            }).then(done,done);
         });
-        it('should fail with missing group', function(done) {
+		it('should fail with missing group', function(done) {
             return qacServices.getInfo('non-existent-group').then(function(info) {
-                done('should fail');
-            }).catch(function(err) {
-                //console.log("err", err);
+                throw new Error('should fail');
+            },function(err){
                 expect(err.message).to.match(/inexistent group/);
-                done();
-            });
+            }).then(done,done);
         });
-        it('should fail with missing project', function(done) {
+		it('should fail with missing project', function(done) {
             return qacServices.getInfo('sourcetravelers', {project:'not-an-app'}).then(function(info) {
-                done('should fail');
-            }).catch(function(err) {
+                throw new Error('should fail');
+            },function(err){
                 expect(err.message).to.match(/inexistent project/);
-                done();
-            });
+            }).then(done,done);
         });
         var group='sourcetravelers';
         var project='the-app', project2='other-app';
