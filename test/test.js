@@ -31,6 +31,7 @@ describe("qac-services",function(){
         });
     });
     it("receive one push",function(done){
+        this.timeout(10000);
         var agent=request(server);
         agent
             .post('/push/'+json.repository.organization+'/'+json.repository.name)
