@@ -11,6 +11,8 @@ Proveer un servicio web que informe los resultados de **qa-control** y alguna ot
 Con una url similar a `https://travis-ci.org/codenautas/pg-promise-strict.svg` 
 el servicio genera un SVG que se ve así: ![cucarda ejemplo](https://travis-ci.org/codenautas/pg-promise-strict.svg).
 
+El servicio responde a `/organización/proyecto.svg` y muestra el archivo svg que ya fue generado al recibir el push. 
+
 El texto de la cucarda será `qa-control:ok` o `qa-control:1 err` (donde el 1 es la cantidad de errores o warnings). 
 El color será verde con `ok` y distintos tonos de amarillo, naranja y rojo cuando haya errores o warnings
 
@@ -32,7 +34,7 @@ al lado de cada nombre de proyecto se ven todas las cucardas que tiene su archiv
    * git clone (si es la primera vez, si no git pull)
    * `qa-control . > ../result/warnings.json` (con la opción que necesitemos) y registra los resultados
    * generar el archivos cucardas.md
-   * generar cucardas.svg (con resultado de la evaluación del scoring de qa-control) 
+   * generar cucardas.svg (con resultado de la evaluación del scoring de qa-control), el URL para averiguar la cucarda en línea es similar a: `https://img.shields.io/badge/qa--control-1%20err-red.svg` y se va a ver así ![la cuca](https://img.shields.io/badge/qa--control-1%20err-red.svg)
  * cuando recibe una petición (de cucarda, de detalles de un proyecto o de resumen de varios) utiliza la información guardada (no vuelve a ejecutar qa-control)
 
 ## Almacenamiento
