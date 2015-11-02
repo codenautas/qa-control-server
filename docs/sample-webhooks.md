@@ -2,10 +2,10 @@
 Para testear request usamos webhooks reales que genera github.
 
 ## C&oacute;mo configurar github para que env&iacute;e webhooks
-* Loguearse en github.com con un usuario con permisos de administrador de proyecto
-* Navegar hasta la p&aacute;gina del proyecto, por ejemplo https://github.com/codenautas/multilang
-* Clickear en "Settings", a la derecha, debajo de "Pulse" y "Graphs"
-* En el men&uacute; izquierdo clickear en "Webhooks & services"
+1. Loguearse en github.com con un usuario con permisos de administrador de proyecto
+2. Navegar hasta la p&aacute;gina del proyecto, por ejemplo https://github.com/codenautas/multilang
+3. Clickear en "Settings", a la derecha, debajo de "Pulse" y "Graphs"
+4. En el men&uacute; izquierdo clickear en "Webhooks & services"
     * En "Webhooks" clickear en "Add webhook"
     * En Payload URL escribir la url del script que recibir&aacute; los requests
     * En Content type seleccionar "application/json"
@@ -36,4 +36,3 @@ Para testear request usamos webhooks reales que genera github.
         * En algunos casos pueden existir problemas de fin de l&iacute;nea en los archivos .txt/.raw y esto generar que un sample no valide,
             para intentar corregir el problema, convertir .headers a fin de l&iacute;nea de *nix (\n).
             (a&uacute;n no determin&eacute; si el problema es el navegador y su interacci&oacute;n con el portapapeles y/o el OS al guardar los archivos)
-
