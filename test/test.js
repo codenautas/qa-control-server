@@ -40,31 +40,24 @@ describe("qac-services",function(){
             .send(json)
             .expect('ok: '+json.head_commit.timestamp)
             .end(function(err, res){
-                if(err){
-                    //console.log("err", err.stack);
-                    return done(err);
-                }
-                //expect(qacServices.getGroup(json.repository.organization).getProject(json.repository.name).info.timestamp)
-                //      .to.eql(json.head_commit.timestamp);
-                // expect(qaControl.projectControl.toBeCalledOnceUponATime).to.ok();
-                //console.log("res", res);
-                done();
+                if(err){ return done(err); }
+                qacServices.getInfo(json.repository.organization, {project:json.repository.name}).then(function(info) {
+                    //console.log("info", info);
+                }).then(function() {
+                    done();
+                })
             });
     });
     it("receive the second push",function(done){
         var agent=request(server);
         agent
             .post('/push/'+json2.repository.organization+'/'+json2.repository.name)
-            .set(headers2) // esto setea todo!!
+            .set(headers2)
             .type('json')
             .send(json2)
             .expect('ok: '+json2.head_commit.timestamp)
             .end(function(err, res){
                 if(err){ return done(err); }
-                //expect(qacServices.getGroup(json.repository.organization).getProject(json.repository.name).info.timestamp)
-                //      .to.eql(json.head_commit.timestamp);
-                // expect(qaControl.projectControl.toBeCalledOnceUponATime).to.ok();
-                //console.log("res", res);
                 done();
             });
     });
