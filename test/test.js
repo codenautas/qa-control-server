@@ -40,7 +40,10 @@ describe("qac-services",function(){
             .send(json)
             .expect('ok: '+json.head_commit.timestamp)
             .end(function(err, res){
-                if(err){ return done(err); }
+                if(err){
+                    //console.log("err", err.stack);
+                    return done(err);
+                }
                 //expect(qacServices.getGroup(json.repository.organization).getProject(json.repository.name).info.timestamp)
                 //      .to.eql(json.head_commit.timestamp);
                 // expect(qaControl.projectControl.toBeCalledOnceUponATime).to.ok();
