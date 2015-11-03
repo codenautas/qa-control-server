@@ -24,13 +24,14 @@ testHelper.readSampleWebHook = function readSampleWebHook(hookName) {
     var wh={};
     var baseDir='./test/webhooks/';
     return Promises.start(function() {
-        return fs.readFile(baseDir+hookName+'.headers', 'utf8');
+        return fs.readFile(baseDir+hookName+'.headers', {encoding:'utf8'});
     }).then(function(content) {
         wh['headers'] = headersFromFile(content);
-        return fs.readFile(baseDir+hookName+'.raw', 'utf8');
+        return fs.readFile(baseDir+hookName+'.raw', {encoding:'utf8'});
     }).then(function(content) {
-       wh['payload'] = content;
-       return wh;
+        //console.log(hookName, content.length)
+        wh['payload'] = content;
+        return wh;
     });
 };
 

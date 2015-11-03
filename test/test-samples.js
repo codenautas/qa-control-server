@@ -31,6 +31,7 @@ describe('qac-services test sample data', function(){
         }).then(function() {
             for(var h in samples) {
                 var wh=samples[h];
+                //console.log(h, wh.headers, wh.payload.length);
                 //console.log('signature', wh.headers['X-Hub-Signature']);
                 expect(qacServices.isValidRequest(wh.payload, wh.headers['X-Hub-Signature'], helper.testConfig.request_secret)).to.be.ok();
             }
