@@ -15,7 +15,8 @@
       
       "exec-to-html": "0.0.7",
       "extension-serve": "^0.0.4",
-      "mini-tools": "0.1.4"
+      "mini-tools": "0.1.4",
+      "qa-control": "0.1.0"
   },
   "devDependencies": {
     "colors": "1.1.2",
