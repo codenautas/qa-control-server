@@ -9,27 +9,18 @@ var qacServices = require('../lib/qac-services.js');
 
 describe('qac-services functions', function(){
     describe('getInfo', function() {
-		it('should fail with missing parameters', function(done) {
-            return qacServices.getInfo(null, null).then(function(info) {
-                throw new Error('should fail');
-            },function(err){
-                expect(err.message).to.match(/missing group/);
-            }).then(done,done);
-        });
-		it('should fail with missing group', function(done) {
-            return qacServices.getInfo('non-existent-group').then(function(info) {
-                throw new Error('should fail');
-            },function(err){
-                expect(err.message).to.match(/inexistent group/);
-            }).then(done,done);
-        });
-		it('should fail with missing project', function(done) {
-            return qacServices.getInfo('sourcetravelers', {project:'not-an-app'}).then(function(info) {
-                throw new Error('should fail');
-            },function(err){
-                expect(err.message).to.match(/inexistent project/);
-            }).then(done,done);
-        });
+        function testBadInput(msg, p1, p2, expRE) {
+            it('should fail with '+msg, function(done) {
+                return qacServices.getInfo(p1, p2).then(function(info) {
+                    throw new Error('should fail');
+                },function(err){
+                    expect(err.message).to.match(expRE);
+                }).then(done,done);
+            });            
+        }
+        testBadInput('missing parameters', null, null, /missing group/);
+        testBadInput('missing group', 'non-existent-group', null, /inexistent group/);
+        testBadInput('missing project', 'sourcetravelers', {project:'not-an-app'}, /inexistent project/);
         var group='sourcetravelers';
         var project='the-app', project2='other-app';
         it('should return group info', function(done) {
