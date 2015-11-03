@@ -30,7 +30,7 @@ describe("qac-services",function(){
             json2 = JSON.parse(wh.payload);
         });
     });
-    it("receive one push",function(done){
+    it("receive the first push",function(done){
         this.timeout(10000);
         var agent=request(server);
         agent
@@ -39,6 +39,23 @@ describe("qac-services",function(){
             .type('json')
             .send(json)
             .expect('ok: '+json.head_commit.timestamp)
+            .end(function(err, res){
+                if(err){ return done(err); }
+                //expect(qacServices.getGroup(json.repository.organization).getProject(json.repository.name).info.timestamp)
+                //      .to.eql(json.head_commit.timestamp);
+                // expect(qaControl.projectControl.toBeCalledOnceUponATime).to.ok();
+                //console.log("res", res);
+                done();
+            });
+    });
+    it("receive the second push",function(done){
+        var agent=request(server);
+        agent
+            .post('/push/'+json2.repository.organization+'/'+json2.repository.name)
+            .set(headers2) // esto setea todo!!
+            .type('json')
+            .send(json2)
+            .expect('ok: '+json2.head_commit.timestamp)
             .end(function(err, res){
                 if(err){ return done(err); }
                 //expect(qacServices.getGroup(json.repository.organization).getProject(json.repository.name).info.timestamp)
