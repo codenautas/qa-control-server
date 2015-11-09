@@ -45,7 +45,6 @@ if(process.env.TRAVIS){
 testHelper.dirTemp+='/temp-qcs';
 
 testHelper.testConfig = {
-    //repository:'./test/fixtures/repo4display',
     repository: {
         path: testHelper.dirTemp+'/repo4display',
         request_secret:'elsecreto'

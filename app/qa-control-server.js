@@ -62,6 +62,7 @@ Promises.start(function(){
     });
     qacServices.config(actualConfig.services);
     app.use(qacServices.receivePush());
+    app.use(qacServices.overviewServe());
 }).catch(function(err){
     console.log('ERROR',err);
     console.log('STACK',err.stack);
