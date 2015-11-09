@@ -21,10 +21,10 @@ describe("qac-services",function(){
     var json2, headers2;
     before(function(){
         server = createServer(helper.testConfig);
-        return helper.readSampleWebHook('qcs01').then(function(wh) {
+        return helper.readSampleWebHook('mlang01').then(function(wh) {
             headers = wh.headers;
             json = JSON.parse(wh.payload);
-            return helper.readSampleWebHook('qcs02');
+            return helper.readSampleWebHook('mlang02');
         }).then(function(wh) {
             headers2 = wh.headers;
             json2 = JSON.parse(wh.payload);
@@ -75,7 +75,7 @@ describe("qac-services",function(){
         it("reject requests with x-hub-signature that doesn't validates",function(done){
             var modHeaders = _.clone(headers);
             modHeaders['Content-Length'] = headers2['Content-Length'];
-            //console.log("modHeaders", modHeaders);
+            // console.log("modHeaders", modHeaders);
             var agent=request(server);
             agent
                 .post('/push/'+json.repository.organization+'/'+json.repository.name)
