@@ -43,9 +43,8 @@ describe("qac-services",function(){
                 if(err){ return done(err); }
                 qacServices.getInfo(json.repository.organization, {project:json.repository.name}).then(function(info) {
                     //console.log("info", info);
-                }).then(function() {
                     done();
-                })
+                });
             });
     });
     it("receive the second push",function(done){
@@ -58,6 +57,20 @@ describe("qac-services",function(){
             .expect('ok: '+json2.head_commit.timestamp)
             .end(function(err, res){
                 if(err){ return done(err); }
+                qacServices.getInfo(json.repository.organization, {project:json.repository.name}).then(function(info) {
+                    //console.log("info", info);
+                    done();
+                });
+            });
+    });
+    it("get project.svg",function(done){
+        var agent=request(server);
+        agent
+            .get('/'+json.repository.organization+'/'+json.repository.name+'.svg')
+            .end(function(err, res){
+                //console.log("res", res.text);
+                if(err){ return done(err); }
+                expect(res.text).to.match(/<svg xmlns/);
                 done();
             });
     });
