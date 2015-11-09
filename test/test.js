@@ -51,7 +51,21 @@ describe("qac-services",function(){
                 });
             });
     });
-    it("check that project.svg was correctly generated",function(done){
+    // OJO este test debe correr siempre despues de "receive the first push"!!!
+    it("check that basic files and directories are generated",function(done){
+        getProjectInfo(json).then(function(info) {
+            return fs.readdir(Path.normalize(info.project.path+'/result'));
+        }).then(function(dir) {
+            expect(dir.indexOf('cucarda.svg')).not.to.equal(-1);
+            expect(dir.indexOf('cucardas.md')).not.to.equal(-1);
+            expect(dir.indexOf('qa-control-result.json')).not.to.equal(-1);
+            expect(dir.indexOf('bitacora.json')).not.to.equal(-1);
+            done(); 
+        }).catch(function(err) {
+            done(err.message);
+        });
+    });
+    it("check that the correct project.svg can be requested",function(done){
         var agent=request(server);
         agent
             .get('/'+json.repository.organization+'/'+json.repository.name+'.svg')
@@ -99,7 +113,6 @@ describe("qac-services",function(){
         it("reject requests with x-hub-signature that doesn't validates",function(done){
             var modHeaders = _.clone(headers);
             modHeaders['Content-Length'] = headers2['Content-Length'];
-            // console.log("modHeaders", modHeaders);
             var agent=request(server);
             agent
                 .post('/push/'+json.repository.organization+'/'+json.repository.name)
