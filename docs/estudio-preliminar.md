@@ -47,3 +47,14 @@ al lado de cada nombre de proyecto se ven todas las cucardas que tiene su archiv
     * una carpeta `/info` con la información obtenida de otras fuentes (ej: el post con el push del github, el histórico de corridas, etc)
     * una carpeta `/params` con los parámetros definidos por el usuario (si los hubiera) respecto del proyecto en particular
  
+## URL
+
+path                          | p/p | uso
+------------------------------|-----|----------------------------------------
+`/organización`               | pub | el resumen de proyectos de la organización
+`/organización/proyecto`      | pub | los detalles del proyecto
+`/organización/proyecto.svg`  | pub | la cucarda
+`/`                           | pub | propaganda
+`/login`                      |loging| se encarga el paquete `login-plus`
+`/admin`                      | priv| configuración del usuario y pantalla para agregar proyectos (para quitar se usa  `/organización` que cuando estás logueado te agrega un botón "eliminar"
+
