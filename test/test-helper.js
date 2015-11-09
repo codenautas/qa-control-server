@@ -46,8 +46,10 @@ testHelper.dirTemp+='/temp-qcs';
 
 testHelper.testConfig = {
     //repository:'./test/fixtures/repo4display',
-    repository:testHelper.dirTemp+'/repo4display',
-    request_secret:'elsecreto'
+    repository: {
+        path: testHelper.dirTemp+'/repo4display',
+        request_secret:'elsecreto'
+    }
 };
 
 // hook global

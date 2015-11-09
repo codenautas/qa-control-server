@@ -33,7 +33,7 @@ describe('qac-services test sample data', function(){
                 var wh=samples[h];
                 //console.log(h, wh.headers, wh.payload.length);
                 //console.log('signature', wh.headers['X-Hub-Signature']);
-                expect(qacServices.isValidRequest(wh.payload, wh.headers['X-Hub-Signature'], helper.testConfig.request_secret)).to.be.ok();
+                expect(qacServices.isValidRequest(wh.payload, wh.headers['X-Hub-Signature'], helper.testConfig.repository.request_secret)).to.be.ok();
             }
         }).catch(function(err) {
             console.log("mal", err);

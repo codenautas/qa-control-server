@@ -5,9 +5,10 @@ var Promises = require('best-promise');
 //var fs = require('fs-promise');
 var qacServices = require('../lib/qac-services.js');
 //var Path = require('path');
-//var helper=require('../test/test-helper.js');
+var helper=require('../test/test-helper.js');
 
 describe('qac-services functions', function(){
+    qacServices.config(helper.testConfig);
     describe('getInfo', function() {
         function testBadInput(msg, p1, p2, expRE) {
             it('should fail with '+msg, function(done) {

@@ -20,7 +20,7 @@ describe("qac-services overview",function(){
         var content;
         qacServices.makeOverviewMd('sourcetravelers').then(function(contentMd) {
             content = contentMd;
-            return fs.readFile(helper.testConfig.repository+'/expected/resume-sourcetravelers.md', {encoding:'utf8'});
+            return fs.readFile(helper.testConfig.repository.path+'/expected/resume-sourcetravelers.md', {encoding:'utf8'});
         }).then(function(expectedContent) {
             expect(content).to.be(expectedContent);
         }).then(done,done);
