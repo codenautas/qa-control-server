@@ -63,6 +63,20 @@ Promises.start(function(){
     qacServices.config(actualConfig.services);
     app.use(qacServices.receivePush());
     app.use(qacServices.overviewServe());
+    app.get('/', function(req, res, next) {
+       var name='QA Control Server';
+       res.end('<!doctype html>\n<html><head>'+
+               '<link href="/markdown.css" media="all" rel="stylesheet" />'+
+               '<link href="/markdown2.css" media="all" rel="stylesheet" />'+
+               '<link href="/github.css" media="all" rel="stylesheet" />'+
+               '<title>'+name+'</title>'+
+               '</head><body><div align="center">'+
+                '<img src="/qcs.png" /></img>'+
+                '<span class="vcard-fullname" itemprop="name">'+
+                'Welcome to '+name+'!'+
+                '</span>'+
+                '</div></body></html>'); 
+    });
 }).catch(function(err){
     console.log('ERROR',err);
     console.log('STACK',err.stack);
