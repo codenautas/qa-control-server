@@ -13,6 +13,7 @@ var sinon = require('sinon');
 var Promises = require('best-promise');
 var fs = require('fs-promise');
 var qacServices = require('../lib/qac-services.js');
+var Path = require('path');
 
 describe("qac-services",function(){
     var server;
@@ -30,6 +31,9 @@ describe("qac-services",function(){
             json2 = JSON.parse(wh.payload);
         });
     });
+    function getProjectInfo(json) {
+        return qacServices.getInfo(json.repository.organization, {project:json.repository.name});
+    }
     it("receive the first push",function(done){
         this.timeout(10000);
         var agent=request(server);
@@ -41,13 +45,31 @@ describe("qac-services",function(){
             .expect('ok: '+json.head_commit.timestamp)
             .end(function(err, res){
                 if(err){ return done(err); }
-                qacServices.getInfo(json.repository.organization, {project:json.repository.name}).then(function(info) {
+                getProjectInfo(json).then(function(info) {
                     //console.log("info", info);
                     done();
                 });
             });
     });
+    it("check that project.svg was correctly generated",function(done){
+        var agent=request(server);
+        agent
+            .get('/'+json.repository.organization+'/'+json.repository.name+'.svg')
+            .end(function(err, res){
+                if(err){ return done(err); }
+                getProjectInfo(json).then(function(info) {
+                    // console.log("info", info)
+                    fs.readFile(Path.normalize(info.project.path+'/result/cucarda.svg'), 'utf8').then(function(svg) {
+                        expect(res.text.indexOf(svg)).not.to.equal(-1);
+                    })
+                    done(); 
+                }).catch(function(err) {
+                    done(err.message);
+                });
+            });
+    });
     it("receive the second push",function(done){
+        this.timeout(4000);
         var agent=request(server);
         agent
             .post('/push/'+json2.repository.organization+'/'+json2.repository.name)
@@ -57,21 +79,10 @@ describe("qac-services",function(){
             .expect('ok: '+json2.head_commit.timestamp)
             .end(function(err, res){
                 if(err){ return done(err); }
-                qacServices.getInfo(json.repository.organization, {project:json.repository.name}).then(function(info) {
+                getProjectInfo(json).then(function(info) {
                     //console.log("info", info);
                     done();
                 });
-            });
-    });
-    it("get project.svg",function(done){
-        var agent=request(server);
-        agent
-            .get('/'+json.repository.organization+'/'+json.repository.name+'.svg')
-            .end(function(err, res){
-                //console.log("res", res.text);
-                if(err){ return done(err); }
-                expect(res.text).to.match(/<svg xmlns/);
-                done();
             });
     });
     describe('request', function() {
