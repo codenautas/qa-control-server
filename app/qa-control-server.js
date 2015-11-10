@@ -14,7 +14,7 @@ var Promises = require('best-promise');
 var fs = require('fs-promise');
 var readYaml = require('read-yaml-promise');
 var qacServices = require('../lib/qac-services.js');
-var qacAdminServices = require('../lib/qac-admin.js');
+//var qacAdminServices = require('../lib/qac-admin.js');
 
 if(false) {
     var extensionServeStatic = require('extension-serve-static');
@@ -33,7 +33,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 
 app.use(function(req,res,next){
-    if("quiero ver todo"){
+    if(! "quiero ver todo"){
         console.log('***************************');
         console.dir(req,{depth:0});
         console.log('req.cookies',req.cookies);
@@ -65,7 +65,7 @@ Promises.start(function(){
         console.log('Listening on port %d', server.address().port);
     });
     qacServices.config(actualConfig.services);
-    qacAdminServices.config(qacServices, actualConfig.services);
+    //qacAdminServices.config(qacServices, actualConfig.services);
     
     app.use(qacServices.overviewServe());
     app.get('/', function(req, res, next) {
@@ -83,7 +83,7 @@ Promises.start(function(){
                 '</div></body></html>'); 
     });
     app.use(qacServices.receivePush());
-    app.use(qacAdminServices.adminServe());
+    app.use(qacServices.adminServe());
 }).catch(function(err){
     console.log('ERROR',err);
     console.log('STACK',err.stack);
