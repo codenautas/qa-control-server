@@ -1,11 +1,11 @@
 "use strict";
-
 var expect = require('expect.js');
 var Promises = require('best-promise');
 //var fs = require('fs-promise');
 var qacServices = require('../lib/qac-services.js');
 //var Path = require('path');
 var helper=require('../test/test-helper.js');
+var _ = require('lodash');
 
 describe('qac-services functions', function(){
     qacServices.config(helper.testConfig);
@@ -62,4 +62,27 @@ describe('qac-services functions', function(){
             });
         });
     });
-});
+    describe('getOrganizations', function() {
+        qacServices.config(helper.testConfig);
+        it('should fail on inexistent repository path', function(done) {
+            var oriPath = _.clone(qacServices.repository.path);
+            qacServices.repository.path = '/non/existent/path/';
+            return qacServices.getOrganizations().then(function(orgs) {
+                throw new Error('should fail');
+            },function(err){
+                expect(err.message).to.match(/inexistent repository/);
+            }).then(done,done).then(function() {
+                qacServices.repository.path = oriPath;
+            });
+        });
+        it('should return the list of organizations', function(done) {
+            return qacServices.getOrganizations().then(function(orgs) {
+               expect(orgs).to.eql(['anothergroup','codenautas','sourcetravelers']);
+               //console.log("orgs", orgs);
+               done(); 
+            }).catch(function(err) {
+                done(err);
+            });
+        });
+    });
+ });
