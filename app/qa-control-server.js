@@ -13,18 +13,21 @@ var bodyParser = require('body-parser');
 var Promises = require('best-promise');
 var fs = require('fs-promise');
 var readYaml = require('read-yaml-promise');
-// var extensionServeStatic = require('extension-serve-static');
-// var MiniTools = require('mini-tools');
-// var jade = require('jade');
-
 var qacServices = require('../lib/qac-services.js');
 var qacAdminServices = require('../lib/qac-admin.js');
 
-// var crypto = require('crypto');
-// function md5(text){
-    // return crypto.createHash('md5').update(text).digest('hex');
-// }
+if(false) {
+    var extensionServeStatic = require('extension-serve-static');
+    var MiniTools = require('mini-tools');    
+    var validExts=[
+        'html',
+        'jpg','png','gif',
+        'css','js','manifest'];
+    app.use('/', extensionServeStatic('app', {staticExtensions:validExts}));
+}
 
+// var jade = require('jade');
+    
 app.use(cookieParser());
 // app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
@@ -61,15 +64,10 @@ Promises.start(function(){
     var server=app.listen(actualConfig.server.port, function(event) {
         console.log('Listening on port %d', server.address().port);
     });
-    
     qacServices.config(actualConfig.services);
-    
     qacAdminServices.config(qacServices, actualConfig.services);
-    app.use(qacAdminServices.adminServe());
     
-    app.use(qacServices.receivePush());
     app.use(qacServices.overviewServe());
-    
     app.get('/', function(req, res, next) {
        var name='QA Control Server';
        res.end('<!doctype html>\n<html><head>'+
@@ -84,6 +82,8 @@ Promises.start(function(){
                 '</span>'+
                 '</div></body></html>'); 
     });
+    app.use(qacServices.receivePush());
+    app.use(qacAdminServices.adminServe());
 }).catch(function(err){
     console.log('ERROR',err);
     console.log('STACK',err.stack);

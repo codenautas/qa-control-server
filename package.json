@@ -5,14 +5,21 @@
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "repository": "codenautas/qa-control-server",
-  "contributors": [{
-    "name": "Emilio Platzer", "email": "emilioplatzer@gmail.com",
-    "name": "Diego Florio", "email": "diegoefe@gmail.com"
-  }],
+  "contributors": [
+    {
+      "name": "Emilio Platzer",
+      "email": "emilioplatzer@gmail.com"
+    },
+    {
+      "name": "Diego Florio",
+      "email": "diegoefe@gmail.com"
+    }
+  ],
   "dependencies": {
       "body-parser": "1.14.1",
       "cookie-parser": "1.4.0",
-      "fs-extra": "0.26.0",      
+      "extension-serve-static": "0.1.6",
+      "fs-extra": "0.26.0",
       "highlight.js": "8.9.1",
       "marked": "0.3.5",
       "pygmentize-bundled": "2.3.0",
@@ -20,7 +27,7 @@
       
       "exec-to-html": "0.0.7",
       "extension-serve": "0.0.4",
-      "login-plus": "0.0.3",
+      "login-plus": "0.0.4",
       "mini-tools": "0.1.4",
       "qa-control": "0.1.3"
   },
