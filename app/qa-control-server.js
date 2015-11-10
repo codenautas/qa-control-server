@@ -14,7 +14,6 @@ var Promises = require('best-promise');
 var fs = require('fs-promise');
 var readYaml = require('read-yaml-promise');
 var qacServices = require('../lib/qac-services.js');
-//var qacAdminServices = require('../lib/qac-admin.js');
 
 if(false) {
     var extensionServeStatic = require('extension-serve-static');
@@ -64,9 +63,7 @@ Promises.start(function(){
     var server=app.listen(actualConfig.server.port, function(event) {
         console.log('Listening on port %d', server.address().port);
     });
-    qacServices.config(actualConfig.services);
-    //qacAdminServices.config(qacServices, actualConfig.services);
-    
+    qacServices.config(actualConfig.services);    
     app.use(qacServices.overviewServe());
     app.get('/', function(req, res, next) {
        var name='QA Control Server';
@@ -83,6 +80,7 @@ Promises.start(function(){
                 '</div></body></html>'); 
     });
     app.use(qacServices.receivePush());
+    // este debe ir al final
     app.use(qacServices.adminServe());
 }).catch(function(err){
     console.log('ERROR',err);

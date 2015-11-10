@@ -19,26 +19,26 @@ describe('qac-services functions', function(){
                 }).then(done,done);
             });            
         }
-        testBadInput('missing parameters', null, null, /missing group/);
-        testBadInput('missing group', 'non-existent-group', null, /inexistent group/);
+        testBadInput('missing parameters', null, null, /missing organization/);
+        testBadInput('missing organization', 'non-existent-organization', null, /inexistent organization/);
         testBadInput('missing project', 'sourcetravelers', {project:'not-an-app'}, /inexistent project/);
-        var group='sourcetravelers';
+        var organization='sourcetravelers';
         var project='the-app', project2='other-app';
-        it('should return group info', function(done) {
-            return qacServices.getInfo(group).then(function(info) {
-                expect(info.group.name).to.be(group);
-                expect(info.group.path).to.match(new RegExp(group));
-                //console.log("info", info.group.projects);
-                expect(info.group.projects).to.eql([{projectName:project2}, {projectName:project}]);
+        it('should return organization info', function(done) {
+            return qacServices.getInfo(organization).then(function(info) {
+                expect(info.organization.name).to.be(organization);
+                expect(info.organization.path).to.match(new RegExp(organization));
+                //console.log("info", info.organization.projects);
+                expect(info.organization.projects).to.eql([{projectName:project2}, {projectName:project}]);
                 done();
             }).catch(function(err) {
                 done(err);
             });
         });
         it('should return project info', function(done) {
-            return qacServices.getInfo(group, {project:project}).then(function(info) {
-                expect(info.group.name).to.be(group);
-                expect(info.group.path).to.match(new RegExp(group));
+            return qacServices.getInfo(organization, {project:project}).then(function(info) {
+                expect(info.organization.name).to.be(organization);
+                expect(info.organization.path).to.match(new RegExp(organization));
                 expect(info.project.name).to.be(project);
                 expect(info.project.path).to.match(new RegExp(project));
                 //console.log("info", info);
@@ -51,8 +51,8 @@ describe('qac-services functions', function(){
             var nonExistentProject='prueba';
             var anotherGroup='anothergroup';
             return qacServices.getInfo(anotherGroup, {project:nonExistentProject, createProject:true}).then(function(info) {
-                expect(info.group.name).to.be(anotherGroup);
-                expect(info.group.path).to.match(new RegExp(anotherGroup));
+                expect(info.organization.name).to.be(anotherGroup);
+                expect(info.organization.path).to.match(new RegExp(anotherGroup));
                 expect(info.project.name).to.be(nonExistentProject);
                 expect(info.project.path).to.match(new RegExp(nonExistentProject));
                 //console.log("info", info);
