@@ -16,13 +16,14 @@ var readYaml = require('read-yaml-promise');
 // var extensionServeStatic = require('extension-serve-static');
 // var MiniTools = require('mini-tools');
 // var jade = require('jade');
-var crypto = require('crypto');
 
 var qacServices = require('../lib/qac-services.js');
+var qacAdminServices = require('../lib/qac-admin.js');
 
-function md5(text){
-    return crypto.createHash('md5').update(text).digest('hex');
-}
+// var crypto = require('crypto');
+// function md5(text){
+    // return crypto.createHash('md5').update(text).digest('hex');
+// }
 
 app.use(cookieParser());
 // app.use(bodyParser.urlencoded({extended:true}));
@@ -60,9 +61,17 @@ Promises.start(function(){
     var server=app.listen(actualConfig.server.port, function(event) {
         console.log('Listening on port %d', server.address().port);
     });
+    
     qacServices.config(actualConfig.services);
+    
+    qacAdminServices.config(qacServices, actualConfig.services);
+    app.use(qacAdminServices.adminServe());
+    
     app.use(qacServices.receivePush());
     app.use(qacServices.overviewServe());
+    
+    
+    
     app.get('/', function(req, res, next) {
        var name='QA Control Server';
        res.end('<!doctype html>\n<html><head>'+

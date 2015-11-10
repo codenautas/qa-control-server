@@ -1,0 +1,19 @@
+h2 login
+form(action="/login", method="post")
+  table
+    tr
+      td
+        label Username:
+      td
+        input(type="text", name="username", autofocus=true)
+      td(rowspan=4)
+        img(src="./login.png", style="height:128px")
+    tr
+      td
+        label Password:
+      td
+        input(type="password", name="password")
+    tr
+      td
+      td
+        input(type="submit", value="Log In")
