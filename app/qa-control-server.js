@@ -70,8 +70,6 @@ Promises.start(function(){
     app.use(qacServices.receivePush());
     app.use(qacServices.overviewServe());
     
-    
-    
     app.get('/', function(req, res, next) {
        var name='QA Control Server';
        res.end('<!doctype html>\n<html><head>'+
