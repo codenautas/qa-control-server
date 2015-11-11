@@ -1,0 +1,17 @@
+[
+    {
+        "date": "2015-11-11_011654",
+        "origin": "shell: git",
+        "text": "Already up-to-date.\n"
+    },
+    {
+        "date": "2015-11-11_011654",
+        "origin": "internal",
+        "text": "qa-control-result: [{\"warning\":\"first_lines_does_not_match_in_file_1\",\"params\":[\"index.js\"],\"scoring\":{\"customs\":1}}]"
+    },
+    {
+        "date": "2015-11-11_011654",
+        "origin": "internal",
+        "text": "\"C:\\Users\\emilio\\AppData\\Local\\Temp\\temp-qcs\\repo4display\\groups\\codenautas\\projects\\multilang\\result\\cucardas.md\" generated"
+    }
+]

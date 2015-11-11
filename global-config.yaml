@@ -1,2 +1,6 @@
 server:
   port: 7226
+services:
+  repository:
+    path: .\repo-examples
+production: true    
