@@ -7,7 +7,7 @@ var qacServices = require('../lib/qac-services.js');
 var helper=require('../test/test-helper.js');
 var _ = require('lodash');
 
-describe('qac-services functions', function(){
+describe('qac-services information functions', function(){
     helper.setup(qacServices);
     describe('getInfo', function() {
         function testBadInput(msg, p1, p2, expRE) {

@@ -7,7 +7,7 @@ var qacServices = require('../lib/qac-services.js');
 var helper=require('../test/test-helper.js');
 var _ = require('lodash');
 
-describe('qac-services functions', function(){
+describe('qac-services modification functions', function(){
     helper.setup(qacServices);
     describe('createOrganization', function() {
         function testWrongInput(msg, p1, expRE) {
@@ -29,6 +29,11 @@ describe('qac-services functions', function(){
             return qacServices.createOrganization(organization).then(function(status) {
                 //console.log("status", status);
                 expect(status).to.eql('organization "'+organization+'" created');
+                return qacServices.getInfo(organization);
+            }).then(function(info) {
+                //console.log(info);
+                expect(info.organization.name).to.eql(organization);
+                expect(info.organization.projects).to.eql([]);
                 done();
             }).catch(function(err) {
                 done(err);
