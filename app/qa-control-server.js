@@ -76,7 +76,6 @@ Promises.start(function(){
                                      'Welcome to '+name+'!'+
                                      '</span></div>'));
     });
-    // app.use(qacServices.prueba());
     app.use(qacServices.receivePush());
     app.use(qacServices.overviewServe());
     // estos deben ir al final
