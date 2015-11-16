@@ -78,9 +78,10 @@ Promises.start(function(){
                 '</span>'+
                 '</div></body></html>'); 
     });
-    app.use(qacServices.overviewServe());
+    // app.use(qacServices.prueba());
     app.use(qacServices.receivePush());
-    // este debe ir al final
+    app.use(qacServices.overviewServe());
+    // estos deben ir al final
     app.use(qacServices.adminServe());
     app.use(qacServices.deletesServe());
 }).catch(function(err){
