@@ -81,7 +81,7 @@ Promises.start(function(){
     app.use(qacServices.overviewServe());
     // estos deben ir al final
     app.use(qacServices.adminServe());
-    app.use(qacServices.deletesServe());
+    app.use(qacServices.abmsServe());
 }).catch(function(err){
     console.log('ERROR',err);
     console.log('STACK',err.stack);
