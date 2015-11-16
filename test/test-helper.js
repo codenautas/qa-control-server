@@ -48,8 +48,11 @@ testHelper.testConfig = {
     repository: {
         path: testHelper.dirTemp+'/repo4display',
         request_secret:'elsecreto'
-    },
-    production: false
+    }
+};
+
+testHelper.setup = function setup(qcs) {
+    qcs.config(testHelper.testConfig, false);
 };
 
 // hook global

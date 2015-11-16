@@ -13,7 +13,7 @@ var fs = require('fs-promise');
 var request = require('supertest');
 var helper=require('../test/test-helper.js');
 
-qacServices.config(helper.testConfig);
+helper.setup(qacServices);
 
 describe("qac-services overview",function(){
     it('make the overview ', function(done) {

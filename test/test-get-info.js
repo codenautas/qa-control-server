@@ -63,7 +63,7 @@ describe('qac-services functions', function(){
         });
     });
     describe('getOrganizations', function() {
-        qacServices.config(helper.testConfig);
+        helper.setup(qacServices);
         it('should fail on inexistent repository path', function(done) {
             var oriPath = _.clone(qacServices.repository.path);
             qacServices.repository.path = '/non/existent/path/';

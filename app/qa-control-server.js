@@ -64,16 +64,17 @@ Promises.start(function(){
     var server=app.listen(actualConfig.server.port, function(event) {
         console.log('Listening on port %d', server.address().port);
     });
-    qacServices.config(actualConfig.services);    
+    qacServices.config(actualConfig.services, actualConfig.production);
     app.get('/', function(req, res, next) {
         var name='QA Control Server';
+        var image = actualConfig.production ? 'qcs.png' : 'qcs-devel.png';
         res.end('<!doctype html>\n<html><head>'+
                 '<link href="/markdown.css" media="all" rel="stylesheet" />'+
                 '<link href="/markdown2.css" media="all" rel="stylesheet" />'+
                 '<link href="/github.css" media="all" rel="stylesheet" />'+
                 '<title>'+name+'</title>'+
                 '</head><body><div align="center">'+
-                '<img src="/qcs.png" /></img>'+
+                '<img src="/' + image +'" /></img>'+
                 '<span class="vcard-fullname" itemprop="name">'+
                 'Welcome to '+name+'!'+
                 '</span>'+
