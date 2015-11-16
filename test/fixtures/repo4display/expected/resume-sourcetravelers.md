@@ -7,6 +7,7 @@
 [![coverage](https://img.shields.io/coveralls/codenautas/mini-tools/master.svg)](https://coveralls.io/r/codenautas/mini-tools)
 [![climate](https://img.shields.io/codeclimate/github/codenautas/mini-tools.svg)](https://codeclimate.com/github/codenautas/mini-tools)
 [![dependencies](https://img.shields.io/david/codenautas/mini-tools.svg)](https://david-dm.org/codenautas/mini-tools)
+<input type="button" value="Delete" onClick="if(confirm('Delete project \'other-app\'?')) { this.form.method='get'; this.form.action='/delete/sourcetravelers/other-app'; this.form.submit(); }" />
 
   * **[the-app](/sourcetravelers/the-app)**
 ![extending](https://img.shields.io/badge/stability-extending-orange.svg)
@@ -17,4 +18,4 @@
 [![coverage](https://img.shields.io/coveralls/codenautas/pg-promise-strict/master.svg)](https://coveralls.io/r/codenautas/pg-promise-strict)
 [![climate](https://img.shields.io/codeclimate/github/codenautas/pg-promise-strict.svg)](https://codeclimate.com/github/codenautas/pg-promise-strict)
 [![dependencies](https://img.shields.io/david/codenautas/pg-promise-strict.svg)](https://david-dm.org/codenautas/pg-promise-strict)
-
+<input type="button" value="Delete" onClick="if(confirm('Delete project \'the-app\'?')) { this.form.method='get'; this.form.action='/delete/sourcetravelers/the-app'; this.form.submit(); }" />
