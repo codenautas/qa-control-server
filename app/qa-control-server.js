@@ -60,6 +60,7 @@ Promises.start(function(){
         _.merge(actualConfig,localConfig);
     });
 }).then(function(){
+    console.log("actualConfig", actualConfig);
     var server=app.listen(actualConfig.server.port, function(event) {
         console.log('Listening on port %d', server.address().port);
     });

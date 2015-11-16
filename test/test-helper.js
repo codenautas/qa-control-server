@@ -48,7 +48,8 @@ testHelper.testConfig = {
     repository: {
         path: testHelper.dirTemp+'/repo4display',
         request_secret:'elsecreto'
-    }
+    },
+    production: false
 };
 
 // hook global
