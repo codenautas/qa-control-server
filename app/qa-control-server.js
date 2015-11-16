@@ -14,6 +14,7 @@ var Promises = require('best-promise');
 var fs = require('fs-promise');
 var readYaml = require('read-yaml-promise');
 var qacServices = require('../lib/qac-services.js');
+var qcsCommon = require('../lib/qcs-common.js');
 
 if(false) {
     var extensionServeStatic = require('extension-serve-static');
@@ -68,17 +69,12 @@ Promises.start(function(){
     app.get('/', function(req, res, next) {
         var name='QA Control Server';
         var image = actualConfig.production ? 'qcs.png' : 'qcs-devel.png';
-        res.end('<!doctype html>\n<html><head>'+
-                '<link href="/markdown.css" media="all" rel="stylesheet" />'+
-                '<link href="/markdown2.css" media="all" rel="stylesheet" />'+
-                '<link href="/github.css" media="all" rel="stylesheet" />'+
-                '<title>'+name+'</title>'+
-                '</head><body><div align="center">'+
-                '<img src="/' + image +'" /></img>'+
-                '<span class="vcard-fullname" itemprop="name">'+
-                'Welcome to '+name+'!'+
-                '</span>'+
-                '</div></body></html>'); 
+        res.end(qcsCommon.simpleHtml(name,
+                                     '<div align="center">'+
+                                     '<img src="/' + image +'" /></img>'+
+                                     '<span class="vcard-fullname" itemprop="name">'+
+                                     'Welcome to '+name+'!'+
+                                     '</span></div>'));
     });
     // app.use(qacServices.prueba());
     app.use(qacServices.receivePush());
