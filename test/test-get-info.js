@@ -8,7 +8,7 @@ var helper=require('../test/test-helper.js');
 var _ = require('lodash');
 
 describe('qac-services functions', function(){
-    qacServices.config(helper.testConfig);
+    helper.setup(qacServices);
     describe('getInfo', function() {
         function testBadInput(msg, p1, p2, expRE) {
             it('should fail with '+msg, function(done) {
@@ -77,7 +77,7 @@ describe('qac-services functions', function(){
         });
         it('should return the list of organizations', function(done) {
             return qacServices.getOrganizations().then(function(orgs) {
-               expect(orgs).to.eql(['anothergroup','codenautas','sourcetravelers']);
+               expect(orgs).to.eql(['anothergroup','codenautas','neworg', 'sourcetravelers']);
                //console.log("orgs", orgs);
                done(); 
             }).catch(function(err) {
