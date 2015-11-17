@@ -55,7 +55,8 @@
     "test": "mocha --reporter spec --bail --check-leaks test/",
     "test-ci": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
-    "start": "node app/qa-control-server.js"
+    "start": "node app/qa-control-server.js",
+    "create-test-repo": "node util/create-test-repo.js"
   },
   "jshintConfig": {
     "asi": false,

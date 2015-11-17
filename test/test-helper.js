@@ -7,6 +7,8 @@
 
 var Promises = require('best-promise');
 var fs = require('fs-promise');
+
+var testDir = require('../util/test-dir.js');
 var testHelper = {};
 
 function headersFromFile(content) {
@@ -35,14 +37,7 @@ testHelper.readSampleWebHook = function readSampleWebHook(hookName) {
     });
 };
 
-testHelper.dirTemp;
-
-if(process.env.TRAVIS){
-    testHelper.dirTemp = process.env.HOME;
-}else{
-    testHelper.dirTemp = process.env.TMP || process.env.TEMP || '/tmp';
-}
-testHelper.dirTemp+='/temp-qcs';
+testHelper.dirTemp = testDir.getDir('temp-qcs');
 
 testHelper.testConfig = {
     repository: {
