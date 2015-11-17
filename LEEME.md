@@ -1,10 +1,10 @@
 # qa-control-server
 
 <!--lang:es-->
-servidor qa-control
+servidor que mantiene proyectos validados con qa-control
 
 <!--lang:en--]
-qa-control server
+qa-control managed projects server server
 
 [!--lang:*-->
 
@@ -40,7 +40,31 @@ también disponible en:
 $ npm install qa-control-server
 ```
 
-<!--lang:*-->
+<!--lang:es-->
+
+## Uso
+
+<!--lang:en--]
+
+## Usage
+
+[!--lang:*-->
+
+```sh
+$ npm start
+```
+
+<!--lang:es-->
+## Descripción
+qa-control-server maneja un subdirectorio que contiene la definición uno o más proyectos pertencientes a organizaciones
+repetando la estructura gerárquica utilizada por github.com.
+
+<!--lang:en--]
+## Description
+qa-control-server manages a directory sub-tree that contains definitions of one or more projects belonging to organizations
+acording to github.com's structure hierarchy
+
+[!--lang:*-->
 
 ## License
 

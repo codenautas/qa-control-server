@@ -1,6 +1,6 @@
 # qa-control-server
 
-qa-control server
+qa-control managed projects server server
 
 
 ![designing](https://img.shields.io/badge/stability-designing-red.svg)
@@ -25,6 +25,18 @@ also available in:
 ```sh
 $ npm install qa-control-server
 ```
+
+
+## Usage
+
+
+```sh
+$ npm start
+```
+
+## Description
+qa-control-server manages a directory sub-tree that contains definitions of one or more projects belonging to organizations
+acording to github.com's structure hierarchy
 
 
 ## License
