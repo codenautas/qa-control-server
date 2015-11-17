@@ -9,22 +9,20 @@ var _ = require('lodash');
 
 describe('qac-services modification functions', function(){
     helper.setup(qacServices);
-    describe('organization actions', function() {
-        function testWrongInput(msg, p1, expRE) {
-            it('should fail with '+msg, function(done) {
+    describe('organization/project actions', function() {
+        function orgWrongInput(msg, p1, expRE) {
+            it('createOrganization should fail with '+msg, function(done) {
                 return qacServices.createOrganization(p1).then(function(rv) {
-                    //console.log("no fallo", rv);
                     throw new Error('should fail');
                 },function(err){
-                    //console.log("SI FALLO", err.stack);
                     expect(err.message).to.match(expRE);
                 }).then(done,done);
-            });            
+            });
         }
-        testWrongInput('missing name', null, /missing organization name/);
-        testWrongInput('existing organization', 'sourcetravelers', /cannot create existing organization/);
-        testWrongInput('with bad name', 'organization with wrong name', /invalid organization name/);
-        testWrongInput('another bad name', '3starts-with-number', /invalid organization name/);
+        orgWrongInput('missing name', null, /missing organization name/);
+        orgWrongInput('existing organization', 'sourcetravelers', /cannot create existing organization/);
+        orgWrongInput('with bad name', 'organization with wrong name', /invalid organization name/);
+        orgWrongInput('another bad name', '3starts-with-number', /invalid organization name/);
         var organization='org-with-slashes';
         var project='proj1', project2='proj2';
         it('should create organization', function(done) {
@@ -41,6 +39,22 @@ describe('qac-services modification functions', function(){
                 done(err);
             });
         });
+        function projWrongInput(msg, org, proj, expRE) {
+            it('createProject should fail with '+msg, function(done) {
+                return qacServices.createProject(org, proj).then(function(rv) {
+                    //console.log("no fallo", rv);
+                    throw new Error('should fail');
+                },function(err){
+                    //console.log("SI FALLO", err.stack);
+                    expect(err.message).to.match(expRE);
+                }).then(done,done);
+            });     
+        }
+        projWrongInput('missing organization', null, null, /missing organization name/);
+        projWrongInput('missing organization with project', null, project, /missing organization name/);
+        projWrongInput('missing project', organization, null, /missing project name/);
+        projWrongInput('bad organization name', 'wrong organization', project, /invalid organization name/);
+        projWrongInput('bad project name', organization, 'bad project', /invalid project name/);
         it('should remove organization', function(done) {
             return qacServices.manageDeletes(organization).then(function(status) {
                 //console.log("status", status);
