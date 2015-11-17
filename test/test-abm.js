@@ -59,7 +59,7 @@ describe('qac-services modification functions', function(){
             return qacServices.createProject(organization, project).then(function(status) {
                 //console.log("status", status);
                 expect(status).to.eql('project "'+project+'" created');
-                return qacServices.getInfo(organization, {project:project});
+                return qacServices.getInfo(organization, project);
             }).then(function(info) {
                 //console.log(info);
                 expect(info.organization.name).to.eql(organization);

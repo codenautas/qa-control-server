@@ -32,7 +32,7 @@ describe("qac-services",function(){
         });
     });
     function getProjectInfo(json) {
-        return qacServices.getInfo(json.repository.organization, {project:json.repository.name});
+        return qacServices.getInfo(json.repository.organization, json.repository.name);
     }
     it("receive the first push",function(done){
         this.timeout(10000);
