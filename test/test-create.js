@@ -23,6 +23,7 @@ describe('qac-services modification functions', function(){
         }
         testWrongInput('missing name', null, /missing organization name/);
         testWrongInput('existing organization', 'sourcetravelers', /cannot create existing organization/);
+        testWrongInput('organization with bad name', 'organization with wrong name', /invalid organization name/);
         var organization='neworg';
         var project='proj1', project2='proj2';
         it('should create organization', function(done) {
