@@ -25,7 +25,7 @@ describe('qac-services modification functions', function(){
         orgWrongInput('another bad name', '3starts-with-number', /invalid organization name/);
         var organization='org-with-slashes';
         var project='proj1', project2='proj2';
-        it('should create organization', function(done) {
+        it('should create organization (#7)', function(done) {
             return qacServices.createOrganization(organization).then(function(status) {
                 //console.log("status", status);
                 expect(status).to.eql('organization "'+organization+'" created');
@@ -55,8 +55,36 @@ describe('qac-services modification functions', function(){
         projWrongInput('missing project', organization, null, /missing project name/);
         projWrongInput('bad organization name', 'wrong organization', project, /invalid organization name/);
         projWrongInput('bad project name', organization, 'bad project', /invalid project name/);
+        it('should create project (#8)', function(done) {
+            return qacServices.createProject(organization, project).then(function(status) {
+                //console.log("status", status);
+                expect(status).to.eql('project "'+project+'" created');
+                return qacServices.getInfo(organization, {project:project});
+            }).then(function(info) {
+                //console.log(info);
+                expect(info.organization.name).to.eql(organization);
+                expect(info.organization.projects).to.eql([{'projectName':project}]);
+                expect(info.project.name).to.eql(project);
+                done();
+            }).catch(function(err) {
+                done(err);
+            });
+        });
+        it('should remove project', function(done) {
+            return qacServices.deleteData(organization, project).then(function(status) {
+                //console.log("status", status);
+                expect(status).to.eql('project "'+project+'" removed');
+                return qacServices.getInfo(organization);
+            }).then(function(info) {
+                //console.log(info);
+                expect(info.organization.projects).to.eql([]);
+                done();
+            }, function(err) {
+                done(err);
+            });
+        });
         it('should remove organization', function(done) {
-            return qacServices.manageDeletes(organization).then(function(status) {
+            return qacServices.deleteData(organization).then(function(status) {
                 //console.log("status", status);
                 expect(status).to.eql('organization "'+organization+'" removed');
                 return qacServices.getInfo(organization);
