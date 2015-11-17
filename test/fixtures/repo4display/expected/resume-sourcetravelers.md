@@ -5,4 +5,4 @@ the-app|![extending](https://img.shields.io/badge/stability-extending-orange.svg
 
 |New project
 |:---:
-|<input type="hidden" name="organization" value="sourcetravelers" /><input type="text" name="project" />&nbsp;&nbsp;<input type="button" value="Create..." onClick="var p=this.form.project; var org=this.form.organization.value; if(p.value != '') { this.form.action='/manual-create/'+org+'/'+p.value; this.form.method = 'get'; this.form.submit(); } else { p.focus(); }" />
+|<input type="hidden" name="organization" value="sourcetravelers" /><input type="text" name="project" />&nbsp;&nbsp;<input type="button" value="Create..." onClick="var p=this.form.project; var org=this.form.organization.value; if(p.value != '') { this.form.action='/manual-add/'+org+'/'+p.value; this.form.method = 'get'; this.form.submit(); } else { p.focus(); }" />
