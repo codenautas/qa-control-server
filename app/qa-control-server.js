@@ -78,9 +78,13 @@ Promises.start(function(){
     });
     app.use(qacServices.receivePush());
     app.use(qacServices.overviewServe());
+    // este va sin auth, debe ir antes de los últimos dos!
+    if(! actualConfig.production) {
+        app.use(qacServices.abmsManualServe());
+    }
     // estos deben ir al final
-    app.use(qacServices.adminServe());
     app.use(qacServices.abmsServe());
+    app.use(qacServices.adminServe());
 }).catch(function(err){
     console.log('ERROR',err);
     console.log('STACK',err.stack);
