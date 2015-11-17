@@ -1,0 +1,4 @@
+services:
+  repository:
+    path: c:\Users\diego\AppData\Local\Temp\temp-qcs\repo4display
+production: false

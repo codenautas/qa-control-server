@@ -31,6 +31,14 @@ $ npm install qa-control-server
 
 
 ```sh
+$ npm run-script create-test-repo
+$ cp util/sample-local-config.yaml local-config.yaml
+```
+
+Update the variable services.repository.path in local-config.yaml according to create-test-repo's output, then run:
+
+
+```sh
 $ npm start
 ```
 
