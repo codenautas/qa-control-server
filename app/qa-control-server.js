@@ -77,6 +77,7 @@ Promises.start(function(){
                                      '</span></div>'));
     });
     app.use(qacServices.receivePush());
+    app.use(qacServices.receiveManualPush());
     app.use(qacServices.overviewServe());
     // este va sin auth, debe ir antes de los últimos dos!
     if(! actualConfig.production) {

@@ -83,7 +83,7 @@ describe("qac-services",function(){
             });
     });
     it("receive the second push",function(done){
-        this.timeout(4000);
+        this.timeout(40000);
         var agent=request(server);
         agent
             .post('/push/'+json2.repository.organization+'/'+json2.repository.name)
