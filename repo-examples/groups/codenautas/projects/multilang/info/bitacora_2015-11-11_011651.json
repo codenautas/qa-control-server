@@ -1,0 +1,26 @@
+[
+    {
+        "date": "2015-11-11_011651",
+        "type": "shell: git",
+        "data": {
+            "command": "git clone https://github.com/codenautas/multilang.git C:\\Users\\emilio\\AppData\\Local\\Temp\\temp-qcs\\repo4display\\groups\\codenautas\\projects\\multilang\\source",
+            "stderr": "Cloning into 'C:\\Users\\emilio\\AppData\\Local\\Temp\\temp-qcs\\repo4display\\groups\\codenautas\\projects\\multilang\\source'...\n",
+            "exit": "0"
+        }
+    },
+    {
+        "date": "2015-11-11_011651",
+        "type": "internal: qa-control",
+        "data": [
+            {
+                "warning": "first_lines_does_not_match_in_file_1",
+                "params": [
+                    "index.js"
+                ],
+                "scoring": {
+                    "customs": 1
+                }
+            }
+        ]
+    }
+]
