@@ -21,7 +21,8 @@ describe("qac-services",function(){
     var headers;
     var json2, headers2;
     before(function(){
-        server = createServer(helper.testConfig);
+        helper.setup(qacServices);
+        server = createServer();
         return helper.readSampleWebHook('mlang01').then(function(wh) {
             headers = wh.headers;
             json = JSON.parse(wh.payload);
@@ -128,8 +129,8 @@ describe("qac-services",function(){
 
 var express = require('express');
 
-function createServer(opts, fn) {
-    qacServices.config(opts);
+function createServer() {
+    helper.setup(qacServices);
     var _serve = qacServices.receivePush();
     var app = express();
     app.listen();
