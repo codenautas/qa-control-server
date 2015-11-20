@@ -3,4 +3,4 @@ server:
 services:
   repository:
     path: .\repo-examples
-production: true    
+production: true

@@ -15,6 +15,7 @@ var fs = require('fs-promise');
 var readYaml = require('read-yaml-promise');
 var qacServices = require('../lib/qac-services.js');
 var qcsCommon = require('../lib/qcs-common.js');
+require('colors');
 
 if(false) {
     var extensionServeStatic = require('extension-serve-static');
@@ -77,7 +78,10 @@ Promises.start(function(){
                                      '</span></div>'));
     });
     app.use(qacServices.receivePush());
-    app.use(qacServices.receiveManualPush());
+    if(!actualConfig.production){
+        console.log('!production: manual push enabled'.magenta); // no quitar este console.log!
+        app.use(qacServices.receiveManualPush());
+    }
     app.use(qacServices.overviewServe());
     // este va sin auth, debe ir antes de los últimos dos!
     if(! actualConfig.production) {
