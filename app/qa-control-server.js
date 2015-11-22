@@ -17,6 +17,9 @@ var qacServices = require('../lib/qac-services.js');
 var qcsCommon = require('../lib/qcs-common.js');
 require('colors');
 
+var html = require('js-to-html').html;
+html.insecureModeEnabled = true;
+
 if(false) {
     var extensionServeStatic = require('extension-serve-static');
     var MiniTools = require('mini-tools');    
@@ -69,13 +72,13 @@ Promises.start(function(){
     qacServices.config(actualConfig.services, actualConfig.production);
     app.get('/', function(req, res, next) {
         var name='QA Control Server';
-        var image = actualConfig.production ? 'qcs.png' : 'qcs-devel.png';
-        res.end(qcsCommon.simpleHtml(name,
-                                     '<div align="center">'+
-                                     '<img src="/' + image +'" /></img>'+
-                                     '<span class="vcard-fullname" itemprop="name">'+
-                                     'Welcome to '+name+'!'+
-                                     '</span></div>'));
+        res.end(qcsCommon.simpleHtml(
+            name,
+            [ html.div({"style":'text-align:center'},[
+                html.img({src:'/' + (actualConfig.production ? 'qcs.png' : 'qcs-devel.png')}),
+                html.span({'class':"vcard-fullname", itemprop:"name"},'Welcome to '+name+'!')
+            ]) ]
+        ));
     });
     app.use(qacServices.receivePush());
     if(!actualConfig.production){
