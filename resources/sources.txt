@@ -1,1 +1,7 @@
 http://commons.wikimedia.org/wiki/File:Oxygen480-actions-key-enter.svg  -> app/login.png
+	License: https://www.gnu.org/copyleft/lgpl.html
+	Attribution: © 2007 Nuno Pinheiro & David Vignoni & David Miller & Johann Ollivier Lapeyre & Kenneth Wimer & Riccardo Iaconelli / KDE / LGPL 3
+
+http://xoo.me/templates/download/10117 -> simple-magnifying-glass-icon-psd.zip -> large.jpg -> app/qcs.png, app/qcs-devel.png y app/favicon.ico (modified)
+	License: http://creativecommons.org/licenses/by/3.0/
+	Attribution: http://psdfreemium.com/author/psdfreeadmin/
