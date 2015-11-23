@@ -81,13 +81,14 @@ Promises.start(function(){
         ));
     });
     app.use(qacServices.receivePush());
-    if(!actualConfig.production){
+    if(! actualConfig.production){
         console.log('!production: manual push enabled'.magenta); // no quitar este console.log!
         app.use(qacServices.receiveManualPush());
     }
     app.use(qacServices.overviewServe());
     // este va sin auth, debe ir antes de los últimos dos!
     if(! actualConfig.production) {
+        console.log('!production: manual abms enabled'.magenta); // no quitar este console.log!
         app.use(qacServices.abmsManualServe());
     }
     // estos deben ir al final
