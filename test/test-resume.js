@@ -16,7 +16,7 @@ var helper=require('../test/test-helper.js');
 helper.setup(qacServices);
 
 describe("qac-services overview",function(){
-    it.skip('make the overview ', function(done) {
+    it('make the overview', function(done) {
         var content;
         qacServices.makeOverviewMd('sourcetravelers').then(function(contentMd) {
             content = contentMd;
