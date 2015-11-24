@@ -94,7 +94,8 @@ Promises.start(function(){
         console.log('!production: manual abms enabled'.magenta); // no quitar este console.log!
         app.use(qacServices.abmsManualServe());
     }
-    // estos deben ir al final
+    // habilitar explicitamente la seguridad
+    qacServices.enableLoginPlus();
     app.use(qacServices.abmsServe());
     app.use(qacServices.adminServe());
 }).catch(function(err){
