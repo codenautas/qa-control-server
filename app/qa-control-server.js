@@ -27,7 +27,7 @@ if(false) {
         'html',
         'jpg','png','gif',
         'css','js','manifest'];
-    app.use('/', extensionServeStatic('app', {staticExtensions:validExts}));
+    app.use(qacServices.rootUrl, extensionServeStatic('app', {staticExtensions:validExts}));
 }
 
 // var jade = require('jade');
@@ -70,14 +70,17 @@ Promises.start(function(){
         console.log('Listening on port %d', server.address().port);
     });
     qacServices.config(actualConfig.services, actualConfig.production);
-    app.get('/', function(req, res, next) {
+    app.get(qacServices.rootUrl, function(req, res, next) {
         var name='QA Control Server';
+        var repo_info = actualConfig.production ?
+            html.div('') :
+            html.div({"style":'text-align:center'}, qacServices.repository.path);
         res.end(qcsCommon.simpleHtml(
             name,
             [ html.div({"style":'text-align:center'},[
-                html.img({src:'/' + (actualConfig.production ? 'qcs.png' : 'qcs-devel.png')}),
+                html.img({src:qacServices.rootUrl + (actualConfig.production ? 'qcs.png' : 'qcs-devel.png')}),
                 html.span({'class':"vcard-fullname", itemprop:"name"},'Welcome to '+name+'!')
-            ]) ]
+            ]), repo_info ]
         ));
     });
     app.use(qacServices.receivePush());
