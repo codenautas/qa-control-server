@@ -44,54 +44,69 @@ describe("qac-services overview",function(){
 		);
         qacServices.rootUrl = oriUrl;
 	});
-    it('getOrganization simple organization', function(done) {
-		sinon.stub(qacServices, "getInfo", function(organization, project){
-			if(!!project){
-				throw new Error("unexpected project name in getInfo");
-			}
-			if(organization!=='simple'){
-				throw new Error("wrong organization name in getInfo");
-			}
-			return Promises.resolve({
-				organization:{
-					projects:[{
-						projectName:'uno'
-					},{
-						projectName:'dos'
-					}],
-					path:'the-org-path'
-				}
-			});
-		});
-		sinon.stub(fs, 'readFile', function(nameCucardas){
-            //console.log("nameCucardas", nameCucardas);
-			switch(nameCucardas){
-                case Path.normalize('the-org-path/projects/uno/result/cucardas.md'): return Promises.resolve('cu-uno');
-                case Path.normalize('the-org-path/projects/dos/result/cucardas.md'): return Promises.resolve('cu-dos');
-                default: throw new Error('unexpected params in readFile of cucardas');
-			}
-		});
-		sinon.stub(qacServices, "cucardasToHtmlList", function(x){
-			return ["list: "+x];
-		});
-		sinon.stub(qacServices, "projectNameToHtmlLink", function(orga, proj){
-			return "link: "+orga+','+proj;
-		});
-        qacServices.getOrganizationPage('simple').then(function(oHtml){
-            //console.log(oHtml.toHtmlText({pretty:true}));
-            expect(oHtml).to.eql(
-				html.table([
-					html.tr([ html.th('project'), html.th('cucardas') ]),
-					html.tr([ html.td("link: simple,uno"), html.td( ["list: cu-uno"]) ]),
-					html.tr([ html.td("link: simple,dos"), html.td( ["list: cu-dos"]) ]),
-				])
-			);
-		}).then(function(){
-			qacServices.getInfo.restore();
-			qacServices.cucardasToHtmlList.restore();
-			qacServices.projectNameToHtmlLink.restore();
-			fs.readFile.restore();
-        }).then(done,done);
+    describe('getOrganization',function() {
+        function checkGetOrg(msg, result, userLogged) {
+            it(msg, function(done) {
+                sinon.stub(qacServices, "getInfo", function(organization, project){
+                    if(!!project){
+                        throw new Error("unexpected project name in getInfo");
+                    }
+                    if(organization!=='simple'){
+                        throw new Error("wrong organization name in getInfo");
+                    }
+                    return Promises.resolve({
+                        organization:{
+                            projects:[{
+                                projectName:'uno'
+                            },{
+                                projectName:'dos'
+                            }],
+                            path:'the-org-path'
+                        }
+                    });
+                });
+                sinon.stub(fs, 'readFile', function(nameCucardas){
+                    //console.log("nameCucardas", nameCucardas);
+                    switch(nameCucardas){
+                        case Path.normalize('the-org-path/projects/uno/result/cucardas.md'): return Promises.resolve('cu-uno');
+                        case Path.normalize('the-org-path/projects/dos/result/cucardas.md'): return Promises.resolve('cu-dos');
+                        default: throw new Error('unexpected params in readFile of cucardas');
+                    }
+                });
+                sinon.stub(qacServices, "cucardasToHtmlList", function(x){
+                    return ["list: "+x];
+                });
+                sinon.stub(qacServices, "projectNameToHtmlLink", function(orga, proj){
+                    return "link: "+orga+','+proj;
+                });
+                if(userLogged) {
+                    qacServices.user = 'pepe';
+                }
+                qacServices.getOrganizationPage('simple').then(function(oHtml){
+                    //console.log(oHtml.toHtmlText({pretty:true}));
+                    expect(oHtml).to.eql(result);
+                }).then(function(){
+                    qacServices.getInfo.restore();
+                    qacServices.cucardasToHtmlList.restore();
+                    qacServices.projectNameToHtmlLink.restore();
+                    fs.readFile.restore();
+                    qacServices.user = null;
+                }).then(done,done);
+            });
+        }
+        checkGetOrg('simple organization page', html.table([
+                            html.tr([ html.th('project'), html.th('cucardas') ]),
+                            html.tr([ html.td("link: simple,uno"), html.td( ["list: cu-uno"]) ]),
+                            html.tr([ html.td("link: simple,dos"), html.td( ["list: cu-dos"]) ]),
+                        ]));
+        checkGetOrg('simple organization page authenticated',
+                    html.form([
+                        html.table([
+                            html.tr([ html.th('project'), html.th('cucardas'), html.th('actions') ]),
+                            html.tr([ html.td("link: simple,uno"), html.td( ["list: cu-uno"]), html.td( ["Delete"]) ]),
+                            html.tr([ html.td("link: simple,dos"), html.td( ["list: cu-dos"]), html.td( ["Delete"]) ]),
+                        ])
+                    ]), true);
     });
     it('make the overview', function(done) {
         var content;
