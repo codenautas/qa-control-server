@@ -13,7 +13,7 @@ var fs = require('fs-promise');
 var request = require('supertest');
 var helper=require('../test/test-helper.js');
 var html = require('js-to-html').html;
-
+var Path = require('path');
 helper.setup(qacServices);
 
 describe("qac-services overview",function(){
@@ -42,7 +42,7 @@ describe("qac-services overview",function(){
 			html.a({href:"/root/simple-org/proj-name"}, "proj-name")
 		);
 	});
-    it.skip('getOrganization simple organization', function(done) {
+    it('getOrganization simple organization', function(done) {
 		sinon.stub(qacServices, "getInfo", function(organization, project){
 			if(!!project){
 				throw new Error("unexpected project name in getInfo");
@@ -50,7 +50,7 @@ describe("qac-services overview",function(){
 			if(organization!=='simple'){
 				throw new Error("wrong organization name in getInfo");
 			}
-			return {
+			return Promises.resolve({
 				organization:{
 					projects:[{
 						projectName:'uno'
@@ -59,13 +59,14 @@ describe("qac-services overview",function(){
 					}],
 					path:'the-org-path'
 				}
-			};
+			});
 		});
 		sinon.stub(fs, 'readFile', function(nameCucardas){
+            //console.log("nameCucardas", nameCucardas);
 			switch(nameCucardas){
-			case 'the-org-path/projects/uno/result/cucardas.md': return Promises.resolve('cu-uno');
-			case 'the-org-path/projects/dos/result/cucardas.md': return Promises.resolve('cu-dos');
-			default: throw new Error('unexpected params in readFile of cucardas');
+                case Path.normalize('the-org-path/projects/uno/result/cucardas.md'): return Promises.resolve('cu-uno');
+                case Path.normalize('the-org-path/projects/dos/result/cucardas.md'): return Promises.resolve('cu-dos');
+                default: throw new Error('unexpected params in readFile of cucardas');
 			}
 		});
 		sinon.stub(qacServices, "cucardasToHtmlList", function(x){
@@ -75,7 +76,8 @@ describe("qac-services overview",function(){
 			return "link: "+orga+','+proj;
 		});
         qacServices.getOrganizationPage('simple').then(function(oHtml){
-            expect(oHtml).to.be(
+            //console.log(oHtml.toHtmlText({pretty:true}));
+            expect(oHtml).to.eql(
 				html.table([
 					html.tr([ html.th('project'), html.th('cucardas') ]),
 					html.tr([ html.td("link: simple,uno"), html.td( ["list: cu-uno"]) ]),
