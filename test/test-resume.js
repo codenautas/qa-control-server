@@ -12,33 +12,27 @@ var qacServices = require('../lib/qac-services.js');
 var fs = require('fs-promise');
 var request = require('supertest');
 var helper=require('../test/test-helper.js');
+var html = require('js-to-html').html;
 
 helper.setup(qacServices);
 
 describe("qac-services overview",function(){
-    it('make the overview', function(done) {
-        var content;
-        qacServices.makeOverviewMd('sourcetravelers').then(function(contentMd) {
-            content = contentMd;
-            return fs.readFile(helper.testConfig.repository.path+'/expected/resume-sourcetravelers.md', {encoding:'utf8'});
-        }).then(function(expectedContent) {
-            expect(content).to.be(expectedContent);
-        }).then(done,done);
-    });
-	it.skip("get cucardasToHtmlList",function(){
+	it("get cucardasToHtmlList",function(){
 		var obt=qacServices.cucardasToHtmlList(
 			"[![npm-version](https://img.shields.io/npm/v/multilang.svg)](https://npmjs.org/package/multilang)  \n\r "+
-			"[![downloads](https://img.shields.io/npm/dm/multilang.svg)](https://npmjs.org/package/multilangx)"
+			"[![downloads](https://img.shields.io/npm/dm/multilang.svg)](https://npmjs.org/package/multilangx) "+
+            "![extending](https://img.shields.io/badge/stability-extending-orange.svg)"
 		);
 		expect(obt).to.eql([
 			html.a(
 				{href:"https://npmjs.org/package/multilang"}, 
-				[ html.img({src:"https://img.shields.io/npm/v/multilang.svg", title:"npm-version"}) ]
+				[ html.img({src:"https://img.shields.io/npm/v/multilang.svg", alt:"npm-version"}) ]
 			),
 			html.a(
 				{href:"https://npmjs.org/package/multilangx"}, 
-				[ html.img({src:"https://img.shields.io/npm/dm/multilang.svg", title:"downloads"}) ]
-			)
+				[ html.img({src:"https://img.shields.io/npm/dm/multilang.svg", alt:"downloads"}) ]
+			),
+            html.img({src:"https://img.shields.io/badge/stability-extending-orange.svg", alt:"extending"})
 		]);
 	});
 	it.skip("get projectNameToHtmlLink",function(){
@@ -69,8 +63,8 @@ describe("qac-services overview",function(){
 		});
 		sinon.stub(fs, 'readFile', function(nameCucardas){
 			switch(nameCucardas){
-			case 'the-org-path/projects/uno/result/cucardas.md': return 'cu-uno';
-			case 'the-org-path/projects/dos/result/cucardas.md': return 'cu-dos';
+			case 'the-org-path/projects/uno/result/cucardas.md': return Promises.resolve('cu-uno');
+			case 'the-org-path/projects/dos/result/cucardas.md': return Promises.resolve('cu-dos');
 			default: throw new Error('unexpected params in readFile of cucardas');
 			}
 		});
@@ -93,6 +87,15 @@ describe("qac-services overview",function(){
 			qacServices.cucardasToHtmlList.restore();
 			qacServices.projectNameToHtmlLink.restore();
 			fs.readFile.restore();
+        }).then(done,done);
+    });
+    it('make the overview', function(done) {
+        var content;
+        qacServices.makeOverviewMd('sourcetravelers').then(function(contentMd) {
+            content = contentMd;
+            return fs.readFile(helper.testConfig.repository.path+'/expected/resume-sourcetravelers.md', {encoding:'utf8'});
+        }).then(function(expectedContent) {
+            expect(content).to.be(expectedContent);
         }).then(done,done);
     });
     it("obtain html",function(done){
