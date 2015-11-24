@@ -100,13 +100,13 @@ describe("qac-services overview",function(){
                             html.tr([ html.td("link: simple,dos"), html.td( ["list: cu-dos"]) ]),
                         ]));
         checkGetOrg('simple organization page authenticated',
-                    html.form([
-                        html.table([
-                            html.tr([ html.th('project'), html.th('cucardas'), html.th('actions') ]),
-                            html.tr([ html.td("link: simple,uno"), html.td( ["list: cu-uno"]), html.td( ["Delete"]) ]),
-                            html.tr([ html.td("link: simple,dos"), html.td( ["list: cu-dos"]), html.td( ["Delete"]) ]),
-                        ])
-                    ]), true);
+                    html.form({method:'post'},
+                            [html.table([
+                                html.tr([ html.th('project'), html.th('cucardas'), html.th('actions') ]),
+                                html.tr([ html.td("link: simple,uno"), html.td( ["list: cu-uno"]), html.td( ["Delete"]) ]),
+                                html.tr([ html.td("link: simple,dos"), html.td( ["list: cu-dos"]), html.td( ["Delete"]) ]),
+                            ])
+                        ]), true);
     });
     it('make the overview', function(done) {
         var content;
