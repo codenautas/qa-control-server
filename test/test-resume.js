@@ -35,7 +35,7 @@ describe("qac-services overview",function(){
             html.img({src:"https://img.shields.io/badge/stability-extending-orange.svg", alt:"extending"})
 		]);
 	});
-	it.skip("get projectNameToHtmlLink",function(){
+	it("get projectNameToHtmlLink",function(){
 		qacServices.rootUrl='/root/'
 		var obt=qacServices.projectNameToHtmlLink('simple-org','proj-name');
 		expect(obt).to.eql(
