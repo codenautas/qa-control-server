@@ -83,6 +83,17 @@ Promises.start(function(){
             ]), repo_info ]
         ));
     });
+    
+    if(! actualConfig.production){
+        app.get(qacServices.rootUrl+'pruebaclient', function(req, res, next) {
+            var title = 'QA Control Server - Prueba de JavaScript del cliente';
+            var c = '<html>'+qcsCommon.simpleHead().toHtmlText({pretty:true})+'\n<body>\n'
+                    +title
+                    +'\n</body></html>';
+            res.end(c);
+        });
+    }
+    
     app.use(qacServices.receivePush());
     if(! actualConfig.production){
         console.log('!production: manual push enabled'.magenta); // no quitar este console.log!
