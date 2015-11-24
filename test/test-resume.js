@@ -36,11 +36,13 @@ describe("qac-services overview",function(){
 		]);
 	});
 	it("get projectNameToHtmlLink",function(){
-		qacServices.rootUrl='/root/'
+		var oriUrl = qacServices.rootUrl;
+        qacServices.rootUrl='/root/'
 		var obt=qacServices.projectNameToHtmlLink('simple-org','proj-name');
 		expect(obt).to.eql(
 			html.a({href:"/root/simple-org/proj-name"}, "proj-name")
 		);
+        qacServices.rootUrl = oriUrl;
 	});
     it('getOrganization simple organization', function(done) {
 		sinon.stub(qacServices, "getInfo", function(organization, project){
