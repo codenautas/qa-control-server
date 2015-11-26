@@ -31,7 +31,7 @@
     "js-to-html": "0.6.3",
     "login-plus": "0.0.4",
     "mini-tools": "0.1.4",
-    "qa-control": "0.1.3"
+    "qa-control": "0.1.5"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",

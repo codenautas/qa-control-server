@@ -108,7 +108,7 @@ describe("qac-services overview",function(){
                             ])
                         ]), true);
     });
-    it('make the overview', function(done) {
+    it.skip('make the overview', function(done) {
         var content;
         qacServices.makeOverviewMd('sourcetravelers').then(function(contentMd) {
             content = contentMd;
