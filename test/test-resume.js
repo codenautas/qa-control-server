@@ -17,33 +17,48 @@ var Path = require('path');
 helper.setup(qacServices);
 
 describe("qac-services overview",function(){
-	it("get cucardasToHtmlList",function(){
-		var obt=qacServices.cucardasToHtmlList(
-			"[![npm-version](https://img.shields.io/npm/v/multilang.svg)](https://npmjs.org/package/multilang)  \n\r "+
-			"[![downloads](https://img.shields.io/npm/dm/multilang.svg)](https://npmjs.org/package/multilangx) "+
-            "![extending](https://img.shields.io/badge/stability-extending-orange.svg)"
-		);
-		expect(obt).to.eql([
-			html.a(
-				{href:"https://npmjs.org/package/multilang"}, 
-				[ html.img({src:"https://img.shields.io/npm/v/multilang.svg", alt:"npm-version"}) ]
-			),
-			html.a(
-				{href:"https://npmjs.org/package/multilangx"}, 
-				[ html.img({src:"https://img.shields.io/npm/dm/multilang.svg", alt:"downloads"}) ]
-			),
-            html.img({src:"https://img.shields.io/badge/stability-extending-orange.svg", alt:"extending"})
-		]);
-	});
-	it("get projectNameToHtmlLink",function(){
-		var oriUrl = qacServices.rootUrl;
+    it("get cucardasToHtmlList",function(){
+        var obt=qacServices.cucardasToHtmlList(
+            "[![npm-version](https://img.shields.io/npm/v/multilang.svg)](https://npmjs.org/package/multilang)  \n\r "+
+            "[![downloads](https://img.shields.io/npm/dm/multilang.svg)](https://npmjs.org/package/multilangx) "+
+            "![extending](https://img.shields.io/badge/stability-extending-orange.svg)"+
+            "![stable](https://img.shields.io/badge/stability-stable-green.svg)"
+        );
+        expect(obt).to.eql([
+            html.td([
+                html.img({src:"https://img.shields.io/badge/stability-extending-orange.svg", alt:"extending"}),
+                html.img({src:"https://img.shields.io/badge/stability-stable-green.svg", alt:"stable"}),
+            ]),
+            html.td([
+                html.a(
+                    {href:"https://npmjs.org/package/multilang"}, 
+                    [ html.img({src:"https://img.shields.io/npm/v/multilang.svg", alt:"npm-version"}) ]
+                ),
+            ]),
+            html.td([
+                html.a(
+                    {href:"https://npmjs.org/package/multilangx"}, 
+                    [ html.img({src:"https://img.shields.io/npm/dm/multilang.svg", alt:"downloads"}) ]
+                ),
+            ]),
+            html.td(),
+            html.td(),
+            html.td(),
+            html.td(),
+            html.td(),
+            html.td(),
+            html.td(),
+        ]);
+    });
+    it("get projectNameToHtmlLink",function(){
+        var oriUrl = qacServices.rootUrl;
         qacServices.rootUrl='/root/'
-		var obt=qacServices.projectNameToHtmlLink('simple-org','proj-name');
-		expect(obt).to.eql(
-			html.a({href:"/root/simple-org/proj-name"}, "proj-name")
-		);
+        var obt=qacServices.projectNameToHtmlLink('simple-org','proj-name');
+        expect(obt).to.eql(
+            html.a({href:"/root/simple-org/proj-name"}, "proj-name")
+        );
         qacServices.rootUrl = oriUrl;
-	});
+    });
     describe('getOrganization',function() {
         function checkGetOrg(msg, result, userLogged) {
             it(msg, function(done) {
@@ -68,13 +83,16 @@ describe("qac-services overview",function(){
                 sinon.stub(fs, 'readFile', function(nameCucardas){
                     //console.log("nameCucardas", nameCucardas);
                     switch(nameCucardas){
-                        case Path.normalize('the-org-path/projects/uno/result/cucardas.md'): return Promises.resolve('cu-uno');
-                        case Path.normalize('the-org-path/projects/dos/result/cucardas.md'): return Promises.resolve('cu-dos');
+                        case Path.normalize('the-org-path/projects/uno/result/cucardas.md'): return Promises.resolve('[qa-control] cu-uno');
+                        case Path.normalize('the-org-path/projects/dos/result/cucardas.md'): return Promises.resolve('[qa-control] cu-dos');
                         default: throw new Error('unexpected params in readFile of cucardas');
                     }
                 });
                 sinon.stub(qacServices, "cucardasToHtmlList", function(x){
-                    return ["list: "+x];
+                    return [html.td("list: "+x)];
+                });
+                sinon.stub(qacServices, "projectActionButtons", function(orga, proj){
+                    return [html.td("b:"+orga+':'+proj)];
                 });
                 sinon.stub(qacServices, "projectNameToHtmlLink", function(orga, proj){
                     return "link: "+orga+','+proj;
@@ -89,24 +107,27 @@ describe("qac-services overview",function(){
                     qacServices.getInfo.restore();
                     qacServices.cucardasToHtmlList.restore();
                     qacServices.projectNameToHtmlLink.restore();
+                    qacServices.projectActionButtons.restore();
                     fs.readFile.restore();
                     qacServices.user = null;
                 }).then(done,done);
             });
         }
         checkGetOrg('simple organization page', html.table([
-                            html.tr([ html.th('project'), html.th('cucardas') ]),
-                            html.tr([ html.td("link: simple,uno"), html.td( ["list: cu-uno"]) ]),
-                            html.tr([ html.td("link: simple,dos"), html.td( ["list: cu-dos"]) ]),
-                        ]));
+            html.tr([ html.th('project'), html.th('cucardas') ]),
+            html.tr([ html.td("link: simple,uno"), html.td( ["list: [qa-control] cu-uno"]), html.td("b:simple:uno") ]),
+            html.tr([ html.td("link: simple,dos"), html.td( ["list: [qa-control] cu-dos"]), html.td("b:simple:dos") ]),
+        ]));
         checkGetOrg('simple organization page authenticated',
-                    html.form({method:'post'},
-                            [html.table([
-                                html.tr([ html.th('project'), html.th('cucardas'), html.th('actions') ]),
-                                html.tr([ html.td("link: simple,uno"), html.td( ["list: cu-uno"]), html.td( ["Delete"]) ]),
-                                html.tr([ html.td("link: simple,dos"), html.td( ["list: cu-dos"]), html.td( ["Delete"]) ]),
-                            ])
-                        ]), true);
+            html.form({method:'post'},
+                [html.table([
+                    html.tr([ html.th('project'), html.th('cucardas'), html.th('actions') ]),
+                    html.tr([ html.td("link: simple,uno"), html.td( ["list: [qa-control] cu-uno"]), html.td("b:simple:uno") ]),
+                    html.tr([ html.td("link: simple,dos"), html.td( ["list: [qa-control] cu-dos"]), html.td("b:simple:dos") ]),
+                ])]
+            ), 
+            true
+        );
     });
     it.skip('make the overview', function(done) {
         var content;

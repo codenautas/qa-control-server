@@ -99,6 +99,7 @@ Promises.start(function(){
         console.log('!production: manual push enabled'.magenta); // no quitar este console.log!
         app.use(qacServices.receiveManualPush());
     }
+    app.use(qacServices.organizationServe());
     app.use(qacServices.overviewServe());
     // este va sin auth, debe ir antes de los últimos dos!
     if(! actualConfig.production) {
