@@ -137,14 +137,14 @@ describe("qac-services overview",function(){
             });
         }
         checkGetOrg('simple organization page', html.table([
-            html.tr([ html.th('project'), html.th('cucardas') ]),
+            html.tr([ html.th('project'), html.th({colspan:10},'cucardas') ]),
             html.tr([ html.td("link: simple,uno"), html.td( ["list: [qa-control] cu-uno"]), html.td("b:simple:uno") ]),
             html.tr([ html.td("link: simple,dos"), html.td( ["list: [qa-control] cu-dos"]), html.td("b:simple:dos") ]),
         ]));
         checkGetOrg('simple organization page authenticated',
             html.form({method:'post'},
                 [html.table([
-                    html.tr([ html.th('project'), html.th('cucardas'), html.th('actions') ]),
+                    html.tr([ html.th('project'), html.th({colspan:10},'cucardas'), html.th('actions') ]),
                     html.tr([ html.td("link: simple,uno"), html.td( ["list: [qa-control] cu-uno"]), html.td("b:simple:uno") ]),
                     html.tr([ html.td("link: simple,dos"), html.td( ["list: [qa-control] cu-dos"]), html.td("b:simple:dos") ]),
                 ])]
