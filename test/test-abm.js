@@ -4,7 +4,8 @@ var Promises = require('best-promise');
 var qacServices = require('../lib/qac-services.js');
 var helper=require('../test/test-helper.js');
 var _ = require('lodash');
-
+var sinon = require('sinon');
+       
 describe('qac-services modification functions', function(){
     helper.setup(qacServices);
     describe('organization/project actions', function() {
@@ -43,7 +44,7 @@ describe('qac-services modification functions', function(){
                     //console.log("no fallo", rv);
                     throw new Error('should fail');
                 },function(err){
-                    //console.log("SI FALLO", err.stack);
+                    // console.log("SI FALLO", err.stack);
                     expect(err.message).to.match(expRE);
                 }).then(done,done);
             });     
@@ -54,6 +55,7 @@ describe('qac-services modification functions', function(){
         projWrongInput('bad organization name', 'wrong organization', project, /invalid organization name/);
         projWrongInput('bad project name', organization, 'bad project', /invalid project name/);
         it('should create project (#8)', function(done) {
+            sinon.stub(qacServices, 'existsOnGithub', function() { return Promises.resolve({}); });
             return qacServices.createProject(organization, project).then(function(status) {
                 //console.log("status", status);
                 expect(status).to.eql('project "'+project+'" created');
@@ -65,7 +67,10 @@ describe('qac-services modification functions', function(){
                 expect(info.project.name).to.eql(project);
                 done();
             }).catch(function(err) {
+                console.log("Err", err);
                 done(err);
+            }).then(function() {
+                qacServices.disconnect();
             });
         });
         projWrongInput('duplicate project (#16)', organization, project, /duplicate project/);
