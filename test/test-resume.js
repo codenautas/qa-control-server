@@ -64,7 +64,7 @@ describe("qac-services overview",function(){
         qacServices.rootUrl='/root/';
         qacServices.user='user-name';
         qacServices.production=false;
-        var obt=qacServices.projectActionButtons('simple-org',{projectName:'proj-name'});
+        var obt=qacServices.projectActionButtons('simple-org','proj-name');
         expect(obt).to.eql([
             html.td([
                 html.a({
@@ -144,7 +144,7 @@ describe("qac-services overview",function(){
         checkGetOrg('simple organization page authenticated',
             html.form({method:'post'},
                 [html.table([
-                    html.tr([ html.th('project'), html.th({colspan:10},'cucardas'), html.th('actions') ]),
+                    html.tr([ html.th('project'), html.th({colspan:10},'cucardas'), html.th({colspan:4},'actions') ]),
                     html.tr([ html.td("link: simple,uno"), html.td( ["list: [qa-control] cu-uno"]), html.td("b:simple:uno") ]),
                     html.tr([ html.td("link: simple,dos"), html.td( ["list: [qa-control] cu-dos"]), html.td("b:simple:dos") ]),
                 ])]
