@@ -40,6 +40,7 @@ describe('qac-services modification functions', function(){
         });
         function projWrongInput(msg, org, proj, expRE) {
             it('createProject should fail with '+msg, function(done) {
+                this.timeout(4000);
                 return qacServices.createProject(org, proj).then(function(rv) {
                     //console.log("no fallo", rv);
                     throw new Error('should fail');
