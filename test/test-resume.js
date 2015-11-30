@@ -59,6 +59,29 @@ describe("qac-services overview",function(){
         );
         qacServices.rootUrl = oriUrl;
     });
+    it("get projectActionButtons",function(){
+        var oriUrl = qacServices.rootUrl;
+        qacServices.rootUrl='/root/';
+        qacServices.user='user-name';
+        qacServices.production=false;
+        var obt=qacServices.projectActionButtons('simple-org',{projectName:'proj-name'});
+        expect(obt).to.eql([
+            html.td([
+                html.a({
+                    href: '/root/ask/delete/simple-org/proj-name',
+                    'codenautas-confirm': 'row'
+                },[html.img({src:'/delete.png', alg:'del', style:'height:18px'})])
+            ]),
+            html.td([
+                html.a({
+                    href:'/root/manual-push/simple-org/proj-name'
+                }, [html.img({src:'/refresh.png', alt:'rfrsh', style:'height:18px'})])
+            ])
+        ]);
+        qacServices.production=true;
+        qacServices.user=false;
+        qacServices.rootUrl = oriUrl;
+    });
     describe('getOrganization',function() {
         function checkGetOrg(msg, result, userLogged) {
             it(msg, function(done) {

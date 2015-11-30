@@ -108,6 +108,7 @@ Promises.start(function(){
     }
     // habilitar explicitamente la seguridad
     qacServices.enableLoginPlus();
+    app.use(qacServices.askServe());
     app.use(qacServices.abmsServe());
     app.use(qacServices.adminServe());
 }).catch(function(err){
