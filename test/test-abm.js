@@ -55,8 +55,13 @@ describe('qac-services modification functions', function(){
         projWrongInput('missing project', organization, null, /missing project name/);
         projWrongInput('bad organization name', 'wrong organization', project, /invalid organization name/);
         projWrongInput('bad project name', organization, 'bad project', /invalid project name/);
-        projWrongInput('inexistent organization on github (#18)', organization, project, /inexistent organization on github/);
-        projWrongInput('inexistent project on github (#18)', 'codenautas', 'inexistent-on-github', /inexistent project on github/);
+        /*
+          Tests deshabilitados hasta cambiar el paradigma porque los requests no autenticados tienen un limite de 60 por hora:
+            https://developer.github.com/v3/#rate-limiting
+          Implementar autenticacion (dificil), utilizar otro metodo o esperar fallas
+        */ 
+        //projWrongInput('inexistent organization on github (#18)', organization, project, /inexistent organization on github/);
+        //projWrongInput('inexistent project on github (#18)', 'codenautas', 'inexistent-on-github', /inexistent project on github/);
         it('should create project (#8)', function(done) {
             sinon.stub(qacServices, 'existsOnGithub', function() { return Promises.resolve({}); });
             return qacServices.createProject(organization, project).then(function(status) {
