@@ -48,6 +48,7 @@ describe("qac-services overview",function(){
             html.td(),
             html.td(),
             html.td(),
+            html.td(),
         ]);
     });
     it("get projectNameToHtmlLink",function(){
@@ -106,8 +107,8 @@ describe("qac-services overview",function(){
                 sinon.stub(fs, 'readFile', function(nameCucardas){
                     //console.log("nameCucardas", nameCucardas);
                     switch(nameCucardas){
-                        case Path.normalize('the-org-path/projects/uno/result/cucardas.md'): return Promises.resolve('[qa-control] cu-uno');
-                        case Path.normalize('the-org-path/projects/dos/result/cucardas.md'): return Promises.resolve('[qa-control] cu-dos');
+                        case Path.normalize('the-org-path/projects/uno/result/cucardas.md'): return Promises.resolve('[qa-control][issues] cu-uno');
+                        case Path.normalize('the-org-path/projects/dos/result/cucardas.md'): return Promises.resolve('[qa-control][issues] cu-dos');
                         default: throw new Error('unexpected params in readFile of cucardas');
                     }
                 });
@@ -137,16 +138,16 @@ describe("qac-services overview",function(){
             });
         }
         checkGetOrg('simple organization page', html.table([
-            html.tr([ html.th('project'), html.th({colspan:10},'cucardas') ]),
-            html.tr([ html.td("link: simple,uno"), html.td( ["list: [qa-control] cu-uno"]), html.td("b:simple:uno") ]),
-            html.tr([ html.td("link: simple,dos"), html.td( ["list: [qa-control] cu-dos"]), html.td("b:simple:dos") ]),
+            html.tr([ html.th('project'), html.th({colspan:11},'cucardas') ]),
+            html.tr([ html.td("link: simple,uno"), html.td( ["list: [qa-control][issues] cu-uno"]), html.td("b:simple:uno") ]),
+            html.tr([ html.td("link: simple,dos"), html.td( ["list: [qa-control][issues] cu-dos"]), html.td("b:simple:dos") ]),
         ]));
         checkGetOrg('simple organization page authenticated',
             html.form({method:'post'},
                 [html.table([
-                    html.tr([ html.th('project'), html.th({colspan:10},'cucardas'), html.th({colspan:4},'actions') ]),
-                    html.tr([ html.td("link: simple,uno"), html.td( ["list: [qa-control] cu-uno"]), html.td("b:simple:uno") ]),
-                    html.tr([ html.td("link: simple,dos"), html.td( ["list: [qa-control] cu-dos"]), html.td("b:simple:dos") ]),
+                    html.tr([ html.th('project'), html.th({colspan:11},'cucardas'), html.th({colspan:4},'actions') ]),
+                    html.tr([ html.td("link: simple,uno"), html.td( ["list: [qa-control][issues] cu-uno"]), html.td("b:simple:uno") ]),
+                    html.tr([ html.td("link: simple,dos"), html.td( ["list: [qa-control][issues] cu-dos"]), html.td("b:simple:dos") ]),
                 ])]
             ), 
             true
