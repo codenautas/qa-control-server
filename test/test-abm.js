@@ -68,6 +68,7 @@ describe('qac-services modification functions', function(){
                 done(err);
             });
         });
+        projWrongInput('duplicate project (#16)', organization, project, /duplicate project/);
         it('should remove project', function(done) {
             return qacServices.deleteData(organization, project).then(function(status) {
                 //console.log("status", status);
