@@ -87,9 +87,7 @@ Promises.start(function(){
     if(! actualConfig.production){
         app.get(qacServices.rootUrl+'pruebaclient', function(req, res, next) {
             var title = 'QA Control Server - Prueba de JavaScript del cliente';
-            var c = '<html>'+qcsCommon.simpleHead().toHtmlText({pretty:true})+'\n<body>\n'
-                    +title
-                    +'\n</body></html>';
+            var c = '<html>'+qcsCommon.simpleHead().toHtmlText({pretty:true})+'\n<body>\n'+title+'\n</body></html>';
             res.end(c);
         });
     }
@@ -99,7 +97,7 @@ Promises.start(function(){
         console.log('!production: manual push enabled'.magenta); // no quitar este console.log!
         app.use(qacServices.receiveManualPush());
     }
-    //app.use(qacServices.organizationServe());
+    app.use(qacServices.organizationServe());
     app.use(qacServices.overviewServe());
     // este va sin auth, debe ir antes de enableLoginPlus()!
     if(! actualConfig.production) {
