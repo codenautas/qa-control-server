@@ -44,7 +44,7 @@ describe('qac-services modification functions', function(){
                     //console.log("no fallo", rv);
                     throw new Error('should fail');
                 },function(err){
-                    // console.log("SI FALLO", err.stack);
+                    //console.log("SI FALLO", err.stack);
                     expect(err.message).to.match(expRE);
                 }).then(done,done);
             });     
@@ -54,6 +54,8 @@ describe('qac-services modification functions', function(){
         projWrongInput('missing project', organization, null, /missing project name/);
         projWrongInput('bad organization name', 'wrong organization', project, /invalid organization name/);
         projWrongInput('bad project name', organization, 'bad project', /invalid project name/);
+        projWrongInput('inexistent organization on github (#18)', organization, project, /inexistent organization on github/);
+        projWrongInput('inexistent project on github (#18)', 'codenautas', 'inexistent-on-github', /inexistent project on github/);
         it('should create project (#8)', function(done) {
             sinon.stub(qacServices, 'existsOnGithub', function() { return Promises.resolve({}); });
             return qacServices.createProject(organization, project).then(function(status) {
