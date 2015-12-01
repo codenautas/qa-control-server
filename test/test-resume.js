@@ -138,16 +138,23 @@ describe("qac-services overview",function(){
             });
         }
         checkGetOrg('simple organization page', html.table([
-            html.tr([ html.th('project'), html.th({colspan:11},'cucardas') ]),
+            html.tr([ html.th('project'), html.th({colspan:10},'cucardas') ]),
             html.tr([ html.td("link: simple,uno"), html.td( ["list: [qa-control][issues] cu-uno"]), html.td("b:simple:uno") ]),
             html.tr([ html.td("link: simple,dos"), html.td( ["list: [qa-control][issues] cu-dos"]), html.td("b:simple:dos") ]),
         ]));
         checkGetOrg('simple organization page authenticated',
-            html.form({method:'post'},
+            html.form({method:'post', action:qacServices.rootUrl},
                 [html.table([
-                    html.tr([ html.th('project'), html.th({colspan:11},'cucardas'), html.th({colspan:4},'actions') ]),
+                    html.tr([ html.th('project'), html.th({colspan:10},'cucardas'), html.th({colspan:4},'actions') ]),
                     html.tr([ html.td("link: simple,uno"), html.td( ["list: [qa-control][issues] cu-uno"]), html.td("b:simple:uno") ]),
                     html.tr([ html.td("link: simple,dos"), html.td( ["list: [qa-control][issues] cu-dos"]), html.td("b:simple:dos") ]),
+                    html.tr([ html.td({colspan:16, align:'right'}, [
+                                html.input({type:'hidden', name:'action', value:'add'}),
+                                html.input({type:'hidden', name:'organization', value:'simple'}),
+                                html.input({type:'text', name:'project'}),
+                                html.input({type:'submit', value:'New project...' })
+                                ])
+                            ])
                 ])]
             ), 
             true
