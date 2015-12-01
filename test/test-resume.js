@@ -100,7 +100,8 @@ describe("qac-services overview",function(){
                             },{
                                 projectName:'dos'
                             }],
-                            path:'the-org-path'
+                            path:'the-org-path',
+                            name:organization
                         }
                     });
                 });
