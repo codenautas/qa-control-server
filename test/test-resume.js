@@ -160,6 +160,28 @@ describe("qac-services overview",function(){
             true
         );
     });
+    describe('getAdmin',function() {
+        function checkGetAdmin(msg, result, userLogged) {
+            it(msg, function(done) {
+                sinon.stub(qacServices, "getOrganizations", function(){ return Promises.resolve(['uno', 'dos']); });
+                if(userLogged) {
+                    qacServices.user = 'tito';
+                }
+                qacServices.getAdminPage().then(function(oHtml){
+                    //console.log(oHtml.toHtmlText({pretty:true}));
+                    expect(oHtml).to.eql(result);
+                }).then(function(){
+                    qacServices.getOrganizations.restore();
+                }).then(done,done);
+            });
+        }
+        checkGetAdmin('simple admin page', 
+                           html.table([
+                                html.tr([html.th('organization')]),
+                                html.tr([html.td([html.a({href:'/uno'}, 'uno')])]),
+                                html.tr([html.td([html.a({href:'/dos'}, 'dos')])])
+                                ]));
+    });
     it.skip('make the overview', function(done) {
         var content;
         qacServices.makeOverviewMd('sourcetravelers').then(function(contentMd) {
