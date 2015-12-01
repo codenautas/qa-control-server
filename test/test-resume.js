@@ -168,10 +168,12 @@ describe("qac-services overview",function(){
                     qacServices.user = 'tito';
                 }
                 qacServices.getAdminPage().then(function(oHtml){
-                    //console.log(oHtml.toHtmlText({pretty:true}));
+                    // console.log(oHtml.toHtmlText({pretty:true}));
+                    // console.log(result.toHtmlText({pretty:true}));
                     expect(oHtml).to.eql(result);
                 }).then(function(){
                     qacServices.getOrganizations.restore();
+                    qacServices.user = null;
                 }).then(done,done);
             });
         }
@@ -181,6 +183,33 @@ describe("qac-services overview",function(){
                                 html.tr([html.td([html.a({href:'/uno'}, 'uno')])]),
                                 html.tr([html.td([html.a({href:'/dos'}, 'dos')])])
                                 ]));
+        checkGetAdmin('simple admin page authenticated', 
+                    html.form({method:'post', action:qacServices.rootUrl},
+                        [html.table(
+                            [
+                                html.tr([html.th('organization'), html.th('actions')]),
+                                
+                                html.tr([html.td([html.a({href:'/uno'}, 'uno')]),
+                                         html.td([html.a({href:'/ask/delete/uno', 'codenautas-confirm':'row'},
+                                                         [html.img({src:'/delete.png', alg:'del', style:'height:18px'})])
+                                                 ])
+                                        ]),
+                                html.tr([html.td([html.a({href:'/dos'}, 'dos')]),
+                                         html.td([html.a({href:'/ask/delete/dos', 'codenautas-confirm':'row'},
+                                                         [html.img({src:'/delete.png', alg:'del', style:'height:18px'})])
+                                                 ])
+                                        ]),
+                                html.tr([
+                                        html.td({colspan:2, align:'right'},[
+                                                    html.input({type:'hidden', name:'action', value:'create'}),
+                                                    html.input({type:'text', name:'organization'}),
+                                                    html.input({type:'submit', value:'New organization...'})
+                                                ])
+                                        ])
+                                     
+                            ])
+                        ]),
+                        true);
     });
     it.skip('make the overview', function(done) {
         var content;
