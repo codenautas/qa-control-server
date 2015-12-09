@@ -24,30 +24,30 @@ describe("qac-services overview",function(){
             "![stable](https://img.shields.io/badge/stability-stable-green.svg)"
         );
         expect(obt).to.eql([
-            html.td([
+            html.td({class:'centrado'}, [
                 html.img({src:"https://img.shields.io/badge/stability-extending-orange.svg", alt:"extending"}),
                 html.img({src:"https://img.shields.io/badge/stability-stable-green.svg", alt:"stable"}),
             ]),
-            html.td([
+            html.td({class:'centrado'}, [
                 html.a(
                     {href:"https://npmjs.org/package/multilang"}, 
                     [ html.img({src:"https://img.shields.io/npm/v/multilang.svg", alt:"npm-version"}) ]
                 ),
             ]),
-            html.td([
+            html.td({class:'centrado'}, [
                 html.a(
                     {href:"https://npmjs.org/package/multilangx"}, 
                     [ html.img({src:"https://img.shields.io/npm/dm/multilang.svg", alt:"downloads"}) ]
                 ),
             ]),
-            html.td(),
-            html.td(),
-            html.td(),
-            html.td(),
-            html.td(),
-            html.td(),
-            html.td(),
-            html.td(),
+            html.td({class:'centrado'}),
+            html.td({class:'centrado'}),
+            html.td({class:'centrado'}),
+            html.td({class:'centrado'}),
+            html.td({class:'centrado'}),
+            html.td({class:'centrado'}),
+            html.td({class:'centrado'}),
+            html.td({class:'centrado'}),
         ]);
     });
     it("get projectNameToHtmlLink",function(){
@@ -278,12 +278,12 @@ describe("qac-services overview",function(){
                                 html.tr([html.th('organization'), html.th('actions')]),
                                 
                                 html.tr([html.td([html.a({href:'/uno'}, 'uno')]),
-                                         html.td([html.a({href:'/ask/delete/uno', 'codenautas-confirm':'row'},
+                                         html.td({class:'centrado'}, [html.a({href:'/ask/delete/uno', 'codenautas-confirm':'row'},
                                                          [html.img({src:'/delete.png', alg:'del', style:'height:18px'})])
                                                  ])
                                         ]),
                                 html.tr([html.td([html.a({href:'/dos'}, 'dos')]),
-                                         html.td([html.a({href:'/ask/delete/dos', 'codenautas-confirm':'row'},
+                                         html.td({class:'centrado'}, [html.a({href:'/ask/delete/dos', 'codenautas-confirm':'row'},
                                                          [html.img({src:'/delete.png', alg:'del', style:'height:18px'})])
                                                  ])
                                         ]),

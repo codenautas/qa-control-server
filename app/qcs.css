@@ -2,8 +2,26 @@ table {
     border-spacing: 2px;
 }
 
-td, th {
+tr:nth-child(even) {background: #eee}
+tr:nth-child(odd) {background: #FFF}
+
+th, td {
   border: 1px solid black;    
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+th {
+  color: #000;
+}
+
+th:nth-child(even) {
+    background-color: #2eb82e;
+}
+th:nth-child(odd) {
+    background-color: #29a329;
+}
+
+.centrado {
+    text-align: center;
 }
