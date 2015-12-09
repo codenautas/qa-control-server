@@ -92,7 +92,6 @@ Promises.start(function(){
     }
     app.use(qacServices.organizationServe());
     app.use(qacServices.projectServe());
-    // app.use(qacServices.overviewServe());
     // este va sin auth, debe ir antes de enableLoginPlus()!
     if(! actualConfig.production) {
         console.log('!production: manual abms enabled'.magenta); // no quitar este console.log!
