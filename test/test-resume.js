@@ -121,6 +121,14 @@ describe("qac-services overview",function(){
                 sinon.stub(qacServices, "projectNameToHtmlLink", function(orga, proj){
                     return "link: "+orga+','+proj;
                 });
+                sinon.stub(qacServices, "sortProjects", function(proj1, proj2) {
+                   if(proj1 < proj2) {
+                       return -1;
+                   } else if(proj1 > proj2) {
+                       return 1;
+                   }
+                   return 0;
+                });
                 if(userLogged) {
                     qacServices.user = 'pepe';
                 }
@@ -132,6 +140,7 @@ describe("qac-services overview",function(){
                     qacServices.cucardasToHtmlList.restore();
                     qacServices.projectNameToHtmlLink.restore();
                     qacServices.projectActionButtons.restore();
+                    qacServices.sortProjects.restore();
                     fs.readFile.restore();
                     qacServices.user = null;
                 }).then(done,done);
