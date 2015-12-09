@@ -70,7 +70,7 @@ Promises.start(function(){
         console.log('Listening on port %d', server.address().port);
     });
     qacServices.config(actualConfig.services, actualConfig.production);
-    // estos van primero!
+    // este va primero!
     app.use(qacServices.staticServe());
     app.get(qacServices.rootUrl, function(req, res, next) {
         var name='QA Control Server';
@@ -85,15 +85,14 @@ Promises.start(function(){
             ]), repo_info ]
         ));
     });
-       
     app.use(qacServices.receivePush());
     if(! actualConfig.production){
         console.log('!production: manual push enabled'.magenta); // no quitar este console.log!
         app.use(qacServices.receiveManualPush());
     }
     app.use(qacServices.organizationServe());
-    //app.use(qacServices.projectServe());
-    app.use(qacServices.overviewServe());
+    app.use(qacServices.projectServe());
+    // app.use(qacServices.overviewServe());
     // este va sin auth, debe ir antes de enableLoginPlus()!
     if(! actualConfig.production) {
         console.log('!production: manual abms enabled'.magenta); // no quitar este console.log!
