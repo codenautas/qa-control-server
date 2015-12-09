@@ -15,6 +15,8 @@ var fs = require('fs-promise');
 var qacServices = require('../lib/qac-services.js');
 var Path = require('path');
 
+var bigTimeout=40000;
+
 describe("qac-services",function(){
     var server;
     var json; // payload pasado a json
@@ -36,7 +38,7 @@ describe("qac-services",function(){
         return qacServices.getInfo(json.repository.organization, json.repository.name);
     }
     it("receive the first push",function(done){
-        this.timeout(10000);
+        this.timeout(bigTimeout);
         var agent=request(server);
         agent
             .post('/push/'+json.repository.organization+'/'+json.repository.name)
@@ -84,7 +86,7 @@ describe("qac-services",function(){
             });
     });
     it("receive the second push",function(done){
-        this.timeout(40000);
+        this.timeout(bigTimeout);
         var agent=request(server);
         agent
             .post('/push/'+json2.repository.organization+'/'+json2.repository.name)
