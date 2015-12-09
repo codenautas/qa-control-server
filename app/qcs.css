@@ -1,0 +1,36 @@
+table {
+    border-spacing: 2px;
+}
+
+td, th {
+  border: 1px solid black;    
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/*
+table {
+  
+  border-width: 1px;
+  
+}
+table td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.row-ID {
+  width: 10%;
+}
+.row-name {
+  width: 40%;
+}
+.row-job {
+  width: 30%;
+}
+.row-email {
+  width: 20%;
+}
+
+*/
