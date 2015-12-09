@@ -70,6 +70,8 @@ Promises.start(function(){
         console.log('Listening on port %d', server.address().port);
     });
     qacServices.config(actualConfig.services, actualConfig.production);
+    // estos van primero!
+    app.use(qacServices.staticServe());
     app.get(qacServices.rootUrl, function(req, res, next) {
         var name='QA Control Server';
         var repo_info = actualConfig.production ?
@@ -83,13 +85,12 @@ Promises.start(function(){
             ]), repo_info ]
         ));
     });
-        
+       
     app.use(qacServices.receivePush());
     if(! actualConfig.production){
         console.log('!production: manual push enabled'.magenta); // no quitar este console.log!
         app.use(qacServices.receiveManualPush());
     }
-    app.use(qacServices.staticServe());
     app.use(qacServices.organizationServe());
     //app.use(qacServices.projectServe());
     app.use(qacServices.overviewServe());
