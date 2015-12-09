@@ -161,6 +161,85 @@ describe("qac-services overview",function(){
             true
         );
     });
+    describe('getProject',function() {
+        function checkGetProj(msg, result, userLogged) {
+            it(msg, function(done) {
+                sinon.stub(qacServices, "getInfo", function(organization, project){
+                    if(project !=='uno'){
+                        throw new Error("unexpected project name in getInfo");
+                    }
+                    if(organization!=='simple'){
+                        throw new Error("wrong organization name in getInfo");
+                    }
+                    return Promises.resolve({
+                        organization:{
+                            projects:[{
+                                projectName:'uno'
+                            },{
+                                projectName:'dos'
+                            }],
+                            path:'the-org-path',
+                            name:organization
+                        },
+                        project:{
+                            path:'the-proj-path',
+                            name:project
+                        }
+                    });
+                });
+                sinon.stub(fs, 'readFile', function(nameCucardas){
+                    //console.log("nameCucardas", nameCucardas);
+                    switch(nameCucardas){
+                        case Path.normalize('the-org-path/projects/uno/result/cucardas.md'): return Promises.resolve('[qa-control][issues] cu-uno');
+                        default: throw new Error('unexpected params in readFile of cucardas');
+                    }
+                });
+                sinon.stub(qacServices, "cucardasToHtmlList", function(x){
+                    return [html.td("list: "+x)];
+                });
+                sinon.stub(qacServices, "projectActionButtons", function(orga, proj){
+                    return [html.td("b:"+orga+':'+proj)];
+                });
+                sinon.stub(qacServices, "projectNameToHtmlLink", function(orga, proj){
+                    return "link: "+orga+','+proj;
+                });
+                sinon.stub(qacServices, "getProjectLogs", function(path) {
+                   return ['qac-logs', 'bitacora-logs']; 
+                });
+                if(userLogged) {
+                    qacServices.user = 'pepe';
+                }
+                qacServices.getProjectPage('simple', 'uno').then(function(oHtml){
+                    // console.log(oHtml.toHtmlText({pretty:true}));
+                    expect(oHtml).to.eql(result);
+                }).then(function(){
+                    qacServices.getInfo.restore();
+                    qacServices.cucardasToHtmlList.restore();
+                    qacServices.projectNameToHtmlLink.restore();
+                    qacServices.projectActionButtons.restore();
+                    qacServices.getProjectLogs.restore();
+                    fs.readFile.restore();
+                    qacServices.user = null;
+                }).then(done,done);
+            });
+        }
+        checkGetProj('simple project page', html.body([
+            html.table([
+                html.tr([ html.th('project'), html.th({colspan:10},'cucardas') ]),
+                html.tr([ html.td("link: simple,uno"), html.td( ["list: [qa-control][issues] cu-uno"]), html.td("b:simple:uno") ])
+            ])
+        ]));
+        checkGetProj('simple project page authenticated', html.body([
+            html.form({method:'post', action:qacServices.rootUrl},
+                    [html.table(
+                        [
+                            html.tr([ html.th('project'), html.th({colspan:10},'cucardas'), html.th({colspan:4},'actions') ]),
+                            html.tr([ html.td("link: simple,uno"), html.td( ["list: [qa-control][issues] cu-uno"]), html.td("b:simple:uno") ])
+                        ])
+                    ]),'qac-logs','bitacora-logs']), 
+            true
+        );
+    });
     describe('getAdmin',function() {
         function checkGetAdmin(msg, result, userLogged) {
             it(msg, function(done) {
