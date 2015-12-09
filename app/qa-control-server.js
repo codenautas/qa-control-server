@@ -89,6 +89,7 @@ Promises.start(function(){
         console.log('!production: manual push enabled'.magenta); // no quitar este console.log!
         app.use(qacServices.receiveManualPush());
     }
+    app.use(qacServices.staticServe());
     app.use(qacServices.organizationServe());
     //app.use(qacServices.projectServe());
     app.use(qacServices.overviewServe());
