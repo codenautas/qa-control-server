@@ -10,7 +10,6 @@ var sinon = require('sinon');
 var Promises = require('best-promise');
 var qacServices = require('../lib/qac-services.js');
 var fs = require('fs-promise');
-var request = require('supertest');
 var helper=require('../test/test-helper.js');
 var html = require('js-to-html').html;
 var Path = require('path');

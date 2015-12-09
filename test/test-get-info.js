@@ -1,9 +1,6 @@
 "use strict";
 var expect = require('expect.js');
-var Promises = require('best-promise');
-//var fs = require('fs-promise');
 var qacServices = require('../lib/qac-services.js');
-//var Path = require('path');
 var helper=require('../test/test-helper.js');
 var _ = require('lodash');
 
