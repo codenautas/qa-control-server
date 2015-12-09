@@ -27,5 +27,31 @@ describe('qac-services coverage', function(){
             expect(sh).to.eql(html.head(expHeads));
             done();
         });
+        var title = "un titulo", content="el contenido";
+        var css = '/extra.css';
+        var exCSS = "<link href='"+css+"' media=all rel=stylesheet>";
+        function expHT(title, content, css) {
+            return "<!doctype html>\n"+
+                  "<html><head><title>"+title+"</title><link href='/markdown.css' media=all rel=stylesheet>"+
+                  "<link href='/markdown2.css' media=all rel=stylesheet><link href='/github.css' media=all rel=stylesheet>"+
+                  "<link href='/qcs.css' media=all rel=stylesheet>"+
+                  css+"<link rel='shortcut icon' href='/favicon.ico'></head>"+
+                  "<body>"+content+"</body></html>"
+        }
+        it('simpleHtml', function(done) {
+            var sh = qacCommon.simpleHtml(title, content);
+            expect(sh).to.eql(expHT(title, content, ""));
+            done();
+        });
+        it('simpleHtml with params', function(done) {
+            var sh = qacCommon.simpleHtml(title, content, css);
+            expect(sh).to.eql(expHT(title, content, exCSS));
+            done();
+        });
+        it('simpleHtml without title', function(done) {
+            var sh = qacCommon.simpleHtml(null, content, css);
+            expect(sh).to.eql(expHT('qa-control', content, exCSS));
+            done();
+        });
     });
  });
