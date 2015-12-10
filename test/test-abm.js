@@ -38,13 +38,24 @@ describe('qac-services modification functions', function(){
                 done(err);
             });
         });
-        function projWrongInput(msg, org, proj, expRE) {
+        function projWrongInput(msg, org, proj, expRE, sinonEOG) {
             it('createProject should fail with '+msg, function(done) {
                 this.timeout(4000);
+                if(sinonEOG) {
+                    sinon.stub(qacServices, 'existsOnGithub', function(o, p) {
+                        if(sinonEOG==organization) {
+                            return {orgNotFound:true};
+                        } else if(sinonEOG==project) {
+                            return {projNotFound:true};
+                        }
+                        return {};
+                    });
+                }
                 return qacServices.createProject(org, proj).then(function(rv) {
                     //console.log("no fallo", rv);
                     throw new Error('should fail');
                 },function(err){
+                    if(sinonEOG) { qacServices.existsOnGithub.restore(); }
                     //console.log("SI FALLO", err.stack);
                     expect(err.message).to.match(expRE);
                 }).then(done,done);
@@ -55,6 +66,8 @@ describe('qac-services modification functions', function(){
         projWrongInput('missing project', organization, null, /missing project name/);
         projWrongInput('bad organization name', 'wrong organization', project, /invalid organization name/);
         projWrongInput('bad project name', organization, 'bad project', /invalid project name/);
+        projWrongInput('organization error on github', organization, project, /inexistent organization on github/, organization);
+        projWrongInput('project error on github', organization, project, /inexistent project on github/, project);
         /*
           Tests deshabilitados hasta cambiar el paradigma porque los requests no autenticados tienen un limite de 60 por hora:
             https://developer.github.com/v3/#rate-limiting
