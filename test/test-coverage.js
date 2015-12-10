@@ -4,6 +4,10 @@ var qacServices = require('../lib/qac-services.js');
 var qacCommon = require('../lib/qcs-common.js');
 var helper=require('../test/test-helper.js');
 var html = require('js-to-html').html;
+var sinon = require('sinon');
+var Promises = require('best-promise');
+var fs = require('fs-promise');
+var Path = require('path');
 
 describe('qac-services coverage', function(){
     // helper.setup(qacServices);
@@ -71,6 +75,25 @@ describe('qac-services coverage', function(){
             expect(qacServices.config).withArgs(true, false).to.not.throwException();
             expect(qacServices.production).to.not.be.ok();
             done();
+        });
+    });
+    describe('getProject', function() {
+        it('wrong error', function(done) {
+            var orga='la-org', proj='el-proj';
+            sinon.stub(fs, 'readFile', function(nameCucardas){
+                //console.log("nameCucardas", nameCucardas);
+                switch(nameCucardas){
+                    case Path.normalize('la-org-path/projects/'+proj+'/result/cucardas.md'): return Promises.reject({code:'not-ENOENT'});
+                    default: throw new Error('unexpected params in readFile of cucardas');
+                }
+            });
+            qacServices.getProject({organization:{name:orga, path:'la-org-path'}}, {projectName:proj}).catch(function(err) {
+                fs.readFile.restore();
+                expect(err.code).to.eql('not-ENOENT');
+                done();
+            }).catch(function(que) {
+                done('should not happen');
+            })
         });
     });
 });
