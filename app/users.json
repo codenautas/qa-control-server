@@ -6,5 +6,9 @@
    "emilio": {
      "locked": false,
      "pass": "md5.09a0d3c98a8841f76e78c05de7dc0802"
+   },
+   "guest": {
+     "locked": false,
+     "pass": "md5.084e0343a0486ff05530df6c705c8bb4"
    }
 }

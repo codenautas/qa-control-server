@@ -96,4 +96,10 @@ describe('qac-services coverage', function(){
             })
         });
     });
+    describe('functions', function() {
+        it('md5Prefixed', function(done) {
+            expect(qacServices.md5Prefixed('guest')).to.eql('md5.084e0343a0486ff05530df6c705c8bb4');
+            done();
+        });
+    });
 });
