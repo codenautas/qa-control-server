@@ -255,9 +255,9 @@ describe("qac-services overview",function(){
         );
     });
     describe('getAdmin',function() {
-        function checkGetAdmin(msg, result, userLogged) {
+        function checkGetAdmin(msg, result, userLogged, returnNoOrgs) {
             it(msg, function(done) {
-                sinon.stub(qacServices, "getOrganizations", function(){ return Promises.resolve(['uno', 'dos']); });
+                sinon.stub(qacServices, "getOrganizations", function(){ return Promises.resolve(returnNoOrgs ? [] : ['uno', 'dos']); });
                 if(userLogged) {
                     qacServices.user = 'tito';
                 }
@@ -304,5 +304,9 @@ describe("qac-services overview",function(){
                             ])
                         ]),
                     true);
+        checkGetAdmin('simple admin with no organizaions', 
+                           html.table([
+                                html.tr([html.td('There are no organizations')])
+                                ]), false, true);
     });
 });
