@@ -117,5 +117,13 @@ describe('qac-services coverage', function(){
             expect(req.v2).to.eql('no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
             done();
         });
+        it('sortProjects', function(done) {
+            var p1={content:[{content:[{attributes:{href:'Alerta'}}]}]};
+            var p2={content:[{content:[{attributes:{href:'Roja'}}]}]};
+            expect(qacServices.sortProjects(p1, p2)).to.eql(-1);
+            expect(qacServices.sortProjects(p2, p1)).to.eql(1);
+            expect(qacServices.sortProjects(p1, p1)).to.eql(0);
+            done();
+        });
     });
 });
