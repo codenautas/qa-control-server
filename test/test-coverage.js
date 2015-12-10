@@ -53,6 +53,18 @@ describe('qac-services coverage', function(){
             done();
         });
     });
+    describe('button generation', function() {
+        var org='una-organization', proj='un-proyecto';
+        it('project actions unlogged', function(done) {
+            expect(qacServices.projectActionButtons(org, proj)).to.eql([]);
+            done();
+        });
+        it('organization/project add actions unlogged', function(done) {
+            expect(qacServices.orgAddButton()).to.eql([]);
+            expect(qacServices.projectAddButton()).to.eql([]);
+            done();
+        });
+    });
     describe('config', function() {
         it('wrong params', function(done) {
             expect(qacServices.config).withArgs(null).to.throwException(/must set 'production' in config/);
