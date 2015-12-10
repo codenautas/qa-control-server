@@ -3,6 +3,9 @@ var expect = require('expect.js');
 var qacServices = require('../lib/qac-services.js');
 var helper=require('../test/test-helper.js');
 var _ = require('lodash');
+var sinon = require('sinon');
+var Promises = require('best-promise');
+var fs = require('fs-promise');
 
 describe('qac-services information functions', function(){
     helper.setup(qacServices);
@@ -45,9 +48,23 @@ describe('qac-services information functions', function(){
                 done(err);
             });
         });
+        describe('coverage', function() {
+            it('fstat errors', function(done) {
+                sinon.stub(fs, 'stat', function(path){
+                    return Promises.reject({message:'file not found', code:'not-ENOENT'});
+                });
+                return qacServices.getInfo('wrong-organization', project).then(function(info) {
+                    console.log("info", info)
+                   done('should fail'); 
+                }).catch(function(err) {
+                    expect(err.code).to.eql('not-ENOENT');
+                    fs.stat.restore();
+                    done();
+                });
+            });
+        });
     });
     describe('getOrganizations', function() {
-        helper.setup(qacServices);
         it('should fail on inexistent repository path', function(done) {
             var oriPath = _.clone(qacServices.repository.path);
             qacServices.repository.path = '/non/existent/path/';
@@ -69,4 +86,4 @@ describe('qac-services information functions', function(){
             });
         });
     });
- });
+});

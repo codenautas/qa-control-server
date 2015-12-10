@@ -22,9 +22,10 @@ describe("qac-services overview",function(){
             "[![downloads](https://img.shields.io/npm/dm/multilang.svg)](https://npmjs.org/package/multilangx) "+
             "![extending](https://img.shields.io/badge/stability-extending-orange.svg)"+
             "![stable](https://img.shields.io/badge/stability-stable-green.svg)"+
-            "![otra](https://img.shields.io/badge/stability-otra-green.svg)"
+            "![otra](https://img.shields.io/badge/stability-otra-green.svg)"+
+            "![otra-mas](https://img.shields.io/badge/stability-otra-mas-green.svg)"
         );
-        // console.log("obt", obt);
+        //console.log("obt", obt);
         expect(obt).to.eql([
             html.td({class:'centrado'}, [
                 html.img({src:"https://img.shields.io/badge/stability-extending-orange.svg", alt:"extending"}),
@@ -49,7 +50,10 @@ describe("qac-services overview",function(){
             html.td({class:'centrado'}),
             html.td({class:'centrado'}),
             html.td({class:'centrado'}),
-            html.td({class:'centrado'}, html.img({src:"https://img.shields.io/badge/stability-otra-green.svg", alt:"otra"}))
+            html.td({class:'centrado'}, [
+                html.img({src:"https://img.shields.io/badge/stability-otra-green.svg", alt:"otra"}),
+                html.img({src:"https://img.shields.io/badge/stability-otra-mas-green.svg", alt:"otra-mas"})
+            ])
         ]);
     });
     it("get projectNameToHtmlLink",function(){
