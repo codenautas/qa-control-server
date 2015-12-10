@@ -25,10 +25,8 @@ describe("qac-services",function(){
     // atencion: todos estos van antes de "push"
     describe("info", function() {
         var org = 'codenautas', prj='multilang';
-        it("organizations",function(done){
-            server = createServer(qacServices.organizationServe());
-            this.timeout(bigTimeout);
-            var head = qcsCommon.simpleHead();
+        function generateExpected(title, extraCSS) {
+            var head = qcsCommon.simpleHead(extraCSS);
             var cont = html.table([
                 html.tr([
                     html.th('project'),
@@ -60,14 +58,19 @@ describe("qac-services",function(){
             var esp=html.html(
                 [head, cont]
             );
-            var ctxt = esp.toHtmlDoc({pretty:true, title:org+' qa-control'});
-            // console.log("esp", ctxt);
+            var r = esp.toHtmlDoc({pretty:true, title:title});            
+            // console.log("espected", r);
+            return r;
+        };
+        it("organizations",function(done){
+            server = createServer(qacServices.organizationServe());
+            this.timeout(bigTimeout);
             var agent=request(server);
             agent
                 .get('/'+org)
-                .expect(ctxt)
+                .expect(generateExpected(org+' qa-control'))
                 // .expect(function(res) {
-                    // expect(res.text).to.eql(ctxt)
+                    // expect(res.text).to.eql(generateExpected(org+' qa-control'))
                 // })
                 .end(function(err, res){
                     // console.log("res", res.text);
@@ -78,47 +81,10 @@ describe("qac-services",function(){
         it("projects",function(done){
             server = createServer(qacServices.projectServe());
             this.timeout(bigTimeout);
-            var head = qcsCommon.simpleHead('/result.css');
-            var cont = html.table([
-                html.tr([
-                    html.th('project'),
-                    html.th({colspan:10}, 'cucardas')
-                ]),
-                html.tr([
-                    html.td([html.a({href:'/'+org+'/'+prj}, prj)]),
-                    html.td({class:'centrado'}),
-                    html.td({class:'centrado'}),
-                    html.td({class:'centrado'}),
-                    html.td({class:'centrado'}),
-                    html.td({class:'centrado'}),
-                    html.td({class:'centrado'}),
-                    html.td({class:'centrado'}),
-                    html.td({class:'centrado'}),
-                    html.td({class:'centrado'},[
-                        html.a({href:'https://github.com/'+org+'/'+prj+'/issues'}, [
-                            html.img({src:'https://img.shields.io/github/issues-raw/'+org+'/'+prj+'.svg', alt:'issues'})
-                        ])
-                    ]),
-                    html.td({class:'centrado'},[
-                        html.a({href:'/'+org+'/'+prj}, [
-                            html.img({src:'/'+org+'/'+prj+'.svg', alt:'qa-control'})
-                        ])
-                    ]),
-                    html.td({class:'centrado'})
-                ])
-            ]);
-            var esp=html.html(
-                [head, cont]
-            );
-            var ctxt = esp.toHtmlDoc({pretty:true, title:org+' - '+prj+' qa-control'});
-            // console.log("esp", ctxt);
             var agent=request(server);
             agent
                 .get('/'+org+'/'+prj)
-                .expect(ctxt)
-                // .expect(function(res) {
-                    // expect(res.text).to.eql(ctxt)
-                // })
+                .expect(generateExpected(org+' - '+prj+' qa-control', '/result.css'))
                 .end(function(err, res){
                     // console.log("res", res.text);
                     if(err){ return done(err); }
