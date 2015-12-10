@@ -73,4 +73,4 @@ describe('qac-services coverage', function(){
             done();
         });
     });
- });
+});

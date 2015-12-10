@@ -88,7 +88,7 @@ describe("qac-services overview",function(){
         qacServices.user=false;
         qacServices.rootUrl = oriUrl;
     });
-    describe('getOrganization',function() {
+    describe('organization page',function() {
         function checkGetOrg(msg, result, userLogged) {
             it(msg, function(done) {
                 sinon.stub(qacServices, "getInfo", function(organization, project){
@@ -175,7 +175,7 @@ describe("qac-services overview",function(){
             true
         );
     });
-    describe('getProject',function() {
+    describe('project page',function() {
         function checkGetProj(msg, result, userLogged) {
             it(msg, function(done) {
                 sinon.stub(qacServices, "getInfo", function(organization, project){
