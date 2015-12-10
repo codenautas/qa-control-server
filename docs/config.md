@@ -1,7 +1,7 @@
 # configuración
 
 ```js
-qacService.config(opts);
+qacService.config(opts, production);
 ```
 
 ## campos de `opts`:
