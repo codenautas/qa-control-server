@@ -6,9 +6,8 @@ var helper=require('../test/test-helper.js');
 var html = require('js-to-html').html;
 
 describe('qac-services coverage', function(){
-    helper.setup(qacServices);
+    // helper.setup(qacServices);
     describe('common', function() {
-        helper.setup(qacServices);
         var expHeads = [
                         html.link({href:'/markdown.css', media:'all', rel:'stylesheet'}),
                         html.link({href:'/markdown2.css', media:'all', rel:'stylesheet'}),
@@ -51,6 +50,14 @@ describe('qac-services coverage', function(){
         it('simpleHtml without title', function(done) {
             var sh = qacCommon.simpleHtml(null, content, css);
             expect(sh).to.eql(expHT('qa-control', content, exCSS));
+            done();
+        });
+    });
+    describe('config', function() {
+        it('wrong params', function(done) {
+            expect(qacServices.config).withArgs(null).to.throwException(/must set 'production' in config/);
+            expect(qacServices.config).withArgs(true, false).to.not.throwException();
+            expect(qacServices.production).to.not.be.ok();
             done();
         });
     });
