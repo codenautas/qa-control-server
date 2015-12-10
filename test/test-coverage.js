@@ -101,5 +101,21 @@ describe('qac-services coverage', function(){
             expect(qacServices.md5Prefixed('guest')).to.eql('md5.084e0343a0486ff05530df6c705c8bb4');
             done();
         });
+        it('noCacheHeaders', function(done) {
+            function Req() {
+                this.v1 = '';
+                this.v2 = '';
+                var yo =this;
+                this.header=function(p1, p2) {
+                    yo.v1 = p1;
+                    yo.v2 = p2;
+                };
+            }
+            var req = new Req();
+            qacServices.noCacheHeaders(req);
+            expect(req.v1).to.eql('Cache-Control');
+            expect(req.v2).to.eql('no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+            done();
+        });
     });
 });
