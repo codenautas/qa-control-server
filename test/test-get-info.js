@@ -6,26 +6,52 @@ var _ = require('lodash');
 var sinon = require('sinon');
 var Promises = require('best-promise');
 var fs = require('fs-promise');
+var Path = require('path');
 
 describe('qac-services information functions', function(){
     helper.setup(qacServices);
     describe('getInfo', function() {
-        function testBadInput(msg, p1, p2, expRE) {
+        var organization='sourcetravelers';
+        var project='the-app', project2='other-app';
+        var notADir = 'aFileNotADir';
+        function testBadInput(msg, p1, p2, expRE, sinonFS, sinonSTAT) {
             it('should fail with '+msg, function(done) {
+                if(sinonFS) {
+                    sinon.stub(fs, 'readFile', function(pathDeJson){
+                        var jsf = fs.readFileSync(pathDeJson, 'utf8');
+                        jsf = jsf.slice(0, jsf.indexOf(']'))+',\n{"projectName":"'+sinonFS+'"}\n]'
+                        //console.log("stubbed readFile", pathDeJson, jsf);
+                        return Promises.resolve(jsf);
+                    });
+                }
+                if(sinonSTAT) {
+                    sinon.stub(fs, 'stat', function(path){
+                        if(new RegExp(project).test(path)) {
+                            return Promises.reject({message:'STUBBED stat', code:'not-ENOENT'});
+                        }
+                        if(new RegExp(project2).test(path)) {
+                            return Promises.reject({message:'STUBBED stat', code:'ENOENT'});
+                        }
+                        return Promises.resolve({isDirectory:function() { return true;} });
+                    });
+                }
                 return qacServices.getInfo(p1, p2).then(function(info) {
                     console.log("info", info);
                     throw new Error('should fail');
                 },function(err){
+                    if(sinonFS) { fs.readFile.restore(); }
+                    if(sinonSTAT) { fs.stat.restore(); }
                     expect(err.message).to.match(expRE);
                 }).then(done,done);
             });            
         }
-        var organization='sourcetravelers';
-        var project='the-app', project2='other-app';
         testBadInput('missing parameters', null, null, /missing organization/);
         testBadInput('missing organization', 'non-existent-organization', null, /inexistent organization/);
-        testBadInput('missing organization directory', 'aFileNotADir', project, /invalid organization/);
-        testBadInput('missing project', 'sourcetravelers', 'not-an-app', /inexistent project/);
+        testBadInput('missing organization directory', notADir , project, /invalid organization/);
+        testBadInput('missing project', organization, 'not-an-app', /inexistent project/);
+        testBadInput('missing project directory', organization, notADir, /invalid project/, notADir);
+        testBadInput('missing project directory wrong error', organization, project, /STUBBED stat/, false, true);
+        testBadInput('missing project directory right error', organization, project2, /invalid project/, false, true);
         
         it('should return organization info', function(done) {
             return qacServices.getInfo(organization).then(function(info) {
