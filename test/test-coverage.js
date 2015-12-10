@@ -125,5 +125,31 @@ describe('qac-services coverage', function(){
             expect(qacServices.sortProjects(p1, p1)).to.eql(0);
             done();
         });
+        it('invalidSVG', function(done) {
+            qacServices.invalidSVG().then(function(svg) {
+               var msv = '<svg xmlns="http://www.w3.org/2000/svg" width="115" height="20">'+
+                                  '<linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/>'+
+                                  '<stop offset="1" stop-opacity=".1"/></linearGradient><mask id="a">'+
+                                  '<rect width="115" height="20" rx="3" fill="#fff"/></mask><g mask="url(#a)">'+
+                                  '<path fill="#555" d="M0 0h68v20H0z"/><path fill="#9f9f9f" d="M68 0h47v20H68z"/>'+
+                                  '<path fill="url(#b)" d="M0 0h115v20H0z"/></g>'+
+                                  '<g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">'+
+                                  '<text x="34" y="15" fill="#010101" fill-opacity=".3">qa-control</text>'+
+                                  '<text x="34" y="14">qa-control</text><text x="90.5" y="15" fill="#010101" fill-opacity=".3">invalid</text>'+
+                                  '<text x="90.5" y="14">invalid</text></g></svg>';
+               expect(svg).to.eql(msv); 
+               done();
+            });
+        }, function(err) {
+            console.log("err", err);
+            done(err);
+        });
+        it('gitHubUrl', function(done) {
+            var url = {uri: 'https://api.github.com/uno/dos/repos', headers: { 'User-Agent': 'Request-Promise' } };
+            expect(qacServices.gitHubUrl('uno', 'dos')).to.eql(url);
+            url.uri = 'https://api.github.com/tres/cuatro/repos';
+            expect(qacServices.gitHubUrl('tres', 'cuatro')).to.eql(url);
+            done();
+        });
     });
 });
