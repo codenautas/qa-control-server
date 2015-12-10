@@ -151,5 +151,11 @@ describe('qac-services coverage', function(){
             expect(qacServices.gitHubUrl('tres', 'cuatro')).to.eql(url);
             done();
         });
+        it('uriIsHandled', function(done) {
+            expect(qacServices.uriIsHandled({params:{organization: 'login'}})).to.be.ok();
+            expect(qacServices.uriIsHandled({params:{organization: 'manual-delete'}})).to.be.ok();
+            expect(qacServices.uriIsHandled({params:{organization: 'anual-delete'}})).to.not.be.ok();
+            done();
+        });
     });
 });

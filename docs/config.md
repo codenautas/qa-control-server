@@ -4,7 +4,7 @@
 qacService.config(opts, production);
 ```
 
-## campos de `opts`:
+## variables para `opts` y local/global-config.yaml:
 
 parametro                 | uso
 --------------------------|--------------------
