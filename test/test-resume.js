@@ -21,12 +21,14 @@ describe("qac-services overview",function(){
             "[![npm-version](https://img.shields.io/npm/v/multilang.svg)](https://npmjs.org/package/multilang)  \n\r "+
             "[![downloads](https://img.shields.io/npm/dm/multilang.svg)](https://npmjs.org/package/multilangx) "+
             "![extending](https://img.shields.io/badge/stability-extending-orange.svg)"+
-            "![stable](https://img.shields.io/badge/stability-stable-green.svg)"
+            "![stable](https://img.shields.io/badge/stability-stable-green.svg)"+
+            "![otra](https://img.shields.io/badge/stability-otra-green.svg)"
         );
+        // console.log("obt", obt);
         expect(obt).to.eql([
             html.td({class:'centrado'}, [
                 html.img({src:"https://img.shields.io/badge/stability-extending-orange.svg", alt:"extending"}),
-                html.img({src:"https://img.shields.io/badge/stability-stable-green.svg", alt:"stable"}),
+                html.img({src:"https://img.shields.io/badge/stability-stable-green.svg", alt:"stable"})
             ]),
             html.td({class:'centrado'}, [
                 html.a(
@@ -47,7 +49,7 @@ describe("qac-services overview",function(){
             html.td({class:'centrado'}),
             html.td({class:'centrado'}),
             html.td({class:'centrado'}),
-            html.td({class:'centrado'}),
+            html.td({class:'centrado'}, html.img({src:"https://img.shields.io/badge/stability-otra-green.svg", alt:"otra"}))
         ]);
     });
     it("get projectNameToHtmlLink",function(){
