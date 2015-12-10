@@ -20,11 +20,13 @@ describe('qac-services information functions', function(){
                 }).then(done,done);
             });            
         }
-        testBadInput('missing parameters', null, null, /missing organization/);
-        testBadInput('missing organization', 'non-existent-organization', null, /inexistent organization/);
-        testBadInput('missing project', 'sourcetravelers', 'not-an-app', /inexistent project/);
         var organization='sourcetravelers';
         var project='the-app', project2='other-app';
+        testBadInput('missing parameters', null, null, /missing organization/);
+        testBadInput('missing organization', 'non-existent-organization', null, /inexistent organization/);
+        testBadInput('missing organization directory', 'aFileNotADir', project, /invalid organization/);
+        testBadInput('missing project', 'sourcetravelers', 'not-an-app', /inexistent project/);
+        
         it('should return organization info', function(done) {
             return qacServices.getInfo(organization).then(function(info) {
                 expect(info.organization.name).to.be(organization);
@@ -49,7 +51,7 @@ describe('qac-services information functions', function(){
             });
         });
         describe('coverage', function() {
-            it('fstat errors', function(done) {
+            it('forward wrong error', function(done) {
                 sinon.stub(fs, 'stat', function(path){
                     return Promises.reject({message:'file not found', code:'not-ENOENT'});
                 });
