@@ -76,7 +76,7 @@ describe("qac-services overview",function(){
                 html.a({
                     href: '/root/ask/delete/simple-org/proj-name',
                     'codenautas-confirm': 'row'
-                },[html.img({src:'/delete.png', alg:'del', style:'height:18px'})])
+                },[html.img({src:'/delete.png', alt:'del', style:'height:18px'})])
             ]),
             html.td([
                 html.a({

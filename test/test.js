@@ -84,7 +84,7 @@ describe("qac-services",function(){
             var agent=request(server);
             agent
                 .get('/'+org+'/'+prj)
-                .expect(generateExpected(org+' - '+prj+' qa-control', '/result.css'))
+                .expect(generateExpected(org+' - '+prj+' qa-control', qacServices.rootUrl+'result.css'))
                 .end(function(err, res){
                     // console.log("res", res.text);
                     if(err){ return done(err); }

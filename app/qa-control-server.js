@@ -82,7 +82,8 @@ Promises.start(function(){
             [ html.div({"style":'text-align:center'},[
                 html.img({src:qacServices.rootUrl + (actualConfig.production ? 'qcs.png' : 'qcs-devel.png')}),
                 html.span({'class':"vcard-fullname", itemprop:"name"},'Welcome to '+name+'!')
-            ]), repo_info ]
+            ]), repo_info ],
+            qacServices
         ));
     });
     app.use(qacServices.receivePush());
