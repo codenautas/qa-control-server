@@ -76,12 +76,12 @@ describe("qac-services overview",function(){
                 html.a({
                     href: '/root/ask/delete/simple-org/proj-name',
                     'codenautas-confirm': 'row'
-                },[html.img({src:'/delete.png', alt:'del', style:'height:18px'})])
+                },[html.img({src:'/root/delete.png', alt:'del', style:'height:18px'})])
             ]),
             html.td([
                 html.a({
                     href:'/root/manual-push/simple-org/proj-name'
-                }, [html.img({src:'/refresh.png', alt:'rfrsh', style:'height:18px'})])
+                }, [html.img({src:'/root/refresh.png', alt:'rfrsh', style:'height:18px'})])
             ])
         ]);
         qacServices.production=true;
@@ -241,7 +241,7 @@ describe("qac-services overview",function(){
             html.table([
                 html.tr([ html.th('project'), html.th({colspan:10},'cucardas') ]),
                 html.tr([ html.td("link: simple,uno"), html.td( ["list: [qa-control][issues] cu-uno"]), html.td("b:simple:uno") ])
-            ])
+            ]), 'qac-logs','bitacora-logs'
         ]));
         checkGetProj('simple project page authenticated', html.body([
             html.form({method:'post', action:qacServices.rootUrl},
@@ -272,41 +272,51 @@ describe("qac-services overview",function(){
             });
         }
         checkGetAdmin('simple admin page', 
-                           html.table([
-                                html.tr([html.th('organization')]),
-                                html.tr([html.td([html.a({href:'/uno'}, 'uno')])]),
-                                html.tr([html.td([html.a({href:'/dos'}, 'dos')])])
-                                ]));
+            html.table([
+                html.tr([html.th('organization')]),
+                html.tr([html.td([html.a({href:'/uno'}, 'uno')])]),
+                html.tr([html.td([html.a({href:'/dos'}, 'dos')])])
+            ])
+        );
         checkGetAdmin('simple admin page authenticated', 
-                    html.form({method:'post', action:qacServices.rootUrl},
-                        [html.table(
-                            [
-                                html.tr([html.th('organization'), html.th('actions')]),
-                                
-                                html.tr([html.td([html.a({href:'/uno'}, 'uno')]),
-                                         html.td({class:'centrado'}, [html.a({href:'/ask/delete/uno', 'codenautas-confirm':'row'},
-                                                         [html.img({src:'/delete.png', alg:'del', style:'height:18px'})])
-                                                 ])
-                                        ]),
-                                html.tr([html.td([html.a({href:'/dos'}, 'dos')]),
-                                         html.td({class:'centrado'}, [html.a({href:'/ask/delete/dos', 'codenautas-confirm':'row'},
-                                                         [html.img({src:'/delete.png', alg:'del', style:'height:18px'})])
-                                                 ])
-                                        ]),
-                                html.tr([
-                                        html.td({colspan:2, align:'right'},[
-                                                    html.input({type:'hidden', name:'action', value:'create'}),
-                                                    html.input({type:'text', name:'organization'}),
-                                                    html.input({type:'submit', value:'New organization...'})
-                                                ])
-                                        ])
-                                     
-                            ])
-                        ]),
-                    true);
+            html.form({method:'post', action:qacServices.rootUrl},[
+                html.table([
+                    html.tr([html.th('organization'), html.th('actions')]),
+                    html.tr([
+                        html.td([html.a({href:'/uno'}, 'uno')]),
+                        html.td({class:'centrado'}, [
+                            html.a(
+                                {href:'/ask/delete/uno', 'codenautas-confirm':'row'},
+                                [html.img({src:'/delete.png', alt:'del', style:'height:18px'})]
+                            )
+                        ])
+                    ]),
+                    html.tr([
+                        html.td([html.a({href:'/dos'}, 'dos')]),
+                        html.td({class:'centrado'}, [
+                            html.a(
+                                {href:'/ask/delete/dos', 'codenautas-confirm':'row'},
+                                [html.img({src:'/delete.png', alt:'del', style:'height:18px'})]
+                            )
+                        ])
+                    ]),
+                    html.tr([
+                        html.td({colspan:2, align:'right'},[
+                            html.input({type:'hidden', name:'action', value:'create'}),
+                            html.input({type:'text', name:'organization'}),
+                            html.input({type:'submit', value:'New organization...'})
+                        ])
+                    ])
+                ])
+            ]),
+            true
+        );
         checkGetAdmin('simple admin with no organizaions', 
-                           html.table([
-                                html.tr([html.td('There are no organizations')])
-                                ]), false, true);
+            html.table([
+                html.tr([html.td('There are no organizations')])
+            ]), 
+            false, 
+            true
+        );
     });
 });

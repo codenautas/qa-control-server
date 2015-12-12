@@ -26,7 +26,7 @@ describe("qac-services",function(){
     describe("info", function() {
         var org = 'codenautas', prj='multilang';
         function generateExpected(title, extraCSS) {
-            var head = qcsCommon.simpleHead(extraCSS);
+            var head = qcsCommon.simpleHead(extraCSS, qacServices);
             var cont = html.table([
                 html.tr([
                     html.th('project'),
@@ -62,7 +62,7 @@ describe("qac-services",function(){
             // console.log("espected", r);
             return r;
         };
-        it("organizations",function(done){
+        it("must retrive organization info",function(done){
             server = createServer(qacServices.organizationServe());
             this.timeout(bigTimeout);
             var agent=request(server);
@@ -78,13 +78,13 @@ describe("qac-services",function(){
                     done();
                 });
         });
-        it("projects",function(done){
+        it("must retrive project info",function(done){
             server = createServer(qacServices.projectServe());
             this.timeout(bigTimeout);
             var agent=request(server);
             agent
                 .get('/'+org+'/'+prj)
-                .expect(generateExpected(org+' - '+prj+' qa-control', qacServices.rootUrl+'result.css'))
+                .expect(generateExpected(org+' - '+prj+' qa-control', 'result.css'))
                 .end(function(err, res){
                     // console.log("res", res.text);
                     if(err){ return done(err); }

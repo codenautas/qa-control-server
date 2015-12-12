@@ -20,19 +20,19 @@ describe('qac-services coverage', function(){
                         html.link({href:'/favicon.ico', rel:'shortcut icon'})
                           ];
         it('simpleHead', function(done) {
-            var sh = qacCommon.simpleHead();
+            var sh = qacCommon.simpleHead(null, qacServices);
             expect(sh).to.eql(html.head(expHeads));
             done();
         });
         it('simpleHead with params', function(done) {
-            var sh = qacCommon.simpleHead('optional.css');
-            expHeads.splice(4, 0, html.link({href:'optional.css', media:'all', rel:'stylesheet'}));
+            var sh = qacCommon.simpleHead('optional.css', qacServices);
+            expHeads.splice(4, 0, html.link({href:'/optional.css', media:'all', rel:'stylesheet'}));
             expect(sh).to.eql(html.head(expHeads));
             done();
         });
         var title = "un titulo", content="el contenido";
-        var css = '/extra.css';
-        var exCSS = "<link href='"+css+"' media=all rel=stylesheet>";
+        var css = 'extra.css';
+        var exCSS = "<link href='/"+css+"' media=all rel=stylesheet>";
         function expHT(title, content, css) {
             return "<!doctype html>\n"+
                   "<html><head><title>"+title+"</title><link href='/markdown.css' media=all rel=stylesheet>"+
@@ -42,17 +42,17 @@ describe('qac-services coverage', function(){
                   "<body>"+content+"</body></html>"
         }
         it('simpleHtml', function(done) {
-            var sh = qacCommon.simpleHtml(title, content);
+            var sh = qacCommon.simpleHtml(title, content, null, qacServices);
             expect(sh).to.eql(expHT(title, content, ""));
             done();
         });
         it('simpleHtml with params', function(done) {
-            var sh = qacCommon.simpleHtml(title, content, css);
+            var sh = qacCommon.simpleHtml(title, content, css, qacServices);
             expect(sh).to.eql(expHT(title, content, exCSS));
             done();
         });
         it('simpleHtml without title', function(done) {
-            var sh = qacCommon.simpleHtml(null, content, css);
+            var sh = qacCommon.simpleHtml(null, content, css, qacServices);
             expect(sh).to.eql(expHT('qa-control', content, exCSS));
             done();
         });
