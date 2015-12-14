@@ -15,7 +15,7 @@ var html = require('js-to-html').html;
 var Path = require('path');
 helper.setup(qacServices);
 
-describe("qac-services overview",function(){
+describe.skip("qac-services overview",function(){
     it("get cucardasToHtmlList",function(){
         var obt=qacServices.cucardasToHtmlList(
             "[![npm-version](https://img.shields.io/npm/v/multilang.svg)](https://npmjs.org/package/multilang)  \n\r "+
@@ -70,7 +70,7 @@ describe("qac-services overview",function(){
         qacServices.rootUrl='/root/';
         qacServices.user='user-name';
         qacServices.production=false;
-        var obt=qacServices.projectActionButtons('simple-org','proj-name');
+        var obt=qacServices.projectActionButtons(helper.session, 'simple-org','proj-name');
         expect(obt).to.eql([
             html.td([
                 html.a({

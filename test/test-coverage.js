@@ -100,7 +100,7 @@ describe('qac-services coverage', function(){
                     default: throw new Error('unexpected params in readFile of cucardas');
                 }
             });
-            qacServices.getProject({organization:{name:orga, path:'la-org-path'}}, {projectName:proj}).catch(function(err) {
+            qacServices.getProject(helper.session, {organization:{name:orga, path:'la-org-path'}}, {projectName:proj}).catch(function(err) {
                 fs.readFile.restore();
                 expect(err.code).to.eql('not-ENOENT');
                 done();

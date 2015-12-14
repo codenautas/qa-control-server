@@ -47,6 +47,11 @@ testHelper.testConfig = {
     'root-url': '/'
 };
 
+testHelper.session = {
+    users:{'fake-sid':'fake-user'},
+    req:{cookies:{'connect-sid':'fake-sid'}}
+};
+
 testHelper.setup = function setup(qcs) {
     qcs.config(testHelper.testConfig, false);
 };
@@ -65,5 +70,5 @@ before(function(done){
         done(_.isArray(err)?err[0]:err);
     });
 });
-    
+
 module.exports = testHelper;
