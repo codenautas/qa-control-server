@@ -26,11 +26,6 @@ require('colors');
 var html = require('js-to-html').html;
 html.insecureModeEnabled = true;
 
-// process.on('exit', function () {
-    // console.log('About to exit, waiting for remaining connections to complete');
-    // app.close();
-// });
-
 if(false) {
     var extensionServeStatic = require('extension-serve-static');
     var MiniTools = require('mini-tools');    
