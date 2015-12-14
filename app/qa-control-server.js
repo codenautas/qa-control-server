@@ -18,6 +18,7 @@ var bodyParser = require('body-parser');
 var Promises = require('best-promise');
 var fs = require('fs-promise');
 var readYaml = require('read-yaml-promise');
+var kill9 = require('kill-9');
 var qacServices = require('../lib/qac-services.js');
 var qcsCommon = require('../lib/qcs-common.js');
 require('colors');
@@ -105,6 +106,7 @@ Promises.start(function(){
         console.log('!production: manual abms enabled'.magenta); // no quitar este console.log!
         app.use(qacServices.abmsManualServe());
     }
+    app.use(kill9({pid:actualConfig.server["kill-pid"]}));
     // habilitar explicitamente la seguridad
     qacServices.enableLoginPlus(actualConfig.usersdb);
     // qacServices.enableLoginPlus();

@@ -29,6 +29,7 @@
     "exec-to-html": "0.0.7",
     "extension-serve": "0.0.4",
     "js-to-html": "0.6.3",
+    "kill-9": "0.2.3",
     "login-plus": "0.1.0",
     "mini-tools": "0.1.4",
     "qa-control": "0.1.8"
@@ -43,7 +44,7 @@
     "mocha": "^2.3.4",
     "read-yaml-promise": "1.0.2",
     "sinon": "^1.17.2",
-    "stylus": "^0.52.4",
+    "stylus": "^0.53.0",
     "supertest": "1.1.0",
     
     "best-promise": "^0.2.4"
