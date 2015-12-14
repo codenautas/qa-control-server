@@ -62,7 +62,7 @@ describe("qac-services",function(){
             // console.log("espected", r);
             return r;
         };
-        it("must retrive organization info",function(done){
+        it("must retrieve organization info",function(done){
             server = createServer(qacServices.organizationServe());
             this.timeout(bigTimeout);
             var agent=request(server);
@@ -78,7 +78,7 @@ describe("qac-services",function(){
                     done();
                 });
         });
-        it("must retrive project info",function(done){
+        it("must retrieve project info",function(done){
             server = createServer(qacServices.projectServe());
             this.timeout(bigTimeout);
             var agent=request(server);

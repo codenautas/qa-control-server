@@ -43,7 +43,8 @@ testHelper.testConfig = {
     repository: {
         path: testHelper.dirTemp+'/repo4display',
         request_secret:'elsecreto'
-    }
+    },
+    'root-url': '/'
 };
 
 testHelper.setup = function setup(qcs) {

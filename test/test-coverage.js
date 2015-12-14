@@ -8,9 +8,9 @@ var sinon = require('sinon');
 var Promises = require('best-promise');
 var fs = require('fs-promise');
 var Path = require('path');
+var _ = require('lodash');
 
 describe('qac-services coverage', function(){
-    // helper.setup(qacServices);
     describe('common', function() {
         var expHeads = [
                         html.link({href:'/markdown.css', media:'all', rel:'stylesheet'}),
@@ -74,6 +74,19 @@ describe('qac-services coverage', function(){
             expect(qacServices.config).withArgs(null).to.throwException(/must set 'production' in config/);
             expect(qacServices.config).withArgs(true, false).to.not.throwException();
             expect(qacServices.production).to.not.be.ok();
+            done();
+        });
+        it('initialization', function(done) {
+            var miConfig = _.cloneDeep(helper.testConfig);
+            miConfig['root-url'] = '/something';
+            miConfig.repository.path = 'a-path';
+            miConfig.repository.request_secret = 'a-secret';
+            qacServices.config(miConfig, true);
+            expect(qacServices.repository.path).to.eql('a-path');
+            expect(qacServices.repository.request_secret).to.eql('a-secret');
+            expect(qacServices.rootUrl).to.eql('/something');
+            expect(qacServices.production).to.eql(true);
+            helper.setup(qacServices); // restauro
             done();
         });
     });
