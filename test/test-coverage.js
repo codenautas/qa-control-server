@@ -170,5 +170,10 @@ describe('qac-services coverage', function(){
             expect(qacServices.uriIsHandled({params:{organization: 'anual-delete'}})).to.not.be.ok();
             done();
         });
+        it('enableLoginPlus', function(done) {
+            expect(qacServices.enableLoginPlus).withArgs(null).to.throwException(/must provide path to users database/);
+            expect(qacServices.enableLoginPlus).withArgs('non_existent_path').to.throwException(/users database not found/);
+            done();
+        });
     });
 });

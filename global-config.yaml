@@ -4,3 +4,4 @@ services:
   repository:
     path: .\repo-examples
 production: true
+usersdb: './app/users.json'

@@ -25,6 +25,11 @@ require('colors');
 var html = require('js-to-html').html;
 html.insecureModeEnabled = true;
 
+// process.on('exit', function () {
+    // console.log('About to exit, waiting for remaining connections to complete');
+    // app.close();
+// });
+
 if(false) {
     var extensionServeStatic = require('extension-serve-static');
     var MiniTools = require('mini-tools');    
@@ -71,9 +76,6 @@ Promises.start(function(){
     });
 }).then(function(){
     console.log("actualConfig", actualConfig);
-    var server=app.listen(actualConfig.server.port, function(event) {
-        console.log('Listening on port %d', server.address().port);
-    });
     qacServices.config(actualConfig.services, actualConfig.production);
     // este va primero!
     app.use(qacServices.staticServe());
@@ -104,10 +106,14 @@ Promises.start(function(){
         app.use(qacServices.abmsManualServe());
     }
     // habilitar explicitamente la seguridad
-    qacServices.enableLoginPlus();
+    qacServices.enableLoginPlus(actualConfig.usersdb);
+    // qacServices.enableLoginPlus();
     app.use(qacServices.askServe());
     app.use(qacServices.abmsServe());
     app.use(qacServices.adminServe());
+    var server=app.listen(actualConfig.server.port, function(event) {
+        console.log('Listening on port %d', server.address().port);
+    });
 }).catch(function(err){
     console.log('ERROR',err);
     console.log('STACK',err.stack);
