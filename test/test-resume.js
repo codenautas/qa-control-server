@@ -15,7 +15,7 @@ var html = require('js-to-html').html;
 var Path = require('path');
 helper.setup(qacServices);
 
-describe.skip("qac-services overview",function(){
+describe("qac-services resume",function(){
     it("get cucardasToHtmlList",function(){
         var obt=qacServices.cucardasToHtmlList(
             "[![npm-version](https://img.shields.io/npm/v/multilang.svg)](https://npmjs.org/package/multilang)  \n\r "+
@@ -68,9 +68,10 @@ describe.skip("qac-services overview",function(){
     it("get projectActionButtons",function(){
         var oriUrl = qacServices.rootUrl;
         qacServices.rootUrl='/root/';
-        qacServices.user='user-name';
+        var ses = helper.session.req;
+        qacServices.users = qacServices.setSession(ses);
         qacServices.production=false;
-        var obt=qacServices.projectActionButtons(helper.session, 'simple-org','proj-name');
+        var obt=qacServices.projectActionButtons(ses, 'simple-org','proj-name');
         expect(obt).to.eql([
             html.td([
                 html.a({
@@ -85,7 +86,7 @@ describe.skip("qac-services overview",function(){
             ])
         ]);
         qacServices.production=true;
-        qacServices.user=false;
+        qacServices.users=false;
         qacServices.rootUrl = oriUrl;
     });
     describe('organization page',function() {
@@ -121,7 +122,12 @@ describe.skip("qac-services overview",function(){
                 sinon.stub(qacServices, "cucardasToHtmlList", function(x){
                     return [html.td("list: "+x)];
                 });
-                sinon.stub(qacServices, "projectActionButtons", function(orga, proj){
+                var ses = null;
+                if(userLogged) {
+                    ses = helper.session.req;
+                    qacServices.users = qacServices.setSession(ses);
+                }
+                sinon.stub(qacServices, "projectActionButtons", function(ses, orga, proj){
                     return [html.td("b:"+orga+':'+proj)];
                 });
                 sinon.stub(qacServices, "projectNameToHtmlLink", function(orga, proj){
@@ -135,10 +141,7 @@ describe.skip("qac-services overview",function(){
                    }
                    return 0;
                 });
-                if(userLogged) {
-                    qacServices.user = 'pepe';
-                }
-                qacServices.getOrganizationPage('simple').then(function(oHtml){
+                qacServices.getOrganizationPage(ses, 'simple').then(function(oHtml){
                     //console.log(oHtml.toHtmlText({pretty:true}));
                     expect(oHtml).to.eql(result);
                 }).then(function(){
@@ -148,7 +151,7 @@ describe.skip("qac-services overview",function(){
                     qacServices.projectActionButtons.restore();
                     qacServices.sortProjects.restore();
                     fs.readFile.restore();
-                    qacServices.user = null;
+                    qacServices.users = null;
                 }).then(done,done);
             });
         }
@@ -211,7 +214,12 @@ describe.skip("qac-services overview",function(){
                 sinon.stub(qacServices, "cucardasToHtmlList", function(x){
                     return [html.td("list: "+x)];
                 });
-                sinon.stub(qacServices, "projectActionButtons", function(orga, proj){
+                var req = null;
+                if(userLogged) {
+                    req = helper.session.req;
+                    qacServices.users = qacServices.setSession(req);
+                }
+                sinon.stub(qacServices, "projectActionButtons", function(req, orga, proj){
                     return [html.td("b:"+orga+':'+proj)];
                 });
                 sinon.stub(qacServices, "projectNameToHtmlLink", function(orga, proj){
@@ -220,10 +228,7 @@ describe.skip("qac-services overview",function(){
                 sinon.stub(qacServices, "getProjectLogs", function(path) {
                    return ['qac-logs', 'bitacora-logs']; 
                 });
-                if(userLogged) {
-                    qacServices.user = 'pepe';
-                }
-                qacServices.getProjectPage('simple', 'uno').then(function(oHtml){
+                qacServices.getProjectPage(req, 'simple', 'uno').then(function(oHtml){
                     // console.log(oHtml.toHtmlText({pretty:true}));
                     expect(oHtml).to.eql(result);
                 }).then(function(){
@@ -233,7 +238,7 @@ describe.skip("qac-services overview",function(){
                     qacServices.projectActionButtons.restore();
                     qacServices.getProjectLogs.restore();
                     fs.readFile.restore();
-                    qacServices.user = null;
+                    qacServices.users = null;
                 }).then(done,done);
             });
         }
@@ -258,16 +263,18 @@ describe.skip("qac-services overview",function(){
         function checkGetAdmin(msg, result, userLogged, returnNoOrgs) {
             it(msg, function(done) {
                 sinon.stub(qacServices, "getOrganizations", function(){ return Promises.resolve(returnNoOrgs ? [] : ['uno', 'dos']); });
+                var req = null;
                 if(userLogged) {
-                    qacServices.user = 'tito';
+                    req = helper.session.req;
+                    qacServices.users = qacServices.setSession(req);
                 }
-                qacServices.getAdminPage().then(function(oHtml){
+                qacServices.getAdminPage(req).then(function(oHtml){
                     // console.log(oHtml.toHtmlText({pretty:true}));
                     // console.log(result.toHtmlText({pretty:true}));
                     expect(oHtml).to.eql(result);
                 }).then(function(){
                     qacServices.getOrganizations.restore();
-                    qacServices.user = null;
+                    qacServices.users = null;
                 }).then(done,done);
             });
         }
