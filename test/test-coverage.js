@@ -176,4 +176,52 @@ describe('qac-services coverage', function(){
             done();
         });
     });
+    describe('session', function() {
+        it('setSession', function(done) {
+            var ses = {};
+            expect(qacServices.setSession(null)).to.eql(ses);
+            var req = {};
+            expect(qacServices.setSession(req)).to.eql(ses);
+            req['cookies'] = null;
+            expect(qacServices.setSession(req)).to.eql(ses);
+            req['cookies'] = {};
+            expect(qacServices.setSession(req)).to.eql(ses);
+            var cKey = 'connect.sid';
+            req['cookies'][cKey] = null;
+            expect(qacServices.setSession(req)).to.eql(ses);
+            var cVal = 'un-sid';
+            req['cookies'][cKey] = cVal;
+            expect(qacServices.setSession(req)).to.eql(ses);
+            req['session'] = {};
+            expect(qacServices.setSession(req)).to.eql(ses);
+            req['session']['passport'] = {}
+            expect(qacServices.setSession(req)).to.eql(ses);
+            req['session']['passport']['user'] = null;
+            expect(qacServices.setSession(req)).to.eql(ses);
+            var cUser = 'un-user';
+            req['session']['passport']['user'] = cUser;
+            ses[cVal] = cUser;
+            expect(qacServices.setSession(req)).to.eql(ses);
+            done();
+        });
+        it('test (fake session)', function(done) {
+            expect(qacServices.setSession(helper.session.req)).to.eql(helper.session.users);
+            done();
+        });
+        it('validSession', function(done) {
+            qacServices.users = qacServices.setSession(helper.session.req);
+            expect(qacServices.users).to.eql(helper.session.users);
+            expect(qacServices.validSession(null)).to.eql(null);
+            var req = {};
+            expect(qacServices.validSession(req)).to.eql(null);
+            req['cookies']={'connect.sid':''};
+            expect(qacServices.validSession(req)).to.not.be.ok();
+            req['cookies']={'connect.sid':'wrong-user'};
+            expect(qacServices.validSession(req)).to.not.be.ok();
+            req['cookies']={'connect.sid':'fake-sid'};
+            expect(qacServices.validSession(req)).to.be.ok();
+            qacServices.users = null;
+            done();
+        });
+    });
 });

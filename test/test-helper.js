@@ -49,7 +49,14 @@ testHelper.testConfig = {
 
 testHelper.session = {
     users:{'fake-sid':'fake-user'},
-    req:{cookies:{'connect-sid':'fake-sid'}}
+    req:{
+            cookies:{'connect.sid':'fake-sid'},
+            session:{
+                passport:{
+                    user:'fake-user'
+                }
+            }
+        }
 };
 
 testHelper.setup = function setup(qcs) {
