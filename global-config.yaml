@@ -1,5 +1,6 @@
 server:
   port: 7226
+  kill-pid: 72261
 services:
   repository:
     path: .\repo-examples
