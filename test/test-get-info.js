@@ -106,7 +106,7 @@ describe('qac-services information functions', function(){
         });
         it('should return the list of organizations', function(done) {
             return qacServices.getOrganizations().then(function(orgs) {
-               expect(orgs).to.eql(['anothergroup','codenautas','sourcetravelers']);
+               expect(orgs).to.eql(['codenautas','emptygroup','sourcetravelers']);
                //console.log("orgs", orgs);
                done(); 
             }).catch(function(err) {

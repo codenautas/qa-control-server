@@ -158,7 +158,7 @@ describe("qac-services resume",function(){
         checkGetOrg('simple organization page', html.table([
             html.tr([ html.th('project'), html.th({colspan:10},'cucardas') ]),
             html.tr([ html.td("link: simple,uno"), html.td( ["list: [qa-control][issues] cu-uno"]), html.td("b:simple:uno") ]),
-            html.tr([ html.td("link: simple,dos"), html.td( ["list: [qa-control][issues] cu-dos"]), html.td("b:simple:dos") ]),
+            html.tr([ html.td("link: simple,dos"), html.td( ["list: [qa-control][issues] cu-dos"]), html.td("b:simple:dos") ])
         ]));
         checkGetOrg('simple organization page authenticated',
             html.form({method:'post', action:qacServices.rootUrl},
@@ -177,6 +177,13 @@ describe("qac-services resume",function(){
             ), 
             true
         );
+        it('emtpy organization page', function(done) {
+            qacServices.getOrganizationPage(null, 'emptygroup').then(function(oHtml){
+                var result = html.table([
+            html.tr([ html.td('emptygroup has no projects') ])]);
+                expect(oHtml).to.eql(result);
+            }).then(done,done);
+        });
     });
     describe('project page',function() {
         function checkGetProj(msg, result, userLogged) {
