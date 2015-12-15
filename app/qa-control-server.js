@@ -70,14 +70,17 @@ Promises.start(function(){
     }).then(function(localConfig){
         _.merge(actualConfig,localConfig);
     });
-}).then(function(){
+}).then(function() {
+    return fs.readJSON('./package.json', 'utf8');
+}).then(function(packageJSON){
+    console.log("packageJSON", packageJSON.version);
     console.log("actualConfig", actualConfig);
     app.use('/github', kill9({pid:actualConfig.server["kill-pid"]}));
     qacServices.config(actualConfig.services, actualConfig.production);
     // este va primero!
     console.log("ROOT URL", qacServices.rootUrl);
     app.get(qacServices.rootUrl, function(req, res, next) {
-        var name='QA Control Server';
+        var name='QA Control Server v.'+packageJSON.version;
         var repo_info = actualConfig.production ?
             html.div('') :
             html.div({"style":'text-align:center'}, qacServices.repository.path);
