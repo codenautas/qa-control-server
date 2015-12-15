@@ -184,6 +184,26 @@ describe("qac-services resume",function(){
                 expect(oHtml).to.eql(result);
             }).then(done,done);
         });
+        it('emtpy organization page authenticated', function(done) {
+            var ses = helper.session.req;
+            qacServices.users = qacServices.setSession(ses);
+            qacServices.getOrganizationPage(ses, 'emptygroup').then(function(oHtml){
+                var result = html.form({method:'post', action:qacServices.rootUrl},
+                [html.table([
+                    html.tr([ html.td([
+                                html.input({type:'hidden', name:'action', value:'add'}),
+                                html.input({type:'hidden', name:'organization', value:'emptygroup'}),
+                                html.input({type:'text', name:'project'}),
+                                html.input({type:'submit', value:'New project...' })
+                                ])
+                            ])
+                ])]
+            );
+                expect(oHtml).to.eql(result);
+            }).then(function() {
+                qacServices.users = null;
+            }).then(done,done);
+        });
     });
     describe('project page',function() {
         function checkGetProj(msg, result, userLogged) {
