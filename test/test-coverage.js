@@ -246,6 +246,18 @@ describe('qac-services coverage', function(){
             expect(qacServices.enableLoginPlus).withArgs('non_existent_path').to.throwException(/users database not found/);
             done();
         });
+        it('addParam', function(done) {
+            var elems = [];
+            qacServices.addParam(elems, 'elem1', 'name1');
+            var result = [html.input({type:'hidden', name:'name1', value:'elem1'})];
+            expect(elems).to.eql(result);
+            qacServices.addParam(elems, null, 'name1');
+            expect(elems).to.eql(result);
+            result.push(html.input({type:'hidden', name:'name2', value:'elem2'}));
+            qacServices.addParam(elems, 'elem2', 'name2');
+            expect(elems).to.eql(result);
+            done();
+        });
     });
     describe('session', function() {
         it('setSession', function(done) {
