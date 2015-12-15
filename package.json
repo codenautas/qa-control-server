@@ -1,7 +1,7 @@
 {
   "name": "qa-control-server",
   "description": "qa-control server",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "repository": "codenautas/qa-control-server",
@@ -71,6 +71,6 @@
     "test-appveyor": true,
     "type": "app",
     "stage": "designing",
-    "coverage": 60
+    "coverage": 70
   }
 }
