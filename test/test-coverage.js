@@ -158,6 +158,27 @@ describe('qac-services coverage', function(){
                 done(err);
             });
         });
+        it('getProjectLogs() errors', function(done) {
+            var p1 = 'proyecto1';
+            var p2 = 'proyecto2';
+            sinon.stub(fs, 'readJSON', function(jsonPath){
+                //console.log("jsonPath", jsonPath);
+                switch(jsonPath){
+                    case Path.normalize(p2+'/result/qa-control-result.json'): return Promises.resolve([]);
+                    case Path.normalize(p1+'/result/bitacora.json'): return Promises.resolve([]);
+                    default:
+                        return Promises.reject({message:'unexpected params in readJSON ['+jsonPath+']', code:'not-ENOENT'});
+                }
+            });
+            qacServices.getProjectLogs(p1).then(function(logs) { done('should fail 1'); }).catch(function(err) {
+                expect(err.code).to.eql('not-ENOENT');
+                return qacServices.getProjectLogs(p2);
+            }).then(function(logs) { done('should fail 2'); }).catch(function(err) {
+                expect(err.code).to.eql('not-ENOENT');
+                fs.readJSON.restore();
+                done();
+            });
+        });
     });
     describe('functions', function() {
         it('md5Prefixed', function(done) {
