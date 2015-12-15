@@ -202,6 +202,18 @@ describe('qac-services coverage', function(){
             req['session']['passport']['user'] = cUser;
             ses[cVal] = cUser;
             expect(qacServices.setSession(req)).to.eql(ses);
+            
+            qacServices.users = qacServices.setSession(req);
+            expect(qacServices.users).to.eql(ses);
+            cVal = 'otro-sid';
+            cUser = 'otro-user';
+            ses[cVal] = cUser;
+            req['session']['passport']['user'] = cUser;
+            req['cookies'][cKey] = cVal;
+            qacServices.users = qacServices.setSession(req);
+            expect(qacServices.users).to.eql(ses);
+            
+            qacServices.users = null; // reseteo
             done();
         });
         it('test (fake session)', function(done) {
@@ -220,7 +232,7 @@ describe('qac-services coverage', function(){
             expect(qacServices.validSession(req)).to.not.be.ok();
             req['cookies']={'connect.sid':'fake-sid'};
             expect(qacServices.validSession(req)).to.be.ok();
-            qacServices.users = null;
+            qacServices.users = null; // reseteo
             done();
         });
     });
