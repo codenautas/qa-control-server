@@ -1,6 +1,7 @@
 "use strict";
 var expect = require('expect.js');
 var Promises = require('best-promise');
+var fs = require('fs-promise');
 var qacServices = require('../lib/qac-services.js');
 var helper=require('../test/test-helper.js');
 var _ = require('lodash');
@@ -95,6 +96,18 @@ describe('qac-services modification functions', function(){
             });
         });
         projWrongInput('duplicate project (#16)', organization, project, /duplicate project/);
+        it('should return error message', function(done) {
+            var genMsg = 'fs.remove() generated error';
+            sinon.stub(fs, 'remove', function() { return Promises.reject({message:genMsg}); });
+            return qacServices.deleteData(organization).then(function(status) {
+                //console.log("status", status);
+                expect(status).to.eql(genMsg);
+                fs.remove.restore();
+                done();
+            }, function(err) {
+                done('should not fail', err);
+            });
+        });
         it('should remove project', function(done) {
             return qacServices.deleteData(organization, project).then(function(status) {
                 //console.log("status", status);
