@@ -9,7 +9,7 @@ qa-control managed projects server server
 [!--lang:*-->
 
 <!-- cucardas -->
-![designing](https://img.shields.io/badge/stability-designing-red.svg)
+![extending](https://img.shields.io/badge/stability-extending-orange.svg)
 [![npm-version](https://img.shields.io/npm/v/qa-control-server.svg)](https://npmjs.org/package/qa-control-server)
 [![downloads](https://img.shields.io/npm/dm/qa-control-server.svg)](https://npmjs.org/package/qa-control-server)
 [![linux](https://img.shields.io/travis/codenautas/qa-control-server/master.svg)](https://travis-ci.org/codenautas/qa-control-server)
