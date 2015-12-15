@@ -91,6 +91,22 @@ describe("qac-services",function(){
                     done();
                 });
         });
+        it("must retrieve cucarda for project",function(done){
+            server = createServer(qacServices.projectServe());
+            this.timeout(bigTimeout);
+            var url='/'+org+'/'+prj+'.svg';
+            var agent=request(server);
+            agent
+                .get(url)
+                //.expect('No qa-control info for "'+prj+'"')
+                .end(function(err, res){
+                    expect(res.body.toString('utf8')).to.match(/invalid/);
+                    // console.log("res", res);
+                    // console.log("err", err);
+                    if(err){ return done(err); }
+                    done();
+                });
+        });
     });
     describe("push", function() {
         var json; // payload pasado a json
