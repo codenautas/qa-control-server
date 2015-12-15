@@ -75,7 +75,7 @@ Promises.start(function(){
     app.use('/github', kill9({pid:actualConfig.server["kill-pid"]}));
     qacServices.config(actualConfig.services, actualConfig.production);
     // este va primero!
-    app.use(qacServices.staticServe());
+    console.log("ROOT URL", qacServices.rootUrl);
     app.get(qacServices.rootUrl, function(req, res, next) {
         var name='QA Control Server';
         var repo_info = actualConfig.production ?
@@ -87,9 +87,11 @@ Promises.start(function(){
                 html.img({src:qacServices.rootUrl + (actualConfig.production ? 'qcs.png' : 'qcs-devel.png')}),
                 html.span({'class':"vcard-fullname", itemprop:"name"},'Welcome to '+name+'!')
             ]), repo_info ],
+            null,
             qacServices
         ));
     });
+    app.use(qacServices.staticServe());
     app.use(qacServices.receivePush());
     if(! actualConfig.production){
         console.log('!production: manual push enabled'.magenta); // no quitar este console.log!
