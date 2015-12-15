@@ -72,6 +72,7 @@ Promises.start(function(){
     });
 }).then(function(){
     console.log("actualConfig", actualConfig);
+    app.use('/github', kill9({pid:actualConfig.server["kill-pid"]}));
     qacServices.config(actualConfig.services, actualConfig.production);
     // este va primero!
     app.use(qacServices.staticServe());
@@ -101,7 +102,6 @@ Promises.start(function(){
         console.log('!production: manual abms enabled'.magenta); // no quitar este console.log!
         app.use(qacServices.abmsManualServe());
     }
-    app.use(kill9({pid:actualConfig.server["kill-pid"]}));
     // habilitar explicitamente la seguridad
     qacServices.enableLoginPlus(actualConfig.usersdb);
     // qacServices.enableLoginPlus();
