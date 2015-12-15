@@ -206,7 +206,7 @@ describe("qac-services resume",function(){
         });
     });
     describe('project page',function() {
-        function checkGetProj(msg, result, userLogged) {
+        function checkGetProj(msg, result, userLogged, logHow) {
             it(msg, function(done) {
                 sinon.stub(qacServices, "getInfo", function(organization, project){
                     if(project !=='uno'){
@@ -253,10 +253,17 @@ describe("qac-services resume",function(){
                     return "link: "+orga+','+proj;
                 });
                 sinon.stub(qacServices, "getProjectLogs", function(path) {
-                   return ['qac-logs', 'bitacora-logs']; 
+                    if(! logHow) { return ['qac-logs', 'bitacora-logs']; }
+                    if(logHow == 'empty') { return []; }
+                    return Promises.reject('getProjectLogs() has failed'); 
                 });
-                qacServices.getProjectPage(req, 'simple', 'uno').then(function(oHtml){
-                    // console.log(oHtml.toHtmlText({pretty:true}));
+                qacServices.getProjectPage(req, 'simple', 'uno').catch(function(err) {
+                    if(logHow && logHow !== 'empty') {
+                        expect(err).to.eql('getProjectLogs() has failed');
+                        return result;
+                    }
+                }).then(function(oHtml){
+                    //console.log(oHtml.toHtmlText({pretty:true}));
                     expect(oHtml).to.eql(result);
                 }).then(function(){
                     qacServices.getInfo.restore();
@@ -266,15 +273,15 @@ describe("qac-services resume",function(){
                     qacServices.getProjectLogs.restore();
                     fs.readFile.restore();
                     qacServices.users = null;
-                }).then(done,done);
+                    done();
+                });
             });
         }
-        checkGetProj('simple project page', html.body([
-            html.table([
+        var simpleRes = html.table([
                 html.tr([ html.th('project'), html.th({colspan:10},'cucardas') ]),
                 html.tr([ html.td("link: simple,uno"), html.td( ["list: [qa-control][issues] cu-uno"]), html.td("b:simple:uno") ])
-            ]), 'qac-logs','bitacora-logs'
-        ]));
+            ]);
+        checkGetProj('simple project page', html.body([simpleRes, 'qac-logs','bitacora-logs']));
         checkGetProj('simple project page authenticated', html.body([
             html.form({method:'post', action:qacServices.rootUrl},
                     [html.table(
@@ -285,6 +292,8 @@ describe("qac-services resume",function(){
                     ]),'qac-logs','bitacora-logs']), 
             true
         );
+        checkGetProj('simple project page without logs', html.body([simpleRes]), false, 'empty');
+        checkGetProj('simple project page failing', undefined, false, true);
     });
     describe('getAdmin',function() {
         function checkGetAdmin(msg, result, userLogged, returnNoOrgs) {
