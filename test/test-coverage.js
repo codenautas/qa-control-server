@@ -90,8 +90,8 @@ describe('qac-services coverage', function(){
             done();
         });
     });
-    describe('getProject', function() {
-        it('wrong error', function(done) {
+    describe('project', function() {
+        it('getProject() wrong error', function(done) {
             var orga='la-org', proj='el-proj';
             sinon.stub(fs, 'readFile', function(nameCucardas){
                 //console.log("nameCucardas", nameCucardas);
@@ -107,6 +107,56 @@ describe('qac-services coverage', function(){
             }).catch(function(que) {
                 done('should not happen');
             })
+        });
+        it('getProjectLogs()', function(done) {
+            var projPath = 'path-del-proyecto';
+            sinon.stub(fs, 'readJSON', function(jsonPath){
+                // console.log("jsonPath", jsonPath);
+                switch(jsonPath){
+                    case Path.normalize(projPath+'/result/qa-control-result.json'):
+                        return Promises.resolve([
+                            {"warning": "elwarning","params": ["index.js"],"scoring": {"customs": 1}},
+                            {"warning": "elwarning2", "scoring": {"customs": 1}}
+                        ]);
+                    case Path.normalize(projPath+'/result/bitacora.json'):
+                        return Promises.resolve([
+                            {"date": "fecha1", "origin": "command", "text": "git clone"},
+                            {"date": "fecha2","origin": "exit","text": "0"},
+                            {"date": "fecha3","origin": "shell","text": "el-shell"},
+                            {"date": "fecha4","origin": "internal","text": "\"cucardas.md\" generated"}
+                        ]);
+                    default:
+                        return Promises.reject('unexpected params in readJSON ['+jsonPath+']');
+                }
+            });
+            qacServices.getProjectLogs(projPath).then(function(logs) {
+                //console.log("logs", logs)
+                var result=[
+                    html.hr(),
+                    html.table([
+                        html.tr([
+                            html.th({colspan:3}, 'QA Control result')
+                        ]),
+                        html.tr([ html.td('warning'), html.td('file'), html.td('scoring') ]),
+                        html.tr([ html.td('elwarning'), html.td('index.js'), html.td('1') ]),
+                        html.tr([ html.td('elwarning2'), html.td(''), html.td('1') ])
+                        ]),
+                    html.hr(),
+                    html.table([
+                        html.tr([ html.th('Actions log') ]),
+                        html.tr([ html.td([ html.div({class:'stdout'}, 'git clone') ]) ]),
+                        html.tr([ html.td([ html.div({class:'stdout'}, '0') ]) ]),
+                        html.tr([ html.td([ html.div({class:'shell'}, 'el-shell') ]) ]),
+                        html.tr([ html.td([ html.div({class:'internal'}, '\"cucardas.md\" generated') ]) ])
+                        ])
+                   ];
+                expect(logs).to.eql(result);
+                fs.readJSON.restore();
+                done();
+            }).catch(function(err) {
+                console.log("ERR", err);
+                done(err);
+            });
         });
     });
     describe('functions', function() {
