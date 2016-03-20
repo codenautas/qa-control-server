@@ -81,12 +81,13 @@ Promises.start(function(){
     console.log("ROOT URL", qacServices.rootUrl);
     app.get(qacServices.rootUrl, function(req, res, next) {
         var name='QA Control Server v.'+packageJSON.version;
+        res.append('Content-Type', 'text/html');
         var repo_info = actualConfig.production ?
             html.div('') :
-            html.div({"class":'right-align'}, qacServices.repository.path);
+            html.div({"class":'center'}, qacServices.repository.path);
         res.end(qcsCommon.simpleHtml(
             name,
-            [ html.div({"class":'right-align'},[
+            [ html.div({"class":'center'},[
                 html.img({src:qacServices.rootUrl + (actualConfig.production ? 'qcs.png' : 'qcs-devel.png')}),
                 html.span({'class':"vcard-fullname", itemprop:"name"},'Welcome to '+name+'!')
             ]), repo_info ],
