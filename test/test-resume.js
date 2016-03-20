@@ -27,30 +27,30 @@ describe("qac-services resume",function(){
         );
         //console.log("obt", obt);
         expect(obt).to.eql([
-            html.td({class:'centrado'}, [
+            html.td({"class": 'centrado'}, [
                 html.img({src:"https://img.shields.io/badge/stability-extending-orange.svg", alt:"extending"}),
                 html.img({src:"https://img.shields.io/badge/stability-stable-green.svg", alt:"stable"})
             ]),
-            html.td({class:'centrado'}, [
+            html.td({"class": 'centrado'}, [
                 html.a(
                     {href:"https://npmjs.org/package/multilang"}, 
                     [ html.img({src:"https://img.shields.io/npm/v/multilang.svg", alt:"npm-version"}) ]
                 ),
             ]),
-            html.td({class:'centrado'}, [
+            html.td({"class": 'centrado'}, [
                 html.a(
                     {href:"https://npmjs.org/package/multilangx"}, 
                     [ html.img({src:"https://img.shields.io/npm/dm/multilang.svg", alt:"downloads"}) ]
                 ),
             ]),
-            html.td({class:'centrado'}),
-            html.td({class:'centrado'}),
-            html.td({class:'centrado'}),
-            html.td({class:'centrado'}),
-            html.td({class:'centrado'}),
-            html.td({class:'centrado'}),
-            html.td({class:'centrado'}),
-            html.td({class:'centrado'}, [
+            html.td({"class": 'centrado'}),
+            html.td({"class": 'centrado'}),
+            html.td({"class": 'centrado'}),
+            html.td({"class": 'centrado'}),
+            html.td({"class": 'centrado'}),
+            html.td({"class": 'centrado'}),
+            html.td({"class": 'centrado'}),
+            html.td({"class": 'centrado'}, [
                 html.img({src:"https://img.shields.io/badge/stability-otra-green.svg", alt:"otra"}),
                 html.img({src:"https://img.shields.io/badge/stability-otra-mas-green.svg", alt:"otra-mas"})
             ])
@@ -166,7 +166,7 @@ describe("qac-services resume",function(){
                     html.tr([ html.th('project'), html.th({colspan:10},'cucardas'), html.th({colspan:4},'actions') ]),
                     html.tr([ html.td("link: simple,uno"), html.td( ["list: [qa-control][issues] cu-uno"]), html.td("b:simple:uno") ]),
                     html.tr([ html.td("link: simple,dos"), html.td( ["list: [qa-control][issues] cu-dos"]), html.td("b:simple:dos") ]),
-                    html.tr([ html.td({colspan:16, align:'right'}, [
+                    html.tr([ html.td({colspan:16, "class":'right-align'}, [
                                 html.input({type:'hidden', name:'action', value:'add'}),
                                 html.input({type:'hidden', name:'organization', value:'simple'}),
                                 html.input({type:'text', name:'project'}),
@@ -327,7 +327,7 @@ describe("qac-services resume",function(){
                     html.tr([html.th('organization'), html.th('actions')]),
                     html.tr([
                         html.td([html.a({href:'/uno'}, 'uno')]),
-                        html.td({class:'centrado'}, [
+                        html.td({"class": 'centrado'}, [
                             html.a(
                                 {href:'/ask/delete/uno', 'codenautas-confirm':'row'},
                                 [html.img({src:'/delete.png', alt:'del', style:'height:18px'})]
@@ -336,7 +336,7 @@ describe("qac-services resume",function(){
                     ]),
                     html.tr([
                         html.td([html.a({href:'/dos'}, 'dos')]),
-                        html.td({class:'centrado'}, [
+                        html.td({"class": 'centrado'}, [
                             html.a(
                                 {href:'/ask/delete/dos', 'codenautas-confirm':'row'},
                                 [html.img({src:'/delete.png', alt:'del', style:'height:18px'})]
@@ -344,7 +344,7 @@ describe("qac-services resume",function(){
                         ])
                     ]),
                     html.tr([
-                        html.td({colspan:2, align:'right'},[
+                        html.td({colspan:2, "class":'right-align'},[
                             html.input({type:'hidden', name:'action', value:'create'}),
                             html.input({type:'text', name:'organization'}),
                             html.input({type:'submit', value:'New organization...'})

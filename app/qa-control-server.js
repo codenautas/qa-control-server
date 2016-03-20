@@ -83,10 +83,10 @@ Promises.start(function(){
         var name='QA Control Server v.'+packageJSON.version;
         var repo_info = actualConfig.production ?
             html.div('') :
-            html.div({"style":'text-align:center'}, qacServices.repository.path);
+            html.div({"class":'right-align'}, qacServices.repository.path);
         res.end(qcsCommon.simpleHtml(
             name,
-            [ html.div({"style":'text-align:center'},[
+            [ html.div({"class":'right-align'},[
                 html.img({src:qacServices.rootUrl + (actualConfig.production ? 'qcs.png' : 'qcs-devel.png')}),
                 html.span({'class':"vcard-fullname", itemprop:"name"},'Welcome to '+name+'!')
             ]), repo_info ],
