@@ -1,7 +1,7 @@
 {
   "name": "qa-control-server",
   "description": "qa-control server",
-  "version": "0.1.5",
+  "version": "0.2.3",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "repository": "codenautas/qa-control-server",
@@ -29,10 +29,10 @@
     "exec-to-html": "0.0.7",
     "extension-serve": "0.0.4",
     "js-to-html": "0.9.0",
-    "kill-9": "0.2.3",
-    "login-plus": "0.3.4",
-    "mini-tools": "0.2.3",
-    "qa-control": "0.1.18"
+    "kill-9": "0.3.0",
+    "login-plus": "0.4.0",
+    "mini-tools": "0.2.5",
+    "qa-control": "0.2.3"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
@@ -40,7 +40,7 @@
     "fs-promise": "^0.5.0",
     "istanbul": "0.4.2",
     "jade": "~1.11.0",
-    "lodash": "4.6.1",
+    "lodash": "4.7.0",
     "mocha": "^2.4.5",
     "read-yaml-promise": "1.0.2",
     "sinon": "^1.17.3",
