@@ -110,6 +110,10 @@ Promises.start(function(){
     }
     // habilitar explicitamente la seguridad
     qacServices.enableLoginPlus(actualConfig.usersdb);
+    if(actualConfig.production){
+        console.log('manual refresh activated when logged in'.); 
+        app.use(qacServices.receiveManualPush());
+    }
     // qacServices.enableLoginPlus();
     app.use(qacServices.askServe());
     app.use(qacServices.abmsServe());

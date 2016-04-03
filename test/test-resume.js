@@ -81,7 +81,7 @@ describe("qac-services resume",function(){
             ]),
             html.td([
                 html.a({
-                    href:'/root/manual-push/simple-org/proj-name'
+                    href:'/root/refresh/simple-org/proj-name'
                 }, [html.img({src:'/root/refresh.png', alt:'rfrsh', style:'height:18px'})])
             ])
         ]);
