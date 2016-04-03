@@ -1,7 +1,7 @@
 {
   "name": "qa-control-server",
   "description": "qa-control server",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "repository": "codenautas/qa-control-server",
@@ -31,8 +31,8 @@
     "js-to-html": "0.9.0",
     "kill-9": "0.3.0",
     "login-plus": "0.4.0",
-    "mini-tools": "0.2.5",
-    "qa-control": "0.2.3"
+    "mini-tools": "0.2.7",
+    "qa-control": "0.2.4"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
