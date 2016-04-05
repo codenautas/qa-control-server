@@ -138,8 +138,8 @@ describe('qac-services coverage', function(){
                             html.th({colspan:3}, 'QA Control result')
                         ]),
                         html.tr([ html.td('warning'), html.td('file'), html.td('scoring') ]),
-                        html.tr([ html.td('elwarning'), html.td('index.js'), html.td('1') ]),
-                        html.tr([ html.td('elwarning2'), html.td(''), html.td('1') ])
+                        html.tr([ html.td('elwarning'), html.td('index.js'), html.td('{"customs":1}') ]),
+                        html.tr([ html.td('elwarning2'), html.td(''), html.td('{"customs":1}') ])
                         ]),
                     html.hr(),
                     html.table([
