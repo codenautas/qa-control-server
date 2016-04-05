@@ -33,7 +33,7 @@ describe("qac-services",function(){
                     html.th({colspan:10}, 'cucardas')
                 ]),
                 html.tr([
-                    html.td([html.a({href:'/'+org+'/'+prj}, prj)]),
+                    html.td([html.a({href:'https://github.com/'+org+'/'+prj}, prj)]),
                     html.td({class:'centrado'}),
                     html.td({class:'centrado'}),
                     html.td({class:'centrado'}),

@@ -61,7 +61,7 @@ describe("qac-services resume",function(){
         qacServices.rootUrl='/root/'
         var obt=qacServices.projectNameToHtmlLink('simple-org','proj-name');
         expect(obt).to.eql(
-            html.a({href:"/root/simple-org/proj-name"}, "proj-name")
+            html.a({href:"https://github.com/simple-org/proj-name"}, "proj-name")
         );
         qacServices.rootUrl = oriUrl;
     });
