@@ -115,7 +115,7 @@ describe('qac-services coverage', function(){
                 switch(jsonPath){
                     case Path.normalize(projPath+'/result/qa-control-result.json'):
                         return Promises.resolve([
-                            {"warning": "elwarning","params": ["index.js"],"scoring": {"customs": 1}},
+                            {"warning": "elwarning","params": ["index.js"],"scoring": {"customs": 1, "other":2}},
                             {"warning": "elwarning2", "scoring": {"customs": 1}}
                         ]);
                     case Path.normalize(projPath+'/result/bitacora.json'):
@@ -138,8 +138,8 @@ describe('qac-services coverage', function(){
                             html.th({colspan:3}, 'QA Control result')
                         ]),
                         html.tr([ html.td('warning'), html.td('file'), html.td('scoring') ]),
-                        html.tr([ html.td('elwarning'), html.td('index.js'), html.td('{"customs":1}') ]),
-                        html.tr([ html.td('elwarning2'), html.td(''), html.td('{"customs":1}') ])
+                        html.tr([ html.td('elwarning'), html.td('index.js'), html.td('customs:1 other:2') ]),
+                        html.tr([ html.td('elwarning2'), html.td(''), html.td('customs:1') ])
                         ]),
                     html.hr(),
                     html.table([
