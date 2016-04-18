@@ -39,7 +39,7 @@ if(false) {
 // var jade = require('jade');
     
 app.use(cookieParser());
-// app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
 app.use(function(req,res,next){
@@ -75,7 +75,7 @@ Promises.start(function(){
 }).then(function(packageJSON){
     console.log("packageJSON", packageJSON.version);
     console.log("actualConfig", actualConfig);
-    app.use('/github', kill9({pid:actualConfig.server["kill-pid"]}));
+    app.use('/github', kill9(actualConfig.server["kill-9"]));
     qacServices.config(actualConfig.services, actualConfig.production);
     // este va primero!
     console.log("ROOT URL", qacServices.rootUrl);

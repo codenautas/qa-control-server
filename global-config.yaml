@@ -1,6 +1,8 @@
 server:
   port: 7226
-  kill-pid: 72261
+  kill-9:
+    pid: 72261
+    master-pass: "do not use this pass"
 services:
   repository:
     path: .\repo-examples
