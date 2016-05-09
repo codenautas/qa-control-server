@@ -26,16 +26,6 @@ require('colors');
 var html = require('js-to-html').html;
 html.insecureModeEnabled = true;
 
-if(false) {
-    var extensionServeStatic = require('extension-serve-static');
-    var MiniTools = require('mini-tools');    
-    var validExts=[
-        'html',
-        'jpg','png','gif',
-        'css','js','manifest'];
-    app.use(qacServices.rootUrl, extensionServeStatic('app', {staticExtensions:validExts}));
-}
-
 // var jade = require('jade');
     
 app.use(cookieParser());

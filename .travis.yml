@@ -1,8 +1,8 @@
 language: node_js
 node_js:
   - "0.12.7"
-  - "4.4.3"
-  - "5.10.1"
+  - "4"
+  - "5"
 matrix:
   fast_finish: true
 script: "npm run-script test-ci"
