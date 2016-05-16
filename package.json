@@ -30,7 +30,7 @@
     "js-to-html": "~0.9.0",
     "kill-9": "~0.4.1",
     "login-plus": "~0.4.1",
-    "mini-tools": "~0.2.8",
+    "mini-tools": "~0.2.9",
     "qa-control": "~0.2.11"
   },
   "devDependencies": {
