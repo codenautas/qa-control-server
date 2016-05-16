@@ -228,13 +228,6 @@ describe('qac-services coverage', function(){
             console.log("err", err);
             done(err);
         });
-        it('gitHubUrl', function(done) {
-            var url = {uri: 'https://api.github.com/uno/dos/repos', headers: { 'User-Agent': 'Request-Promise' } };
-            expect(qacServices.gitHubUrl('uno', 'dos')).to.eql(url);
-            url.uri = 'https://api.github.com/tres/cuatro/repos';
-            expect(qacServices.gitHubUrl('tres', 'cuatro')).to.eql(url);
-            done();
-        });
         it('uriIsHandled', function(done) {
             expect(qacServices.uriIsHandled({params:{organization: 'login'}})).to.be.ok();
             expect(qacServices.uriIsHandled({params:{organization: 'manual-delete'}})).to.be.ok();
