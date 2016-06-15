@@ -213,7 +213,17 @@ describe("qac-services",function(){
                 .expect(403)
                 .expect('unauthorized request. Invalid x-hub-signature')
                 .end(done);
-        });        
+        });
+        it.skip("reject requests without X-GitHub-Event and wrong info",function(done){
+            var agent=request(server);
+            agent
+                .post('/push/'+json.repository.organization+'/noooop')
+                .type('json')
+                .send(json)
+                .expect(400)
+                .expect('bad request. Missing X-GitHub-Event header')
+                .end(done);
+        });
     });
 });
 
