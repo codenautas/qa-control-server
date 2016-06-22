@@ -112,7 +112,7 @@ describe("qac-services",function(){
         var json; // payload pasado a json
         var headers;
         var json2, headers2;
-        before(function() {
+        beforeEach(function() {
             server = createServer(qacServices.receivePush());
             return helper.readSampleWebHook('mlang01').then(function(wh) {
                 headers = wh.headers;
@@ -122,6 +122,10 @@ describe("qac-services",function(){
                 headers2 = wh.headers;
                 json2 = JSON.parse(wh.payload);
             });
+        });
+        afterEach(function(done) {
+           server.srv.close();
+           done();
         });
         function getProjectInfo(json) {
             return qacServices.getInfo(json.repository.organization, json.repository.name);
@@ -191,19 +195,27 @@ describe("qac-services",function(){
                     });
                 });
         });
+        var globalPushErrors = [];
+        var expectedError;
         it("reject requests without X-GitHub-Event",function(done){
+            expectedError = 'bad request. Missing X-GitHub-Event header';
             var agent=request(server);
             agent
                 .post('/push/'+json.repository.organization+'/'+json.repository.name)
                 .type('json')
                 .send(json)
                 .expect(400)
-                .expect('bad request. Missing X-GitHub-Event header')
-                .end(done);
+                .expect(expectedError)
+                .end(function(err, res){
+                    if(err){ return done(err); }
+                    globalPushErrors.push(expectedError);
+                    done(); 
+                });
         });
         it("reject requests with x-hub-signature that doesn't validates",function(done){
             var modHeaders = _.clone(headers);
             modHeaders['Content-Length'] = headers2['Content-Length'];
+            expectedError = 'unauthorized request. Invalid x-hub-signature';
             var agent=request(server);
             agent
                 .post('/push/'+json.repository.organization+'/'+json.repository.name)
@@ -211,15 +223,11 @@ describe("qac-services",function(){
                 .set(modHeaders)
                 .send(json2)
                 .expect(403)
-                .expect('unauthorized request. Invalid x-hub-signature')
+                .expect(expectedError)
                .end(function(err, res){
                     if(err){ return done(err); }
-                    fs.readJson(qacServices.globalPushStatusPath()).then(function(pushLog) {
-                        //console.log("PL", pushLog)
-                        done(); 
-                    }).catch(function(err) {
-                        done(err);
-                    });
+                    globalPushErrors.push(expectedError);
+                    done(); 
                 });
         });
         it.skip("reject requests without X-GitHub-Event and wrong info",function(done){
@@ -237,6 +245,17 @@ describe("qac-services",function(){
             console.log("algo mas");
             done();
         });
+        it("should log global errors correctly", function(done) {
+            fs.readJson(qacServices.globalPushStatusPath()).then(function(pushLog) {
+                // console.log("PL", pushLog); console.log("globalPushErrors", globalPushErrors)
+                for(var m=0; m<pushLog.length; ++m) {
+                    expect(pushLog[m].message).to.eql(globalPushErrors[m]);
+                }
+                done(); 
+            }).catch(function(err) {
+                done(err);
+            });
+        });
     });
 });
 
@@ -245,7 +264,8 @@ var express = require('express');
 function createServer(_serve) {
     helper.setup(qacServices);
     var app = express();
-    app.listen();
+    var elServer = app.listen();
     app.use(_serve);
+    app.srv = elServer;
     return app;
 }
