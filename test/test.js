@@ -141,19 +141,20 @@ describe("qac-services",function(){
                 .expect('ok: '+json.head_commit.timestamp)
                 .end(done);
         });
-        function verifyPushStatus(json, status, done) {
+        function verifyPushStatus(done, json, status, message) {
             getProjectInfo(json).then(function(info) {
                 //console.log("info", info);
                 return fs.readJson(Path.normalize(info.project.path+'/result/push-status.json'));
             }).then(function(result) {
                 expect(result.status).to.eql(status);
+                if(message) { expect(result.message).to.eql(message); }
                 done();
             }).catch(function(err) {
                 done(err);
             });
         }
         it("verify first push", function(done) {
-            verifyPushStatus(json, 'ok', done);
+            verifyPushStatus(done, json, 'ok');
         });
         it("receive the second push",function(done){
             this.timeout(bigTimeout);
@@ -173,7 +174,7 @@ describe("qac-services",function(){
                 });
         });
         it("verify second push", function(done) {
-            verifyPushStatus(json, 'ok', done);
+            verifyPushStatus(done, json, 'ok');
         });
         // OJO este test debe correr siempre despues de "receive the first push"!!!
         it("check that basic files and directories are generated",function(done){
@@ -219,6 +220,9 @@ describe("qac-services",function(){
                 .expect(errBadReq)
                 .end(done);
         });
+        it("verify '"+errBadReq+"'", function(done) {
+            verifyPushStatus(done, json, 'error', errBadReq);
+        });
         it("reject requests with x-hub-signature that doesn't validates",function(done){
             var modHeaders = _.clone(headers);
             modHeaders['Content-Length'] = headers2['Content-Length'];
@@ -231,6 +235,9 @@ describe("qac-services",function(){
                 .expect(403)
                 .expect(errHubSig)
                 .end(done);
+        });
+        it("verify '"+errHubSig+"'", function(done) {
+            verifyPushStatus(done, json, 'error', errHubSig);
         });
         it("reject requests without X-GitHub-Event and wrong info",function(done){
             var wrong = 'noooop';
