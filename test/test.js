@@ -139,13 +139,18 @@ describe("qac-services",function(){
                 .type('json')
                 .send(json)
                 .expect('ok: '+json.head_commit.timestamp)
-                .end(function(err, res){
-                    if(err){ return done(err); }
-                    getProjectInfo(json).then(function(info) {
-                        //console.log("info", info);
-                        done();
-                    });
-                });
+                .end(done);
+        });
+        it("verify first push", function(done) {
+            getProjectInfo(json).then(function(info) {
+                //console.log("info", info);
+                return fs.readJson(Path.normalize(info.project.path+'/result/push-status.json'));
+            }).then(function(result) {
+                expect(result.status).to.eql('ok');
+                done();
+            }).catch(function(err) {
+                done(err);
+            });
         });
         it("receive the second push",function(done){
             this.timeout(bigTimeout);
@@ -163,6 +168,17 @@ describe("qac-services",function(){
                         done();
                     });
                 });
+        });
+        it("verify second push", function(done) {
+            getProjectInfo(json).then(function(info) {
+                //console.log("info", info);
+                return fs.readJson(Path.normalize(info.project.path+'/result/push-status.json'));
+            }).then(function(result) {
+                expect(result.status).to.eql('ok');
+                done();
+            }).catch(function(err) {
+                done(err);
+            });
         });
         // OJO este test debe correr siempre despues de "receive the first push"!!!
         it("check that basic files and directories are generated",function(done){
