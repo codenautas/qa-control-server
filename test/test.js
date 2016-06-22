@@ -215,14 +215,19 @@ describe("qac-services",function(){
                 .end(done);
         });
         it.skip("reject requests without X-GitHub-Event and wrong info",function(done){
+            var wrong = 'noooop';
+            json.repository.name = wrong;
+            json.repository.full_name = 'codenautas/'+wrong;
             var agent=request(server);
             agent
-                .post('/push/'+json.repository.organization+'/noooop')
+                .post('/push/'+json.repository.organization+'/'+wrong)
                 .type('json')
                 .send(json)
                 .expect(400)
-                .expect('bad request. Missing X-GitHub-Event header')
-                .end(done);
+                .expect('bad request. Missing X-GitHub-Event header');
+                //.end(done);
+            console.log("algo mas");
+            done();
         });
     });
 });
