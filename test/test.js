@@ -239,10 +239,12 @@ describe("qac-services",function(){
                 });
         });
         it("should log global errors correctly", function(done) {
-            fs.readJson(qacServices.globalPushStatusPath()).then(function(pushLog) {
-                //console.log("PL", pushLog); console.log("globalPushErrors", globalPushErrors)
-                for(var m=0; m<pushLog.length; ++m) {
-                    expect(pushLog[m].message).to.eql(globalPushErrors[m]);
+            fs.readFile(qacServices.globalPushStatusPath(), {encoding:'utf8'}).then(function(pushLog) {
+                //console.log("PL", pushLog); console.log("globalPushErrors", globalPushErrors);
+                var jsones=pushLog.split('\n\n');
+                for(var m=0; m<jsones.length; ++m) {
+                    var rec = JSON.parse(jsones[m].trim());
+                    expect(rec.message).to.eql(globalPushErrors[m]);
                 }
                 done(); 
             }).catch(function(err) {
