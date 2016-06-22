@@ -196,26 +196,25 @@ describe("qac-services",function(){
                 });
         });
         var globalPushErrors = [];
-        var expectedError;
+        var errBadReq = 'bad request. Missing X-GitHub-Event header';
+        var errHubSig = 'unauthorized request. Invalid x-hub-signature';
         it("reject requests without X-GitHub-Event",function(done){
-            expectedError = 'bad request. Missing X-GitHub-Event header';
             var agent=request(server);
             agent
                 .post('/push/'+json.repository.organization+'/'+json.repository.name)
                 .type('json')
                 .send(json)
                 .expect(400)
-                .expect(expectedError)
+                .expect(errBadReq)
                 .end(function(err, res){
                     if(err){ return done(err); }
-                    globalPushErrors.push(expectedError);
+                    globalPushErrors.push(errBadReq);
                     done(); 
                 });
         });
         it("reject requests with x-hub-signature that doesn't validates",function(done){
             var modHeaders = _.clone(headers);
             modHeaders['Content-Length'] = headers2['Content-Length'];
-            expectedError = 'unauthorized request. Invalid x-hub-signature';
             var agent=request(server);
             agent
                 .post('/push/'+json.repository.organization+'/'+json.repository.name)
@@ -223,14 +222,14 @@ describe("qac-services",function(){
                 .set(modHeaders)
                 .send(json2)
                 .expect(403)
-                .expect(expectedError)
-               .end(function(err, res){
+                .expect(errHubSig)
+                .end(function(err, res){
                     if(err){ return done(err); }
-                    globalPushErrors.push(expectedError);
+                    globalPushErrors.push(errHubSig);
                     done(); 
                 });
         });
-        it.skip("reject requests without X-GitHub-Event and wrong info",function(done){
+        it("reject requests without X-GitHub-Event and wrong info",function(done){
             var wrong = 'noooop';
             json.repository.name = wrong;
             json.repository.full_name = 'codenautas/'+wrong;
@@ -240,10 +239,12 @@ describe("qac-services",function(){
                 .type('json')
                 .send(json)
                 .expect(400)
-                .expect('bad request. Missing X-GitHub-Event header');
-                //.end(done);
-            console.log("algo mas");
-            done();
+                .expect(errBadReq)
+                .end(function(err, res){
+                    if(err){ return done(err); }
+                    globalPushErrors.push(errBadReq);
+                    done(); 
+                });
         });
         it("should log global errors correctly", function(done) {
             fs.readJson(qacServices.globalPushStatusPath()).then(function(pushLog) {
