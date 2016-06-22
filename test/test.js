@@ -212,7 +212,15 @@ describe("qac-services",function(){
                 .send(json2)
                 .expect(403)
                 .expect('unauthorized request. Invalid x-hub-signature')
-                .end(done);
+               .end(function(err, res){
+                    if(err){ return done(err); }
+                    fs.readJson(qacServices.globalPushStatusPath()).then(function(pushLog) {
+                        //console.log("PL", pushLog)
+                        done(); 
+                    }).catch(function(err) {
+                        done(err);
+                    });
+                });
         });
         it.skip("reject requests without X-GitHub-Event and wrong info",function(done){
             var wrong = 'noooop';
