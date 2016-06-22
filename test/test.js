@@ -206,11 +206,7 @@ describe("qac-services",function(){
                 .send(json)
                 .expect(400)
                 .expect(errBadReq)
-                .end(function(err, res){
-                    if(err){ return done(err); }
-                    globalPushErrors.push(errBadReq);
-                    done(); 
-                });
+                .end(done);
         });
         it("reject requests with x-hub-signature that doesn't validates",function(done){
             var modHeaders = _.clone(headers);
@@ -223,11 +219,7 @@ describe("qac-services",function(){
                 .send(json2)
                 .expect(403)
                 .expect(errHubSig)
-                .end(function(err, res){
-                    if(err){ return done(err); }
-                    globalPushErrors.push(errHubSig);
-                    done(); 
-                });
+                .end(done);
         });
         it("reject requests without X-GitHub-Event and wrong info",function(done){
             var wrong = 'noooop';
@@ -242,13 +234,13 @@ describe("qac-services",function(){
                 .expect(errBadReq)
                 .end(function(err, res){
                     if(err){ return done(err); }
-                    globalPushErrors.push(errBadReq);
+                    globalPushErrors.push(errBadReq+': inexistent project "'+wrong+'"');
                     done(); 
                 });
         });
         it("should log global errors correctly", function(done) {
             fs.readJson(qacServices.globalPushStatusPath()).then(function(pushLog) {
-                // console.log("PL", pushLog); console.log("globalPushErrors", globalPushErrors)
+                //console.log("PL", pushLog); console.log("globalPushErrors", globalPushErrors)
                 for(var m=0; m<pushLog.length; ++m) {
                     expect(pushLog[m].message).to.eql(globalPushErrors[m]);
                 }
