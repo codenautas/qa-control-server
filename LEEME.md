@@ -1,10 +1,10 @@
 # qa-control-server
 
 <!--lang:es-->
-servidor que mantiene proyectos validados con qa-control
+Servidor web que mantiene proyectos validados con qa-control
 
 <!--lang:en--]
-qa-control managed projects server server
+Web server that mantains validated qa-control projects
 
 [!--lang:*-->
 

@@ -1,6 +1,6 @@
 # qa-control-server
 
-qa-control managed projects server server
+Web server that mantains validated qa-control projects
 
 
 ![extending](https://img.shields.io/badge/stability-extending-orange.svg)
