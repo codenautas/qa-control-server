@@ -112,7 +112,7 @@ describe("qac-services",function(){
         var json; // payload pasado a json
         var headers;
         var json2, headers2;
-        beforeEach(function() {
+        before(function() {
             server = createServer(qacServices.receivePush());
             return helper.readSampleWebHook('mlang01').then(function(wh) {
                 headers = wh.headers;
@@ -122,10 +122,6 @@ describe("qac-services",function(){
                 headers2 = wh.headers;
                 json2 = JSON.parse(wh.payload);
             });
-        });
-        afterEach(function(done) {
-           server.srv.close();
-           done();
         });
         function getProjectInfo(json) {
             return qacServices.getInfo(json.repository.organization, json.repository.name);
@@ -139,22 +135,13 @@ describe("qac-services",function(){
                 .type('json')
                 .send(json)
                 .expect('ok: '+json.head_commit.timestamp)
-                .end(done);
-        });
-        function verifyPushStatus(done, json, status, message) {
-            getProjectInfo(json).then(function(info) {
-                //console.log("info", info);
-                return fs.readJson(Path.normalize(info.project.path+'/result/push-status.json'));
-            }).then(function(result) {
-                expect(result.status).to.eql(status);
-                if(message) { expect(result.message).to.eql(message); }
-                done();
-            }).catch(function(err) {
-                done(err);
-            });
-        }
-        it("verify first push", function(done) {
-            verifyPushStatus(done, json, 'ok');
+                .end(function(err, res){
+                    if(err){ return done(err); }
+                    getProjectInfo(json).then(function(info) {
+                        //console.log("info", info);
+                        done();
+                    });
+                });
         });
         it("receive the second push",function(done){
             this.timeout(bigTimeout);
@@ -172,9 +159,6 @@ describe("qac-services",function(){
                         done();
                     });
                 });
-        });
-        it("verify second push", function(done) {
-            verifyPushStatus(done, json, 'ok');
         });
         // OJO este test debe correr siempre despues de "receive the first push"!!!
         it("check that basic files and directories are generated",function(done){
@@ -207,9 +191,6 @@ describe("qac-services",function(){
                     });
                 });
         });
-        var globalPushErrors = [];
-        var errBadReq = 'bad request. Missing X-GitHub-Event header';
-        var errHubSig = 'unauthorized request. Invalid x-hub-signature';
         it("reject requests without X-GitHub-Event",function(done){
             var agent=request(server);
             agent
@@ -217,11 +198,8 @@ describe("qac-services",function(){
                 .type('json')
                 .send(json)
                 .expect(400)
-                .expect(errBadReq)
+                .expect('bad request. Missing X-GitHub-Event header')
                 .end(done);
-        });
-        it("verify '"+errBadReq+"'", function(done) {
-            verifyPushStatus(done, json, 'error', errBadReq);
         });
         it("reject requests with x-hub-signature that doesn't validates",function(done){
             var modHeaders = _.clone(headers);
@@ -233,42 +211,9 @@ describe("qac-services",function(){
                 .set(modHeaders)
                 .send(json2)
                 .expect(403)
-                .expect(errHubSig)
+                .expect('unauthorized request. Invalid x-hub-signature')
                 .end(done);
-        });
-        it("verify '"+errHubSig+"'", function(done) {
-            verifyPushStatus(done, json, 'error', errHubSig);
-        });
-        it("reject requests without X-GitHub-Event and wrong info",function(done){
-            var wrong = 'noooop';
-            json.repository.name = wrong;
-            json.repository.full_name = 'codenautas/'+wrong;
-            var agent=request(server);
-            agent
-                .post('/push/'+json.repository.organization+'/'+wrong)
-                .type('json')
-                .send(json)
-                .expect(400)
-                .expect(errBadReq)
-                .end(function(err, res){
-                    if(err){ return done(err); }
-                    globalPushErrors.push(errBadReq+': inexistent project "'+wrong+'"');
-                    done(); 
-                });
-        });
-        it("should log global errors correctly", function(done) {
-            fs.readFile(qacServices.globalPushStatusPath(), {encoding:'utf8'}).then(function(pushLog) {
-                //console.log("PL", pushLog); console.log("globalPushErrors", globalPushErrors);
-                var jsones=pushLog.split('\n\n');
-                for(var m=0; m<jsones.length; ++m) {
-                    var rec = JSON.parse(jsones[m].trim());
-                    expect(rec.message).to.eql(globalPushErrors[m]);
-                }
-                done(); 
-            }).catch(function(err) {
-                done(err);
-            });
-        });
+        });        
     });
 });
 
@@ -277,8 +222,7 @@ var express = require('express');
 function createServer(_serve) {
     helper.setup(qacServices);
     var app = express();
-    var elServer = app.listen();
+    app.listen();
     app.use(_serve);
-    app.srv = elServer;
     return app;
 }
