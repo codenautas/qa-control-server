@@ -11,7 +11,7 @@ describe('qac-services test sample data', function(){
     it('all sample WebHooks should have valid hashes', function(done){
         var basePath='./test/webhooks';
         var samples={};
-        return fs.readdir(basePath).then(function(files) {
+        fs.readdir(basePath).then(function(files) {
             return Promises.all(files.map(function(file){
                 var iFile = Path.normalize(basePath+'/'+file);
                 return Promises.start(function() {

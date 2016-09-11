@@ -11,12 +11,12 @@ describe('qac-services modification functions', function(){
     helper.setup(qacServices);
     describe('organization/project actions', function() {
         function orgWrongInput(msg, p1, expRE) {
-            it('createOrganization should fail with '+msg, function(done) {
+            it('createOrganization should fail with '+msg, function() {
                 return qacServices.createOrganization(p1).then(function(rv) {
                     throw new Error('should fail');
                 },function(err){
                     expect(err.message).to.match(expRE);
-                }).then(done,done);
+                });
             });
         }
         orgWrongInput('missing name', null, /missing organization name/);
@@ -25,7 +25,7 @@ describe('qac-services modification functions', function(){
         orgWrongInput('another bad name', '3starts-with-number', /invalid organization name/);
         var orgWithSlashes='org-with-slashes';
         var project='proj1', project2='proj2';
-        it('should create organization (#7)', function(done) {
+        it('should create organization (#7)', function() {
             return qacServices.createOrganization(orgWithSlashes).then(function(status) {
                 //console.log("status", status);
                 expect(status).to.eql('organization "'+orgWithSlashes+'" created');
@@ -34,13 +34,10 @@ describe('qac-services modification functions', function(){
                 //console.log(info);
                 expect(info.organization.name).to.eql(orgWithSlashes);
                 expect(info.organization.projects).to.eql([]);
-                done();
-            }).catch(function(err) {
-                done(err);
             });
         });
         function projWrongInput(msg, org, proj, expRE, sinonEOG) {
-            it('createProject should fail with '+msg, function(done) {
+            it('createProject should fail with '+msg, function() {
                 this.timeout(4000);
                 if(sinonEOG) {
                     sinon.stub(qacServices, 'existsOnGithub', function(o, p) {
@@ -59,7 +56,7 @@ describe('qac-services modification functions', function(){
                     if(sinonEOG) { qacServices.existsOnGithub.restore(); }
                     //console.log("SI FALLO", err.stack);
                     expect(err.message).to.match(expRE);
-                }).then(done,done);
+                });
             });     
         }
         projWrongInput('missing organization', null, null, /missing organization name/);
@@ -78,7 +75,7 @@ describe('qac-services modification functions', function(){
         //projWrongInput('inexistent project on github (#18)', 'codenautas', 'inexistent-on-github', /inexistent project on github/);
         it('should create project (#8)', function(done) {
             sinon.stub(qacServices, 'existsOnGithub', function() { return Promises.resolve({}); });
-            return qacServices.createProject(orgWithSlashes, project).then(function(status) {
+            qacServices.createProject(orgWithSlashes, project).then(function(status) {
                 //console.log("status", status);
                 expect(status).to.eql('project "'+project+'" created');
                 return qacServices.getInfo(orgWithSlashes, project);
@@ -96,19 +93,16 @@ describe('qac-services modification functions', function(){
             });
         });
         projWrongInput('duplicate project (#16)', orgWithSlashes, project, /duplicate project/);
-        it('should return error message', function(done) {
+        it('should return error message', function() {
             var genMsg = 'fs.remove() generated error';
             sinon.stub(fs, 'remove', function() { return Promises.reject({message:genMsg}); });
             return qacServices.deleteData(orgWithSlashes).then(function(status) {
                 //console.log("status", status);
                 expect(status).to.eql(genMsg);
                 fs.remove.restore();
-                done();
-            }, function(err) {
-                done('should not fail', err);
             });
         });
-        it('should remove project', function(done) {
+        it('should remove project', function() {
             return qacServices.deleteData(orgWithSlashes, project).then(function(status) {
                 //console.log("status", status);
                 expect(status).to.eql('project "'+project+'" removed');
@@ -116,13 +110,10 @@ describe('qac-services modification functions', function(){
             }).then(function(info) {
                 //console.log(info);
                 expect(info.organization.projects).to.eql([]);
-                done();
-            }, function(err) {
-                done(err);
             });
         });
         it('should remove organization', function(done) {
-            return qacServices.deleteData(orgWithSlashes).then(function(status) {
+            qacServices.deleteData(orgWithSlashes).then(function(status) {
                 //console.log("status", status);
                 expect(status).to.eql('organization "'+orgWithSlashes+'" removed');
                 return qacServices.getInfo(orgWithSlashes);

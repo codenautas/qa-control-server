@@ -15,7 +15,7 @@ describe('qac-services information functions', function(){
         var project='the-app', project2='other-app';
         var notADir = 'aFileNotADir';
         function testBadInput(msg, p1, p2, expRE, sinonFS, sinonSTAT) {
-            it('should fail with '+msg, function(done) {
+            it('should fail with '+msg, function() {
                 if(sinonFS) {
                     sinon.stub(fs, 'readFile', function(pathDeJson){
                         var jsf = fs.readFileSync(pathDeJson, 'utf8');
@@ -42,7 +42,7 @@ describe('qac-services information functions', function(){
                     if(sinonFS) { fs.readFile.restore(); }
                     if(sinonSTAT) { fs.stat.restore(); }
                     expect(err.message).to.match(expRE);
-                }).then(done,done);
+                });
             });            
         }
         testBadInput('missing parameters', null, null, /missing organization/);
@@ -53,27 +53,20 @@ describe('qac-services information functions', function(){
         testBadInput('missing project directory wrong error', organization, project, /STUBBED stat/, false, true);
         testBadInput('missing project directory right error', organization, project2, /invalid project/, false, true);
         
-        it('should return organization info', function(done) {
+        it('should return organization info', function() {
             return qacServices.getInfo(organization).then(function(info) {
                 expect(info.organization.name).to.be(organization);
                 expect(info.organization.path).to.match(new RegExp(organization));
                 //console.log("info", info.organization.projects);
                 expect(info.organization.projects).to.eql([{projectName:project2}, {projectName:project}]);
-                done();
-            }).catch(function(err) {
-                done(err);
             });
         });
-        it('should return project info', function(done) {
+        it('should return project info', function() {
             return qacServices.getInfo(organization, project).then(function(info) {
                 expect(info.organization.name).to.be(organization);
                 expect(info.organization.path).to.match(new RegExp(organization));
                 expect(info.project.name).to.be(project);
                 expect(info.project.path).to.match(new RegExp(project));
-                //console.log("info", info);
-                done();
-            }).catch(function(err) {
-                done(err);
             });
         });
         describe('coverage', function() {
@@ -81,9 +74,9 @@ describe('qac-services information functions', function(){
                 sinon.stub(fs, 'stat', function(path){
                     return Promises.reject({message:'file not found', code:'not-ENOENT'});
                 });
-                return qacServices.getInfo('wrong-organization', project).then(function(info) {
+                qacServices.getInfo('wrong-organization', project).then(function(info) {
                     console.log("info", info)
-                   done('should fail'); 
+                    done('should fail'); 
                 }).catch(function(err) {
                     expect(err.code).to.eql('not-ENOENT');
                     fs.stat.restore();
@@ -96,7 +89,7 @@ describe('qac-services information functions', function(){
         it('should fail on inexistent repository path', function(done) {
             var oriPath = _.clone(qacServices.repository.path);
             qacServices.repository.path = '/non/existent/path/';
-            return qacServices.getOrganizations().then(function(orgs) {
+            qacServices.getOrganizations().then(function(orgs) {
                 throw new Error('should fail');
             },function(err){
                 expect(err.message).to.match(/inexistent repository/);
@@ -104,13 +97,9 @@ describe('qac-services information functions', function(){
                 qacServices.repository.path = oriPath;
             });
         });
-        it('should return the list of organizations', function(done) {
+        it('should return the list of organizations', function() {
             return qacServices.getOrganizations().then(function(orgs) {
                expect(orgs).to.eql(['codenautas','emptygroup','sourcetravelers']);
-               //console.log("orgs", orgs);
-               done(); 
-            }).catch(function(err) {
-                done(err);
             });
         });
     });
