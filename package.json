@@ -1,7 +1,7 @@
 {
   "name": "qa-control-server",
   "description": "qa-control server",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "repository": "codenautas/qa-control-server",
