@@ -30,7 +30,7 @@
     "kill-9": "~0.4.2",
     "login-plus": "~0.8.6",
     "mini-tools": "~0.3.2",
-    "qa-control": "~0.4.1"
+    "qa-control": "~0.4.2"
   },
   "devDependencies": {
     "expect.js": "~0.3.1",
