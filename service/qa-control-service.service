@@ -1,0 +1,19 @@
+[Unit]
+Description=qa-control-server - node
+
+
+[Service]
+ExecStart=/usr/bin/nodejs app/qa-control-server.js
+Restart=always
+RestartSec=5
+WorkingDirectory=/opt/npm/qa-control-server
+User=tute
+Group=deploy
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=qa-control-server
+
+
+[Install]
+WantedBy=multi-user.target
+
