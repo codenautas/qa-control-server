@@ -1,7 +1,6 @@
 "use strict";
 var expect = require('expect.js');
-var Promises = require('best-promise');
-var fs = require('fs-promise');
+var fs = require('fs-extra');
 var qacServices = require('../lib/qac-services.js');
 var helper=require('../test/test-helper.js');
 var _ = require('lodash');
@@ -27,11 +26,9 @@ describe('qac-services modification functions', function(){
         var project='proj1', project2='proj2';
         it('should create organization (#7)', function() {
             return qacServices.createOrganization(orgWithSlashes).then(function(status) {
-                //console.log("status", status);
                 expect(status).to.eql('organization "'+orgWithSlashes+'" created');
                 return qacServices.getInfo(orgWithSlashes);
             }).then(function(info) {
-                //console.log(info);
                 expect(info.organization.name).to.eql(orgWithSlashes);
                 expect(info.organization.projects).to.eql([]);
             });
@@ -50,11 +47,9 @@ describe('qac-services modification functions', function(){
                     });
                 }
                 return qacServices.createProject(org, proj).then(function(rv) {
-                    //console.log("no fallo", rv);
                     throw new Error('should fail');
                 },function(err){
                     if(sinonEOG) { qacServices.existsOnGithub.restore(); }
-                    //console.log("SI FALLO", err.stack);
                     expect(err.message).to.match(expRE);
                 });
             });     
@@ -74,13 +69,11 @@ describe('qac-services modification functions', function(){
         //projWrongInput('inexistent organization on github (#18)', orgWithSlashes, project, /inexistent organization on github/);
         //projWrongInput('inexistent project on github (#18)', 'codenautas', 'inexistent-on-github', /inexistent project on github/);
         it('should create project (#8)', function(done) {
-            sinon.stub(qacServices, 'existsOnGithub', function() { return Promises.resolve({}); });
+            sinon.stub(qacServices, 'existsOnGithub', function() { return Promise.resolve({}); });
             qacServices.createProject(orgWithSlashes, project).then(function(status) {
-                //console.log("status", status);
                 expect(status).to.eql('project "'+project+'" created');
                 return qacServices.getInfo(orgWithSlashes, project);
             }).then(function(info) {
-                //console.log(info);
                 expect(info.organization.name).to.eql(orgWithSlashes);
                 expect(info.organization.projects).to.eql([{'projectName':project}]);
                 expect(info.project.name).to.eql(project);
@@ -95,30 +88,25 @@ describe('qac-services modification functions', function(){
         projWrongInput('duplicate project (#16)', orgWithSlashes, project, /duplicate project/);
         it('should return error message', function() {
             var genMsg = 'fs.remove() generated error';
-            sinon.stub(fs, 'remove', function() { return Promises.reject({message:genMsg}); });
+            sinon.stub(fs, 'remove', function() { return Promise.reject({message:genMsg}); });
             return qacServices.deleteData(orgWithSlashes).then(function(status) {
-                //console.log("status", status);
                 expect(status).to.eql(genMsg);
                 fs.remove.restore();
             });
         });
         it('should remove project', function() {
             return qacServices.deleteData(orgWithSlashes, project).then(function(status) {
-                //console.log("status", status);
                 expect(status).to.eql('project "'+project+'" removed');
                 return qacServices.getInfo(orgWithSlashes);
             }).then(function(info) {
-                //console.log(info);
                 expect(info.organization.projects).to.eql([]);
             });
         });
         it('should remove organization', function(done) {
             qacServices.deleteData(orgWithSlashes).then(function(status) {
-                //console.log("status", status);
                 expect(status).to.eql('organization "'+orgWithSlashes+'" removed');
                 return qacServices.getInfo(orgWithSlashes);
             }).then(function(info) {
-                //console.log(info);
                 done('should fail');
             }, function(err) {
                 expect(err.message).to.match(/inexistent organization/)

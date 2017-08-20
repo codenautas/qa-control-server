@@ -5,8 +5,7 @@
 /* global describe */
 /* global it */
 
-var Promises = require('best-promise');
-var fs = require('fs-promise');
+var fs = require('fs-extra');
 
 var testDir = require('../util/test-dir.js');
 var testHelper = {};
@@ -25,7 +24,7 @@ function headersFromFile(content) {
 testHelper.readSampleWebHook = function readSampleWebHook(hookName) {
     var wh={};
     var baseDir='./test/webhooks/';
-    return Promises.start(function() {
+    return Promise.resolve().then(function() {
         return fs.readFile(baseDir+hookName+'.headers', {encoding:'utf8'});
     }).then(function(content) {
         wh['headers'] = headersFromFile(content);
@@ -66,7 +65,7 @@ testHelper.setup = function setup(qcs) {
 // hook global
 before(function(done){
     this.timeout(5000);
-    Promises.start(function(){
+    Promise.resolve().then(function(){
         return fs.remove(testHelper.dirTemp);
     }).then(function(){
         return fs.copy('./test/fixtures', testHelper.dirTemp, {clobber:true});

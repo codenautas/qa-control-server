@@ -5,8 +5,7 @@ var qacCommon = require('../lib/qcs-common.js');
 var helper=require('../test/test-helper.js');
 var html = require('js-to-html').html;
 var sinon = require('sinon');
-var Promises = require('best-promise');
-var fs = require('fs-promise');
+var fs = require('fs-extra');
 var Path = require('path');
 var _ = require('lodash');
 
@@ -96,7 +95,7 @@ describe('qac-services coverage', function(){
             sinon.stub(fs, 'readFile', function(nameCucardas){
                 //console.log("nameCucardas", nameCucardas);
                 switch(nameCucardas){
-                    case Path.normalize('la-org-path/projects/'+proj+'/result/cucardas.md'): return Promises.reject({code:'not-ENOENT'});
+                    case Path.normalize('la-org-path/projects/'+proj+'/result/cucardas.md'): return Promise.reject({code:'not-ENOENT'});
                     default: throw new Error('unexpected params in readFile of cucardas');
                 }
             });
@@ -114,19 +113,19 @@ describe('qac-services coverage', function(){
                 // console.log("jsonPath", jsonPath);
                 switch(jsonPath){
                     case Path.normalize(projPath+'/result/qa-control-result.json'):
-                        return Promises.resolve([
+                        return Promise.resolve([
                             {"warning": "elwarning","params": ["index.js"],"scoring": {"customs": 1, "other":2}},
                             {"warning": "elwarning2", "scoring": {"customs": 1}}
                         ]);
                     case Path.normalize(projPath+'/result/bitacora.json'):
-                        return Promises.resolve([
+                        return Promise.resolve([
                             {"date": "fecha1", "origin": "command", "text": "git clone"},
                             {"date": "fecha2","origin": "exit","text": "0"},
                             {"date": "fecha3","origin": "shell","text": "el-shell"},
                             {"date": "fecha4","origin": "internal","text": "\"cucardas.md\" generated"}
                         ]);
                     default:
-                        return Promises.reject('unexpected params in readJSON ['+jsonPath+']');
+                        return Promise.reject('unexpected params in readJSON ['+jsonPath+']');
                 }
             });
             qacServices.getProjectLogs(projPath).then(function(logs) {
@@ -164,10 +163,10 @@ describe('qac-services coverage', function(){
             sinon.stub(fs, 'readJSON', function(jsonPath){
                 //console.log("jsonPath", jsonPath);
                 switch(jsonPath){
-                    case Path.normalize(p2+'/result/qa-control-result.json'): return Promises.resolve([]);
-                    case Path.normalize(p1+'/result/bitacora.json'): return Promises.resolve([]);
+                    case Path.normalize(p2+'/result/qa-control-result.json'): return Promise.resolve([]);
+                    case Path.normalize(p1+'/result/bitacora.json'): return Promise.resolve([]);
                     default:
-                        return Promises.reject({message:'unexpected params in readJSON ['+jsonPath+']', code:'not-ENOENT'});
+                        return Promise.reject({message:'unexpected params in readJSON ['+jsonPath+']', code:'not-ENOENT'});
                 }
             });
             qacServices.getProjectLogs(p1).then(function(logs) { done('should fail 1'); }).catch(function(err) {

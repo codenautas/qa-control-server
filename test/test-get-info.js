@@ -4,8 +4,7 @@ var qacServices = require('../lib/qac-services.js');
 var helper=require('../test/test-helper.js');
 var _ = require('lodash');
 var sinon = require('sinon');
-var Promises = require('best-promise');
-var fs = require('fs-promise');
+var fs = require('fs-extra');
 var Path = require('path');
 
 describe('qac-services information functions', function(){
@@ -21,18 +20,18 @@ describe('qac-services information functions', function(){
                         var jsf = fs.readFileSync(pathDeJson, 'utf8');
                         jsf = jsf.slice(0, jsf.indexOf(']'))+',\n{"projectName":"'+sinonFS+'"}\n]'
                         //console.log("stubbed readFile", pathDeJson, jsf);
-                        return Promises.resolve(jsf);
+                        return Promise.resolve(jsf);
                     });
                 }
                 if(sinonSTAT) {
                     sinon.stub(fs, 'stat', function(path){
                         if(new RegExp(project).test(path)) {
-                            return Promises.reject({message:'STUBBED stat', code:'not-ENOENT'});
+                            return Promise.reject({message:'STUBBED stat', code:'not-ENOENT'});
                         }
                         if(new RegExp(project2).test(path)) {
-                            return Promises.reject({message:'STUBBED stat', code:'ENOENT'});
+                            return Promise.reject({message:'STUBBED stat', code:'ENOENT'});
                         }
-                        return Promises.resolve({isDirectory:function() { return true;} });
+                        return Promise.resolve({isDirectory:function() { return true;} });
                     });
                 }
                 return qacServices.getInfo(p1, p2).then(function(info) {
@@ -72,7 +71,7 @@ describe('qac-services information functions', function(){
         describe('coverage', function() {
             it('forward wrong error', function(done) {
                 sinon.stub(fs, 'stat', function(path){
-                    return Promises.reject({message:'file not found', code:'not-ENOENT'});
+                    return Promise.reject({message:'file not found', code:'not-ENOENT'});
                 });
                 qacServices.getInfo('wrong-organization', project).then(function(info) {
                     console.log("info", info)

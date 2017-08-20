@@ -5,8 +5,7 @@
 /* global describe */
 /* global it */
 
-var Promises = require('best-promise');
-var fs = require('fs-promise');
+var fs = require('fs-extra');
 var Path = require('path');
 
 var testDir = {};

@@ -5,15 +5,14 @@
 /* global describe */
 /* global it */
 
-var Promises = require('best-promise');
-var fs = require('fs-promise');
+var fs = require('fs-extra');
 var Path = require('path');
 
 var testDir = require('./test-dir.js');
 var repoDir = testDir.getDir('qcs-test-repo');
 var origDir = './test/fixtures';
 
-Promises.start(function(){
+Promise.resolve().then(function(){
     return fs.remove(repoDir);
 }).then(function(){
     return fs.copy(origDir, repoDir, {clobber:true});

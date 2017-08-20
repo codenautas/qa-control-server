@@ -1,7 +1,7 @@
 {
   "name": "qa-control-server",
   "description": "qa-control server",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "repository": "codenautas/qa-control-server",
@@ -35,7 +35,6 @@
   "devDependencies": {
     "expect.js": "~0.3.1",
     "express": "~4.15.4",
-    "fs-promise": "~2.0.3",
     "istanbul": "~0.4.5",
     "pug": "~2.0.0-rc.3",
     "lodash": "~4.17.4",

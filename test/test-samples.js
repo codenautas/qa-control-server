@@ -1,8 +1,7 @@
 "use strict";
 
 var expect = require('expect.js');
-var Promises = require('best-promise');
-var fs = require('fs-promise');
+var fs = require('fs-extra');
 var qacServices = require('../lib/qac-services.js');
 var Path = require('path');
 var helper=require('../test/test-helper.js');
@@ -12,9 +11,9 @@ describe('qac-services test sample data', function(){
         var basePath='./test/webhooks';
         var samples={};
         fs.readdir(basePath).then(function(files) {
-            return Promises.all(files.map(function(file){
+            return Promise.all(files.map(function(file){
                 var iFile = Path.normalize(basePath+'/'+file);
-                return Promises.start(function() {
+                return Promise.resolve().then(function() {
                     return fs.readFile(iFile, 'utf8');
                 }).then(function(content) {
                     var kFile = file.substr(0, file.length-Path.extname(file).length);

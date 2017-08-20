@@ -15,8 +15,7 @@ var express = require('express');
 var app = express();
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var Promises = require('best-promise');
-var fs = require('fs-promise');
+var fs = require('fs-extra');
 var readYaml = require('read-yaml-promise');
 var kill9 = require('kill-9');
 var qacServices = require('../lib/qac-services.js');
@@ -48,7 +47,7 @@ app.use(function(req,res,next){
 
 var actualConfig;
 
-Promises.start(function(){
+Promise.resolve().then(function(){
     return readYaml('global-config.yaml',{encoding: 'utf8'});
 }).then(function(globalConfig){
     actualConfig=globalConfig;

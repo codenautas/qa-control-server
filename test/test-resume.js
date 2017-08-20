@@ -7,9 +7,8 @@
 
 var expect = require('expect.js');
 var sinon = require('sinon');
-var Promises = require('best-promise');
 var qacServices = require('../lib/qac-services.js');
-var fs = require('fs-promise');
+var fs = require('fs-extra');
 var helper=require('../test/test-helper.js');
 var html = require('js-to-html').html;
 var Path = require('path');
@@ -99,7 +98,7 @@ describe("qac-services resume",function(){
                     if(organization!=='simple'){
                         throw new Error("wrong organization name in getInfo");
                     }
-                    return Promises.resolve({
+                    return Promise.resolve({
                         organization:{
                             projects:[{
                                 projectName:'uno'
@@ -114,8 +113,8 @@ describe("qac-services resume",function(){
                 sinon.stub(fs, 'readFile', function(nameCucardas){
                     //console.log("nameCucardas", nameCucardas);
                     switch(nameCucardas){
-                        case Path.normalize('the-org-path/projects/uno/result/cucardas.md'): return Promises.resolve('[qa-control][issues] cu-uno');
-                        case Path.normalize('the-org-path/projects/dos/result/cucardas.md'): return Promises.resolve('[qa-control][issues] cu-dos');
+                        case Path.normalize('the-org-path/projects/uno/result/cucardas.md'): return Promise.resolve('[qa-control][issues] cu-uno');
+                        case Path.normalize('the-org-path/projects/dos/result/cucardas.md'): return Promise.resolve('[qa-control][issues] cu-dos');
                         default: throw new Error('unexpected params in readFile of cucardas');
                     }
                 });
@@ -215,7 +214,7 @@ describe("qac-services resume",function(){
                     if(organization!=='simple'){
                         throw new Error("wrong organization name in getInfo");
                     }
-                    return Promises.resolve({
+                    return Promise.resolve({
                         organization:{
                             projects:[{
                                 projectName:'uno'
@@ -234,7 +233,7 @@ describe("qac-services resume",function(){
                 sinon.stub(fs, 'readFile', function(nameCucardas){
                     //console.log("nameCucardas", nameCucardas);
                     switch(nameCucardas){
-                        case Path.normalize('the-org-path/projects/uno/result/cucardas.md'): return Promises.resolve('[qa-control][issues] cu-uno');
+                        case Path.normalize('the-org-path/projects/uno/result/cucardas.md'): return Promise.resolve('[qa-control][issues] cu-uno');
                         default: throw new Error('unexpected params in readFile of cucardas');
                     }
                 });
@@ -255,7 +254,7 @@ describe("qac-services resume",function(){
                 sinon.stub(qacServices, "getProjectLogs", function(path) {
                     if(! logHow) { return ['qac-logs', 'bitacora-logs']; }
                     if(logHow == 'empty') { return []; }
-                    return Promises.reject('getProjectLogs() has failed'); 
+                    return Promise.reject('getProjectLogs() has failed'); 
                 });
                 qacServices.getProjectPage(req, 'simple', 'uno').catch(function(err) {
                     if(logHow && logHow !== 'empty') {
@@ -298,7 +297,7 @@ describe("qac-services resume",function(){
     describe('getAdmin',function() {
         function checkGetAdmin(msg, result, userLogged, returnNoOrgs) {
             it(msg, function(done) {
-                sinon.stub(qacServices, "getOrganizations", function(){ return Promises.resolve(returnNoOrgs ? [] : ['uno', 'dos']); });
+                sinon.stub(qacServices, "getOrganizations", function(){ return Promise.resolve(returnNoOrgs ? [] : ['uno', 'dos']); });
                 var req = null;
                 if(userLogged) {
                     req = helper.session.req;
