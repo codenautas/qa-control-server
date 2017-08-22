@@ -92,7 +92,7 @@ describe('qac-services coverage', function(){
     describe('project', function() {
         it('getProject() wrong error', function(done) {
             var orga='la-org', proj='el-proj';
-            sinon.stub(fs, 'readFile', function(nameCucardas){
+            sinon.stub(fs, 'readFile').callsFake(function(nameCucardas){
                 //console.log("nameCucardas", nameCucardas);
                 switch(nameCucardas){
                     case Path.normalize('la-org-path/projects/'+proj+'/result/cucardas.md'): return Promise.reject({code:'not-ENOENT'});
@@ -109,7 +109,7 @@ describe('qac-services coverage', function(){
         });
         it('getProjectLogs()', function(done) {
             var projPath = 'path-del-proyecto';
-            sinon.stub(fs, 'readJSON', function(jsonPath){
+            sinon.stub(fs, 'readJSON').callsFake(function(jsonPath){
                 // console.log("jsonPath", jsonPath);
                 switch(jsonPath){
                     case Path.normalize(projPath+'/result/qa-control-result.json'):
@@ -160,7 +160,7 @@ describe('qac-services coverage', function(){
         it('getProjectLogs() errors', function(done) {
             var p1 = 'proyecto1';
             var p2 = 'proyecto2';
-            sinon.stub(fs, 'readJSON', function(jsonPath){
+            sinon.stub(fs, 'readJSON').callsFake(function(jsonPath){
                 //console.log("jsonPath", jsonPath);
                 switch(jsonPath){
                     case Path.normalize(p2+'/result/qa-control-result.json'): return Promise.resolve([]);

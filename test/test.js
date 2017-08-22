@@ -177,19 +177,19 @@ describe("qac-services",function(){
         it("check that the correct project.svg can be requested",function(done){
             var agent=request(server);
             agent
-                .get('/'+json.repository.organization+'/'+json.repository.name+'.svg')
-                .end(function(err, res){
-                    if(err){ return done(err); }
-                    getProjectInfo(json).then(function(info) {
-                        // console.log("info", info)
-                        fs.readFile(Path.normalize(info.project.path+'/result/cucarda.svg'), 'utf8').then(function(svg) {
-                            expect(res.text.indexOf(svg)).not.to.equal(-1);
-                        })
-                        done(); 
-                    }).catch(function(err) {
-                        done(err.message);
-                    });
+            .get('/'+json.repository.organization+'/'+json.repository.name+'.svg')
+            .end(function(err, res){
+                if(err){ return done(err); }
+                getProjectInfo(json).then(function(info) {
+                    // console.log("info", info)
+                    fs.readFile(Path.normalize(info.project.path+'/result/cucarda.svg'), 'utf8').then(function(svg) {
+                        var text=res.body.toString();
+                        expect(text.indexOf(svg)).not.to.equal(-1);
+                    }).then(done, done);
+                }).catch(function(err) {
+                    done(err.message);
                 });
+            });
         });
         it("reject requests without X-GitHub-Event",function(done){
             var agent=request(server);

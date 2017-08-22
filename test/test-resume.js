@@ -91,7 +91,7 @@ describe("qac-services resume",function(){
     describe('organization page',function() {
         function checkGetOrg(msg, result, userLogged) {
             it(msg, function(done) {
-                sinon.stub(qacServices, "getInfo", function(organization, project){
+                sinon.stub(qacServices, "getInfo").callsFake(function(organization, project){
                     if(!!project){
                         throw new Error("unexpected project name in getInfo");
                     }
@@ -110,7 +110,7 @@ describe("qac-services resume",function(){
                         }
                     });
                 });
-                sinon.stub(fs, 'readFile', function(nameCucardas){
+                sinon.stub(fs, 'readFile').callsFake(function(nameCucardas){
                     //console.log("nameCucardas", nameCucardas);
                     switch(nameCucardas){
                         case Path.normalize('the-org-path/projects/uno/result/cucardas.md'): return Promise.resolve('[qa-control][issues] cu-uno');
@@ -118,7 +118,7 @@ describe("qac-services resume",function(){
                         default: throw new Error('unexpected params in readFile of cucardas');
                     }
                 });
-                sinon.stub(qacServices, "cucardasToHtmlList", function(x){
+                sinon.stub(qacServices, "cucardasToHtmlList").callsFake(function(x){
                     return [html.td("list: "+x)];
                 });
                 var ses = null;
@@ -126,13 +126,13 @@ describe("qac-services resume",function(){
                     ses = helper.session.req;
                     qacServices.users = qacServices.setSession(ses);
                 }
-                sinon.stub(qacServices, "projectActionButtons", function(ses, orga, proj){
+                sinon.stub(qacServices, "projectActionButtons").callsFake(function(ses, orga, proj){
                     return [html.td("b:"+orga+':'+proj)];
                 });
-                sinon.stub(qacServices, "projectNameToHtmlLink", function(orga, proj){
+                sinon.stub(qacServices, "projectNameToHtmlLink").callsFake(function(orga, proj){
                     return "link: "+orga+','+proj;
                 });
-                sinon.stub(qacServices, "sortProjects", function(proj1, proj2) {
+                sinon.stub(qacServices, "sortProjects").callsFake(function(proj1, proj2) {
                    if(proj1 < proj2) {
                        return -1;
                    } else if(proj1 > proj2) {
@@ -207,7 +207,7 @@ describe("qac-services resume",function(){
     describe('project page',function() {
         function checkGetProj(msg, result, userLogged, logHow) {
             it(msg, function(done) {
-                sinon.stub(qacServices, "getInfo", function(organization, project){
+                sinon.stub(qacServices, "getInfo").callsFake(function(organization, project){
                     if(project !=='uno'){
                         throw new Error("unexpected project name in getInfo");
                     }
@@ -230,14 +230,14 @@ describe("qac-services resume",function(){
                         }
                     });
                 });
-                sinon.stub(fs, 'readFile', function(nameCucardas){
+                sinon.stub(fs, 'readFile').callsFake(function(nameCucardas){
                     //console.log("nameCucardas", nameCucardas);
                     switch(nameCucardas){
                         case Path.normalize('the-org-path/projects/uno/result/cucardas.md'): return Promise.resolve('[qa-control][issues] cu-uno');
                         default: throw new Error('unexpected params in readFile of cucardas');
                     }
                 });
-                sinon.stub(qacServices, "cucardasToHtmlList", function(x){
+                sinon.stub(qacServices, "cucardasToHtmlList").callsFake(function(x){
                     return [html.td("list: "+x)];
                 });
                 var req = null;
@@ -245,13 +245,13 @@ describe("qac-services resume",function(){
                     req = helper.session.req;
                     qacServices.users = qacServices.setSession(req);
                 }
-                sinon.stub(qacServices, "projectActionButtons", function(req, orga, proj){
+                sinon.stub(qacServices, "projectActionButtons").callsFake(function(req, orga, proj){
                     return [html.td("b:"+orga+':'+proj)];
                 });
-                sinon.stub(qacServices, "projectNameToHtmlLink", function(orga, proj){
+                sinon.stub(qacServices, "projectNameToHtmlLink").callsFake(function(orga, proj){
                     return "link: "+orga+','+proj;
                 });
-                sinon.stub(qacServices, "getProjectLogs", function(path) {
+                sinon.stub(qacServices, "getProjectLogs").callsFake(function(path) {
                     if(! logHow) { return ['qac-logs', 'bitacora-logs']; }
                     if(logHow == 'empty') { return []; }
                     return Promise.reject('getProjectLogs() has failed'); 
@@ -297,7 +297,7 @@ describe("qac-services resume",function(){
     describe('getAdmin',function() {
         function checkGetAdmin(msg, result, userLogged, returnNoOrgs) {
             it(msg, function(done) {
-                sinon.stub(qacServices, "getOrganizations", function(){ return Promise.resolve(returnNoOrgs ? [] : ['uno', 'dos']); });
+                sinon.stub(qacServices, "getOrganizations").callsFake(function(){ return Promise.resolve(returnNoOrgs ? [] : ['uno', 'dos']); });
                 var req = null;
                 if(userLogged) {
                     req = helper.session.req;

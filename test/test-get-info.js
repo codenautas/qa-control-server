@@ -16,7 +16,7 @@ describe('qac-services information functions', function(){
         function testBadInput(msg, p1, p2, expRE, sinonFS, sinonSTAT) {
             it('should fail with '+msg, function() {
                 if(sinonFS) {
-                    sinon.stub(fs, 'readFile', function(pathDeJson){
+                    sinon.stub(fs, 'readFile').callsFake(function(pathDeJson){
                         var jsf = fs.readFileSync(pathDeJson, 'utf8');
                         jsf = jsf.slice(0, jsf.indexOf(']'))+',\n{"projectName":"'+sinonFS+'"}\n]'
                         //console.log("stubbed readFile", pathDeJson, jsf);
@@ -24,7 +24,7 @@ describe('qac-services information functions', function(){
                     });
                 }
                 if(sinonSTAT) {
-                    sinon.stub(fs, 'stat', function(path){
+                    sinon.stub(fs, 'stat').callsFake(function(path){
                         if(new RegExp(project).test(path)) {
                             return Promise.reject({message:'STUBBED stat', code:'not-ENOENT'});
                         }
@@ -70,7 +70,7 @@ describe('qac-services information functions', function(){
         });
         describe('coverage', function() {
             it('forward wrong error', function(done) {
-                sinon.stub(fs, 'stat', function(path){
+                sinon.stub(fs, 'stat').callsFake(function(path){
                     return Promise.reject({message:'file not found', code:'not-ENOENT'});
                 });
                 qacServices.getInfo('wrong-organization', project).then(function(info) {
