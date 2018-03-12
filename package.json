@@ -16,31 +16,30 @@
     }
   ],
   "dependencies": {
-    "body-parser": "~1.17.2",
-    "colors": "~1.1.2",
+    "body-parser": "~1.18.2",
+    "colors": "~1.2.1",
     "cookie-parser": "~1.4.3",
-    "fs-extra": "~4.0.1",
+    "fs-extra": "~5.0.0",
     "highlight.js": "~9.12.0",
     "pygmentize-bundled": "~2.3.0",
     "remarkable": "~1.7.1",
-    
     "exec-to-html": "~1.0.5",
     "extension-serve-static": "~0.1.6",
     "js-to-html": "~0.9.3",
     "kill-9": "~0.4.2",
-    "login-plus": "~1.2.5",
-    "mini-tools": "~0.3.17",
-    "qa-control": "~0.4.11"
+    "login-plus": "~1.4.4",
+    "mini-tools": "~0.3.22",
+    "qa-control": "~0.4.15"
   },
   "devDependencies": {
     "expect.js": "~0.3.1",
-    "express": "~4.15.4",
+    "express": "~4.16.2",
     "istanbul": "~0.4.5",
-    "pug": "~2.0.0-rc.3",
-    "lodash": "~4.17.4",
+    "pug": "~2.0.1",
+    "lodash": "~4.17.5",
     "mocha": "~3.5.0",
     "read-yaml-promise": "~1.0.2",
-    "sinon": "~3.2.1",
+    "sinon": "~4.4.3",
     "stylus": "~0.54.5",
     "supertest": "~3.0.0"
   },
