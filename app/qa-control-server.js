@@ -13,7 +13,6 @@ if(process.argv[2]=='--dir'){
 var _ = require('lodash');
 var express = require('express');
 var app = express();
-var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var fs = require('fs-extra');
 var readYaml = require('read-yaml-promise');
@@ -27,7 +26,6 @@ html.insecureModeEnabled = true;
 
 // var jade = require('jade');
     
-app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
