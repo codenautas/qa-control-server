@@ -44,7 +44,7 @@
   },
   "main": "app/qa-control-server.js",
   "engines": {
-    "node": ">= 0.12.0"
+    "node": ">= 10"
   },
   "scripts": {
     "test": "mocha --reporter spec --bail --check-leaks test/",
